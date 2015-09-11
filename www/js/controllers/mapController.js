@@ -16,6 +16,51 @@ angular.module('starter').controller('MapController', ['$scope',
 
   ) {
 
+    /*
+    predefine layers
+    */
+
+    $scope.definedLayers = {
+      osm: {
+        name: 'OpenStreetMap',
+        url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        type: 'xyz'
+      }
+    };
+
+    $scope.definedOverlays = {
+      batasdesa: {
+        name: 'Geoserver WMS',
+        type: 'wms',
+        url: 'http://localhost:8080/geoserver/smartsea/wms',
+        visible: true,
+        version: '1.1.0',
+        layerOptions: {
+          layers: 'smartsea:Batas_Desa',
+          format: 'image/png',
+          crs: L.CRS.EPSG32749,
+          opacity: 0.25
+
+        }
+      },
+      pola_ruang: {
+        name: 'Geoserver WMS Pola Ruang',
+        type: 'wms',
+        url: 'http://10.40.109.50:8080/geoserver/smartsea/wms',
+        visible: true,
+        version: '1.1.0',
+        layerOptions: {
+          layers: 'smartsea:pola_ruang',
+          format: 'image/png',
+          crs: L.CRS.EPSG4326,
+          opacity: 0.25
+        }
+      }
+    };
+
+
+
+
     /**
      * Once state loaded, get put map on scope.
      */
@@ -38,10 +83,14 @@ angular.module('starter').controller('MapController', ['$scope',
 
 
       $scope.map = {
-        defaults: {
-          tileLayer: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-          maxZoom: 18,
-          zoomControlPosition: 'topright'
+        layers: {
+          baselayers: {
+            osm: $scope.definedLayers.osm
+          },
+          overlays: {
+            batas: $scope.definedOverlays.batasdesa,
+            ruang: $scope.definedOverlays.pola_ruang,
+          }
         },
         markers: {},
         events: {
@@ -109,6 +158,7 @@ angular.module('starter').controller('MapController', ['$scope',
         draggable: false
       };
 
+
     };
 
     /**
@@ -117,9 +167,10 @@ angular.module('starter').controller('MapController', ['$scope',
     $scope.locate = function() {
       var geoSettings = {
         frequency: 1000,
-        timeout: 30000,
+        timeout: 3000,
         enableHighAccuracy: false
       };
+
       var geo = $cordovaGeolocation.getCurrentPosition(geoSettings);
 
       geo.then(function(position) {
@@ -180,29 +231,15 @@ angular.module('starter').controller('MapController', ['$scope',
       checked: false
     }];
 
-
-/*
-
-    overlays: {
-                       wms: {
-                           name: 'EEUU States (WMS)',
-                           type: 'wms',
-                           visible: true,
-                           url: 'http://suite.opengeo.org/geoserver/usa/wms',
-                           layerParams: {
-                               layers: 'usa:states',
-                               format: 'image/png',
-                               transparent: true
-                           }
-                         }
-                       }
-*/
-
-
-
-
-
-
+    $scope.showAlert = function() {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Unduh Data',
+        template: 'Download data yang anda inginkan'
+      });
+      alertPopup.then(function(res) {
+        console.log('Thank you for not eating my delicious ice cream cone');
+      });
+    };
 
 
 
