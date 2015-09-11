@@ -22,7 +22,6 @@ angular.module('starter').controller('MapController',
        */
       $scope.$on("$stateChangeSuccess", function() {
         console.log('succeed in changing status');
-
         $scope.locations = LocationsService.savedLocations;
         $scope.newLocation;
 
@@ -38,11 +37,12 @@ angular.module('starter').controller('MapController',
 
         }
 
+
         $scope.map = {
           defaults: {
-            tileLayer: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+            tileLayer: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             maxZoom: 18,
-            zoomControlPosition: 'bottomleft'
+            zoomControlPosition: 'topright'
           },
           markers : {},
           events: {
@@ -115,7 +115,6 @@ angular.module('starter').controller('MapController',
        * Center map on user's current position
        */
       $scope.locate = function(){
-
         $cordovaGeolocation
           .getCurrentPosition()
           .then(function (position) {
