@@ -30,7 +30,7 @@ angular.module('starter').controller('MapController', ['$scope',
 
     $scope.definedOverlays = {
       batasdesa: {
-        name: 'Geoserver WMS',
+        name: 'Batas Desa',
         type: 'wms',
         url: 'http://localhost:8080/geoserver/smartsea/wms',
         visible: true,
@@ -44,7 +44,7 @@ angular.module('starter').controller('MapController', ['$scope',
         }
       },
       pola_ruang: {
-        name: 'Geoserver WMS Pola Ruang',
+        name: 'Pola Ruang',
         type: 'wms',
         url: 'http://10.40.109.50:8080/geoserver/smartsea/wms',
         visible: true,
