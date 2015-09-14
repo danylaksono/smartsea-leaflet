@@ -20,7 +20,7 @@ angular.module('starter').controller('MapController', ['$scope',
     predefine layers
     */
 
-    $scope.definedLayers = {
+    $scope.basemapLayers = {
       osm: {
         name: 'OpenStreetMap',
         url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -28,7 +28,7 @@ angular.module('starter').controller('MapController', ['$scope',
       }
     };
 
-    $scope.definedOverlays = {
+    $scope.overlaidLayers = {
       batasdesa: {
         name: 'Batas Desa',
         type: 'wms',
@@ -84,12 +84,12 @@ angular.module('starter').controller('MapController', ['$scope',
 
       $scope.map = {
         layers: {
-          baselayers: {
-            osm: $scope.definedLayers.osm
+          basemap: {
+            osm: $scope.basemapLayers.osm
           },
-          overlays: {
-            batas: $scope.definedOverlays.batasdesa,
-            ruang: $scope.definedOverlays.pola_ruang,
+          overlay: {
+            batas: $scope.overlaidLayers.batasdesa,
+            ruang: $scope.overlaidLayers.pola_ruang,
           }
         },
         markers: {},
