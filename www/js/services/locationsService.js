@@ -1,40 +1,36 @@
-angular.module('starter').factory('LocationsService', [ function() {
+angular.module('starter').factory('LocationsService', [function($scope,  $cordovaBackgroundGeolocation) {
 
   var locationsObj = {};
 
-  locationsObj.savedLocations = [
-    {
-      name : "Washington D.C., USA",
-      lat : 38.8951100,
-      lng : -77.0363700
-    },
-    {
-      name : "London, England",
-      lat : 51.500152,
-      lng : -0.126236
-    },
-    {
-      name : "Paris, France",
-      lat : 48.864716,
-      lng : 2.349014
-    },
-    {
-      name : "Moscow, Russia",
-      lat : 55.752121,
-      lng : 37.617664
-    },
-    {
-      name : "Rio de Janeiro, Brazil",
-      lat : -22.970722,
-      lng : -43.182365
-    },
-    {
-      name : "Sydney, Australia",
-      lat : -33.865143,
-      lng : 151.209900
-    }
+  locationsObj.savedLocations = [{
+    name: "Washington D.C., USA",
+    lat: 38.8951100,
+    lng: -77.0363700
+  }];
 
-  ];
+
+  /*
+ document.addEventListener("deviceready", function () {
+
+    console.log('activate background geolocation');
+    // `configure` calls `start` internally
+    $cordovaBackgroundGeolocation.configure(options)
+    .then(
+      null, // Background never resolves
+      function (err) { // error callback
+        console.error(err);
+      },
+      function (location) { // notify callback
+        console.log(location);
+      });
+
+
+    $scope.stopBackgroundGeolocation = function () {
+      $cordovaBackgroundGeolocation.stop();
+    };
+
+  });
+  */
 
   return locationsObj;
 

@@ -25,6 +25,26 @@ angular.module('starter').controller('MapController', ['$scope',
         name: 'OpenStreetMap',
         url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         type: 'xyz'
+      },
+      mapbox_light: {
+        name: 'Mapbox Light',
+        url: 'http://api.tiles.mapbox.com/v4/{mapid}/{z}/{x}/{y}.png?access_token={apikey}',
+        type: 'xyz',
+        layerOptions: {
+          apikey: 'pk.eyJ1IjoiYnVmYW51dm9scyIsImEiOiJLSURpX0pnIn0.2_9NrLz1U9bpwMQBhVk97Q',
+          mapid: 'bufanuvols.lia22g09'
+        }
+      },
+
+      cycle: {
+        name: "OpenCycleMap",
+        type: "xyz",
+        url: "http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
+        layerOptions: {
+          subdomains: ["a", "b", "c"],
+          attribution: "&copy; <a href=\"http://www.opencyclemap.org/copyright\">OpenCycleMap</a> contributors - &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+          continuousWorld: true
+        }
       }
     };
 
@@ -40,7 +60,6 @@ angular.module('starter').controller('MapController', ['$scope',
           format: 'image/png',
           crs: L.CRS.EPSG32749,
           opacity: 0.25
-
         }
       },
       pola_ruang: {
@@ -59,13 +78,30 @@ angular.module('starter').controller('MapController', ['$scope',
     };
 
 
+    $scope.map = {
+      layers: {
+        baselayers: {
+          osm: $scope.basemapLayers.osm
+        }
+      },
+      markers: {},
+      events: {
+        map: {
+          enable: ['context'],
+          logic: 'emit'
+        }
+      },
+      center : {
+        autoDiscover: true,
+        zoom: 12
+      }
+    };
 
 
     /**
      * Once state loaded, get put map on scope.
-     */
+
     $scope.$on("$stateChangeSuccess", function() {
-      console.log('succeed in changing status');
       $scope.locations = LocationsService.savedLocations;
       $scope.newLocation;
 
@@ -81,31 +117,12 @@ angular.module('starter').controller('MapController', ['$scope',
 
       }
 
-
-      $scope.map = {
-        layers: {
-          basemap: {
-            osm: $scope.basemapLayers.osm
-          },
-          overlay: {
-            batas: $scope.overlaidLayers.batasdesa,
-            ruang: $scope.overlaidLayers.pola_ruang,
-          }
-        },
-        markers: {},
-        events: {
-          map: {
-            enable: ['context'],
-            logic: 'emit'
-          }
-        }
-      };
-
       $scope.goTo(0);
       $scope.locate();
 
     });
-
+    */
+    
     var Location = function() {
       if (!(this instanceof Location)) return new Location();
       this.lat = "";
@@ -145,6 +162,7 @@ angular.module('starter').controller('MapController', ['$scope',
       var location = LocationsService.savedLocations[locationKey];
 
       $scope.map.center = {
+        //autoDiscover: true,
         lat: location.lat,
         lng: location.lng,
         zoom: 12
