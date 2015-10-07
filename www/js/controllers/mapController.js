@@ -76,7 +76,7 @@ angular.module('starter').controller('MapController', ['$scope',
       }
     };
 
-
+    // Initial Map Settings
     $scope.map = {
       layers: {
         baselayers: {
@@ -96,92 +96,20 @@ angular.module('starter').controller('MapController', ['$scope',
       }
     };
 
-    /**
-     * Once state loaded, get put map on scope.
-
     $scope.$on("$stateChangeSuccess", function() {
-      $scope.locations = LocationsService.savedLocations;
-      $scope.newLocation;
-
-      if (!InstructionsService.instructions.newLocations.seen) {
-
-        var instructionsPopup = $ionicPopup.alert({
-          title: 'Tambahkan Layer',
-          template: InstructionsService.instructions.newLocations.text
-        });
-        instructionsPopup.then(function(res) {
-          InstructionsService.instructions.newLocations.seen = true;
-        });
-
-      }
-
-      $scope.goTo(0);
-      $scope.locate();
-
-    });
-    */
-
-    var Location = function() {
-      if (!(this instanceof Location)) return new Location();
-      this.lat = "";
-      this.lng = "";
-      this.name = "";
-    };
-
-    $ionicModal.fromTemplateUrl('templates/addLocation.html', {
-      scope: $scope,
-      animation: 'slide-in-up'
-    }).then(function(modal) {
-      $scope.modal = modal;
+      console.log('state changed');
+      //$scope.locateStatic();
+      $scope.locateWatch();
     });
 
-    /**
-     * Detect user long-pressing on map to add new location
-     */
-    $scope.$on('leafletDirectiveMap.contextmenu', function(event, locationEvent) {
-      $scope.newLocation = new Location();
-      $scope.newLocation.lat = locationEvent.leafletEvent.latlng.lat;
-      $scope.newLocation.lng = locationEvent.leafletEvent.latlng.lng;
-      $scope.modal.show();
-    });
-
-    $scope.saveLocation = function() {
-      LocationsService.savedLocations.push($scope.newLocation);
-      $scope.modal.hide();
-      $scope.goTo(LocationsService.savedLocations.length - 1);
-    };
-
-    /**
-     * Center map on specific saved location
-     * @param locationKey
-     */
-    $scope.goTo = function(locationKey) {
-
-      var location = LocationsService.savedLocations[locationKey];
-
-      $scope.map.center = {
-        //autoDiscover: true,
-        lat: location.lat,
-        lng: location.lng,
-        zoom: 12
-      };
-
-      $scope.map.markers[locationKey] = {
-        lat: location.lat,
-        lng: location.lng,
-        message: location.name,
-        focus: true,
-        draggable: false
-      };
-
-
-    };
 
     /**
      * Center map on user's current position
      */
-    $scope.locate = function() {
-      console.log('activate background geolocation');
+
+    // static geolocation
+    $scope.locateStatic = function() {
+      console.log('activate geolocation');
       var geoSettings = {
         frequency: 1000,
         timeout: 3000,
@@ -198,45 +126,51 @@ angular.module('starter').controller('MapController', ['$scope',
         $scope.map.markers.now = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
-          message: "Anda Di Sini",
+          message: "test",
           focus: true,
           draggable: false
         };
-
       }, function(err) {
         // error
         console.log("Location error!");
         console.log(err);
       });
 
-
-      /*
-                  $cordovaGeolocation
-                  .getCurrentPosition()
-                  .then(function(position) {
-                    $scope.map.center.lat = position.coords.latitude;
-                    $scope.map.center.lng = position.coords.longitude;
-                    $scope.map.center.zoom = 15;
-
-                    $scope.map.markers.now = {
-                      lat: position.coords.latitude,
-                      lng: position.coords.longitude,
-                      message: "Anda Di Sini",
-                      focus: true,
-                      draggable: false
-                    };
-
-                  }, function(err) {
-                    // error
-                    console.log("Location error!");
-                    console.log(err);
-                  });
-
-      */
-
-
     };
+      // dynamic geolocation
+      $scope.locateWatch = function() {
+        console.log('activate watch location');
+        var watchOptions = {
+          timeout : 3000,
+          enableHighAccuracy: false // may cause errors if true
+        };
 
+        var watch = $cordovaGeolocation.watchPosition(watchOptions);
+        watch.then(
+          null,
+          function(err) {
+            console.log("Location error!");
+            console.log(err);
+          },
+          function(position) {
+            $scope.map.center.lat = position.coords.latitude;
+            $scope.map.center.lng = position.coords.longitude;
+            $scope.map.center.zoom = 15;
+
+            $scope.map.markers.now = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+              message: $scope.map.center.lat + "; " +$scope.map.center.lng,
+              focus: true,
+              draggable: false
+            };
+          }
+        );
+      };
+
+
+
+    //TODO:masukkan fungsi provider layers dalam service tersendiri
     $scope.devList = [{
       text: "Layer UGM",
       checked: true
@@ -257,6 +191,19 @@ angular.module('starter').controller('MapController', ['$scope',
         console.log('Thank you for not eating my delicious ice cream cone');
       });
     };
+
+
+    /*
+    TODO:
+      $ fungsi untuk ambil atribut geojson berdasarkan posisi
+          - openlayers containspoint
+          - WPS as geojson
+      $ fungsi untuk cek koneksi internet
+      $ fungsi untuk memilih grid, download data berdasarkan grid tsb
+
+
+
+    */
 
 
 
