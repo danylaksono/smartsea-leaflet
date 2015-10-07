@@ -1,4 +1,4 @@
-angular.module('starter').factory('LocationsService', [function($scope,  $cordovaBackgroundGeolocation) {
+angular.module('starter').factory('LocationsService', [function($scope, $cordovaBackgroundGeolocation) {
 
   var locationsObj = {};
 
@@ -8,29 +8,25 @@ angular.module('starter').factory('LocationsService', [function($scope,  $cordov
     lng: -77.0363700
   }];
 
+  var posOptions = {
+    timeout: 5000,
+    enableHighAccuracy: true,
+    maximumAge: 5000
+  };
 
-  /*
- document.addEventListener("deviceready", function () {
-
+  document.addEventListener("deviceready", function() {
     console.log('activate background geolocation');
-    // `configure` calls `start` internally
-    $cordovaBackgroundGeolocation.configure(options)
-    .then(
-      null, // Background never resolves
-      function (err) { // error callback
-        console.error(err);
-      },
-      function (location) { // notify callback
+
+    $cordovaBackgroundGeolocation.configure(posOptions)
+      .then(function(location) {
+        console.log('sampe sini');
         console.log(location);
       });
 
-
-    $scope.stopBackgroundGeolocation = function () {
-      $cordovaBackgroundGeolocation.stop();
-    };
+    $cordovaBackgroundGeolocation.start();
 
   });
-  */
+
 
   return locationsObj;
 

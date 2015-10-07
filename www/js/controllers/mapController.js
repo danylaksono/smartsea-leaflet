@@ -35,7 +35,6 @@ angular.module('starter').controller('MapController', ['$scope',
           mapid: 'bufanuvols.lia22g09'
         }
       },
-
       cycle: {
         name: "OpenCycleMap",
         type: "xyz",
@@ -97,7 +96,6 @@ angular.module('starter').controller('MapController', ['$scope',
       }
     };
 
-
     /**
      * Once state loaded, get put map on scope.
 
@@ -122,7 +120,7 @@ angular.module('starter').controller('MapController', ['$scope',
 
     });
     */
-    
+
     var Location = function() {
       if (!(this instanceof Location)) return new Location();
       this.lat = "";
@@ -183,6 +181,7 @@ angular.module('starter').controller('MapController', ['$scope',
      * Center map on user's current position
      */
     $scope.locate = function() {
+      console.log('activate background geolocation');
       var geoSettings = {
         frequency: 1000,
         timeout: 3000,
