@@ -35,7 +35,6 @@ angular.module('starter').controller('MapController', ['$scope',
           mapid: 'bufanuvols.lia22g09'
         }
       },
-
       cycle: {
         name: "OpenCycleMap",
         type: "xyz",
