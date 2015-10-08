@@ -3,6 +3,8 @@ angular.module('starter').controller('MapController', ['$scope',
   '$stateParams',
   '$ionicModal',
   '$ionicPopup',
+  '$filter',
+  '$http',
   'LocationsService',
   'InstructionsService',
   function(
@@ -11,9 +13,10 @@ angular.module('starter').controller('MapController', ['$scope',
     $stateParams,
     $ionicModal,
     $ionicPopup,
+    $filter,
+    $http,
     LocationsService,
     InstructionsService
-
   ) {
 
     /*
@@ -44,6 +47,15 @@ angular.module('starter').controller('MapController', ['$scope',
           attribution: "&copy; <a href=\"http://www.opencyclemap.org/copyright\">OpenCycleMap</a> contributors - &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
           continuousWorld: true
         }
+      },
+      ossurfer: {
+        name: "OpenMapSurfer",
+        type: "xyz",
+        url: "http://openmapsurfer.uni-hd.de/tiles/roads/x={x}&y={y}&z={z}",
+        layerOptions: {
+          attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          maxZoom: 20
+        }
       }
     };
 
@@ -60,29 +72,19 @@ angular.module('starter').controller('MapController', ['$scope',
           crs: L.CRS.EPSG32749,
           opacity: 0.25
         }
-      },
-      pola_ruang: {
-        name: 'Pola Ruang',
-        type: 'wms',
-        url: 'http://10.40.109.50:8080/geoserver/smartsea/wms',
-        visible: true,
-        version: '1.1.0',
-        layerOptions: {
-          layers: 'smartsea:pola_ruang',
-          format: 'image/png',
-          crs: L.CRS.EPSG4326,
-          opacity: 0.25
-        }
       }
     };
+
 
     // Initial Map Settings
     $scope.map = {
       layers: {
         baselayers: {
-          osm: $scope.basemapLayers.osm
-        }
+          ossurfer: $scope.basemapLayers.ossurfer
+        },
+        overlays:{}
       },
+
       markers: {},
       events: {
         map: {
@@ -90,11 +92,52 @@ angular.module('starter').controller('MapController', ['$scope',
           logic: 'emit'
         }
       },
-      center : {
+      center: {
         autoDiscover: true,
         zoom: 12
       }
     };
+
+
+    $http.get("../../assets/rencanaruangjkt.geojson").success(function(data, status) {
+            console.log(status);
+            angular.extend($scope.map.layers.overlays, {
+                polaruang1: {
+                    name:'Rencana Pola Ruang',
+                    type: 'geoJSONShape',
+                    data: data,
+                    layerOptions: {
+                        style: {
+                                color: '#00D',
+                                fillColor: 'red',
+                                weight: 2.0,
+                                opacity: 0.6,
+                                fillOpacity: 0.2
+                        }
+                    }
+                }
+            });
+        });
+        $http.get("../../assets/rencanapolaruang.geojson").success(function(data, status) {
+                console.log(status);
+                angular.extend($scope.map.layers.overlays, {
+                    polaruang2: {
+                        name:'Rencana Pola Ruang 2',
+                        type: 'geoJSONShape',
+                        data: data,
+                        layerOptions: {
+                            style: {
+                                    color: '#00D',
+                                    fillColor: 'red',
+                                    weight: 2.0,
+                                    opacity: 0.6,
+                                    fillOpacity: 0.2
+                            }
+                        }
+                    }
+                });
+            });
+
 
     $scope.$on("$stateChangeSuccess", function() {
       console.log('state changed');
@@ -137,37 +180,61 @@ angular.module('starter').controller('MapController', ['$scope',
       });
 
     };
-      // dynamic geolocation
-      $scope.locateWatch = function() {
-        console.log('activate watch location');
-        var watchOptions = {
-          timeout : 3000,
-          enableHighAccuracy: false // may cause errors if true
-        };
 
-        var watch = $cordovaGeolocation.watchPosition(watchOptions);
-        watch.then(
-          null,
-          function(err) {
-            console.log("Location error!");
-            console.log(err);
-          },
-          function(position) {
-            $scope.map.center.lat = position.coords.latitude;
-            $scope.map.center.lng = position.coords.longitude;
-            $scope.map.center.zoom = 15;
-
-            $scope.map.markers.now = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-              message: $scope.map.center.lat + "; " +$scope.map.center.lng,
-              focus: true,
-              draggable: false
-            };
-          }
-        );
+    // dynamic geolocation
+    $scope.locateWatch = function() {
+      console.log('activate watch location');
+      var watchOptions = {
+        timeout: 3000,
+        enableHighAccuracy: false // may cause errors if true
       };
 
+      $scope.watch = $cordovaGeolocation.watchPosition(watchOptions);
+      $scope.watch.then(
+        null,
+        function(err) {
+          console.log("Location error!");
+          console.log(err);
+        },
+        function(position) {
+          $scope.map.center.lat = position.coords.latitude;
+          $scope.map.center.lng = position.coords.longitude;
+          $scope.map.center.zoom = 15;
+
+          var positionLabelLat = $filter('number')($scope.map.center.lat, 4);
+          var positionLabelLng = $filter('number')($scope.map.center.lng, 4);
+          var positionLabel = positionLabelLat + "; " + positionLabelLng;
+
+          $scope.map.markers.now = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+            label: {
+              message: positionLabel,
+              options: {
+                noHide: true,
+                direction: 'auto'
+              }
+            },
+            focus: true,
+            draggable: false,
+            icon:{
+                type: 'makiMarker',
+                icon: 'ferry',
+                color: '#00f',
+                size: "l",
+                iconAnchor: [10, 10],
+                labelAnchor: [0, 8]
+            }
+          };
+        }
+      );
+    };
+
+    $scope.resetWatch = function(){
+      $cordovaGeolocation.clearWatch($scope.watch.watchId);
+
+          $scope.locateWatch();
+    };
 
 
     //TODO:masukkan fungsi provider layers dalam service tersendiri
@@ -193,8 +260,24 @@ angular.module('starter').controller('MapController', ['$scope',
     };
 
 
+
+    $scope.toggleOverlay = function(overlayName) {
+               var overlays = $scope.layers.overlays;
+               if (overlays.hasOwnProperty(overlayName)) {
+                   delete overlays[overlayName];
+               } else {
+                   overlays[overlayName] = $scope.definedOverlays[overlayName];
+               }
+           };
+
+
+
+
+
+
     /*
     TODO:
+      $ check if geolocation activated
       $ fungsi untuk ambil atribut geojson berdasarkan posisi
           - openlayers containspoint
           - WPS as geojson
