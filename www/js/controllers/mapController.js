@@ -27,16 +27,8 @@ angular.module('starter').controller('MapController', ['$scope',
       osm: {
         name: 'OpenStreetMap',
         url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        type: 'xyz'
-      },
-      mapbox_light: {
-        name: 'Mapbox Light',
-        url: 'http://api.tiles.mapbox.com/v4/{mapid}/{z}/{x}/{y}.png?access_token={apikey}',
         type: 'xyz',
-        layerOptions: {
-          apikey: 'pk.eyJ1IjoiYnVmYW51dm9scyIsImEiOiJLSURpX0pnIn0.2_9NrLz1U9bpwMQBhVk97Q',
-          mapid: 'bufanuvols.lia22g09'
-        }
+        visible: true,
       },
       cycle: {
         name: "OpenCycleMap",
@@ -82,9 +74,8 @@ angular.module('starter').controller('MapController', ['$scope',
         baselayers: {
           ossurfer: $scope.basemapLayers.ossurfer
         },
-        overlays:{}
+        overlays: {}
       },
-
       markers: {},
       events: {
         map: {
@@ -95,49 +86,56 @@ angular.module('starter').controller('MapController', ['$scope',
       center: {
         autoDiscover: true,
         zoom: 12
+      },
+      controls: {
+          scale: true
       }
     };
 
+    // add some more overlay layers
+    $http.get("../../assets/desa.geojson").success(function(data, status) {
+      console.log(status);
+      angular.extend($scope.map.layers.overlays, {
+        polaruang1: {
+          name: 'Rencana Pola Ruang',
+          type: 'geoJSONShape',
+          data: data,
+          layerOptions: {
+            style: {
+              color: '#00D',
+              crs: L.CRS.EPSG32749,
+              fillColor: 'red',
+              weight: 2.0,
+              opacity: 0.6,
+              fillOpacity: 0.2
+            }
+          }
+        }
+      });
+    });
 
+    // lessons learned: calling geojson directly consumes Android cache
+    /*
     $http.get("../../assets/rencanaruangjkt.geojson").success(function(data, status) {
-            console.log(status);
-            angular.extend($scope.map.layers.overlays, {
-                polaruang1: {
-                    name:'Rencana Pola Ruang',
-                    type: 'geoJSONShape',
-                    data: data,
-                    layerOptions: {
-                        style: {
-                                color: '#00D',
-                                fillColor: 'red',
-                                weight: 2.0,
-                                opacity: 0.6,
-                                fillOpacity: 0.2
-                        }
-                    }
-                }
-            });
-        });
-        $http.get("../../assets/rencanapolaruang.geojson").success(function(data, status) {
-                console.log(status);
-                angular.extend($scope.map.layers.overlays, {
-                    polaruang2: {
-                        name:'Rencana Pola Ruang 2',
-                        type: 'geoJSONShape',
-                        data: data,
-                        layerOptions: {
-                            style: {
-                                    color: '#00D',
-                                    fillColor: 'red',
-                                    weight: 2.0,
-                                    opacity: 0.6,
-                                    fillOpacity: 0.2
-                            }
-                        }
-                    }
-                });
-            });
-
+      console.log(status);
+      angular.extend($scope.map.layers.overlays, {
+        polaruang2: {
+          name: 'Rencana Pola Ruang 2',
+          type: 'geoJSONShape',
+          data: data,
+          layerOptions: {
+            style: {
+              color: '#00D',
+              fillColor: 'red',
+              weight: 2.0,
+              opacity: 0.6,
+              fillOpacity: 0.2
+            }
+          }
+        }
+      });
+    });
+    */
 
     $scope.$on("$stateChangeSuccess", function() {
       console.log('state changed');
@@ -217,63 +215,54 @@ angular.module('starter').controller('MapController', ['$scope',
             },
             focus: true,
             draggable: false,
-            icon:{
-                type: 'makiMarker',
-                icon: 'ferry',
-                color: '#00f',
-                size: "l",
-                iconAnchor: [10, 10],
-                labelAnchor: [0, 8]
+            icon: {
+              type: 'makiMarker',
+              icon: 'ferry',
+              color: '#00f',
+              size: "l",
+              iconAnchor: [10, 10],
+              labelAnchor: [0, 8]
             }
           };
         }
       );
     };
 
-    $scope.resetWatch = function(){
+    $scope.resetWatch = function() {
       $cordovaGeolocation.clearWatch($scope.watch.watchId);
-
-          $scope.locateWatch();
+      $scope.locateStatic();
     };
 
 
     //TODO:masukkan fungsi provider layers dalam service tersendiri
-    $scope.devList = [{
+    $scope.layersList = [{
       text: "Layer UGM",
+      name: "ossurfer",
       checked: true
     }, {
       text: "Layer 2",
-      checked: false
-    }, {
+      name: "rencanapolaruang",
+      }, {
       text: "Layer 3",
-      checked: false
+      name: "desa",
+
     }];
 
     $scope.showAlert = function() {
       var alertPopup = $ionicPopup.alert({
         title: 'Unduh Data',
-        template: 'Download data yang anda inginkan'
-      });
-      alertPopup.then(function(res) {
-        console.log('Thank you for not eating my delicious ice cream cone');
+        template: 'Klik pada grid untuk mengunduh data'
       });
     };
 
 
 
     $scope.toggleOverlay = function(overlayName) {
-               var overlays = $scope.layers.overlays;
-               if (overlays.hasOwnProperty(overlayName)) {
-                   delete overlays[overlayName];
-               } else {
-                   overlays[overlayName] = $scope.definedOverlays[overlayName];
-               }
-           };
+      var overlays = $scope.map.layers.overlays;
+      console.log(overlays.overlayName);
+      //overlays.overlayName.visible = false
 
-
-
-
-
+    };
 
     /*
     TODO:
