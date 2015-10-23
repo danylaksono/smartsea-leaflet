@@ -88,7 +88,7 @@ angular.module('starter').controller('MapController', ['$scope',
         zoom: 12
       },
       controls: {
-          scale: true
+        scale: true
       }
     };
 
@@ -139,11 +139,9 @@ angular.module('starter').controller('MapController', ['$scope',
 
     $scope.$on("$stateChangeSuccess", function() {
       console.log('state changed');
-      //$scope.locateStatic();
       $scope.locateWatch();
     });
-
-
+    
     /**
      * Center map on user's current position
      */
@@ -242,7 +240,7 @@ angular.module('starter').controller('MapController', ['$scope',
     }, {
       text: "Layer 2",
       name: "rencanapolaruang",
-      }, {
+    }, {
       text: "Layer 3",
       name: "desa",
 
@@ -259,7 +257,7 @@ angular.module('starter').controller('MapController', ['$scope',
 
     $scope.toggleOverlay = function(overlayName) {
       var overlays = $scope.map.layers.overlays;
-      console.log(overlays.overlayName);
+      //console.log(overlays.overlayName);
       //overlays.overlayName.visible = false
 
     };
