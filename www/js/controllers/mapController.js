@@ -5,7 +5,7 @@ angular.module('starter').controller('MapController', ['$scope',
   '$ionicPopup',
   '$filter',
   '$http',
-  'LocationsService',
+  //'LocationsService',
   'InstructionsService',
   function(
     $scope,
@@ -15,7 +15,7 @@ angular.module('starter').controller('MapController', ['$scope',
     $ionicPopup,
     $filter,
     $http,
-    LocationsService,
+    //LocationsService,
     InstructionsService
   ) {
 
@@ -47,6 +47,9 @@ angular.module('starter').controller('MapController', ['$scope',
         layerOptions: {
           attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
           maxZoom: 20
+        },
+        layerParams: {
+          showOnSelector: false
         }
       }
     };
@@ -87,28 +90,29 @@ angular.module('starter').controller('MapController', ['$scope',
         autoDiscover: true,
         zoom: 12
       },
-      controls: {
-        scale: true
-      }
+      controls: {}
     };
 
     // add some more overlay layers
-    $http.get("../../assets/desa.geojson").success(function(data, status) {
+    $http.get("../../assets/desa_sleman.geojson").success(function(data, status) {
       console.log(status);
       angular.extend($scope.map.layers.overlays, {
-        polaruang1: {
-          name: 'Rencana Pola Ruang',
+        batasdesa: {
+          name: 'Batas Desa',
           type: 'geoJSONShape',
           data: data,
           layerOptions: {
             style: {
               color: '#00D',
-              crs: L.CRS.EPSG32749,
+              //crs: L.CRS.EPSG32749,
               fillColor: 'red',
               weight: 2.0,
               opacity: 0.6,
               fillOpacity: 0.2
             }
+          },
+          layerParams: {
+            showOnSelector: false
           }
         }
       });
@@ -141,7 +145,7 @@ angular.module('starter').controller('MapController', ['$scope',
       console.log('state changed');
       $scope.locateWatch();
     });
-    
+
     /**
      * Center map on user's current position
      */
