@@ -100,11 +100,11 @@ angular.module('starter').controller('MapController', ['$scope',
         batasdesa: {
           name: 'Batas Desa',
           type: 'geoJSONShape',
+          visible: true,
           data: data,
           layerOptions: {
             style: {
               color: '#00D',
-              //crs: L.CRS.EPSG32749,
               fillColor: 'red',
               weight: 2.0,
               opacity: 0.6,
