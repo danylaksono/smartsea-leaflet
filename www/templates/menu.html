@@ -21,10 +21,12 @@
         <div class="item item-divider">
           Layer Utama
         </div>
-        <ion-checkbox ng-repeat="item in layersList" ng-model="item.checked" ng-checked="toggleOverlay(item.name)">
+        <ion-checkbox ng-repeat="item in layersList"  ng-model="item.checked" ng-change ="toggleOverlay(item.name)">
           {{ item.text }}
         </ion-checkbox>
-
+        <!--div class="item">
+          <pre ng-bind="layersList | json"></pre>
+        </div-->
 
         <!--ion-item nav-clear menu-close ng-click="goTo(locationKey)" ng-repeat="(locationKey,location) in locations track by location.name">
           {{location.name}}

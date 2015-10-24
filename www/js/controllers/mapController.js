@@ -20,7 +20,7 @@ angular.module('starter').controller('MapController', ['$scope',
   ) {
 
     /*
-    predefine layers
+    predefined layers
     */
 
     $scope.basemapLayers = {
@@ -29,21 +29,15 @@ angular.module('starter').controller('MapController', ['$scope',
         url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         type: 'xyz',
         visible: true,
-      },
-      cycle: {
-        name: "OpenCycleMap",
-        type: "xyz",
-        url: "http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
-        layerOptions: {
-          subdomains: ["a", "b", "c"],
-          attribution: "&copy; <a href=\"http://www.opencyclemap.org/copyright\">OpenCycleMap</a> contributors - &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
-          continuousWorld: true
+        layerParams: {
+          showOnSelector: false
         }
       },
-      ossurfer: {
+      surfer: {
         name: "OpenMapSurfer",
         type: "xyz",
         url: "http://openmapsurfer.uni-hd.de/tiles/roads/x={x}&y={y}&z={z}",
+        visible: true,
         layerOptions: {
           attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
           maxZoom: 20
@@ -65,7 +59,17 @@ angular.module('starter').controller('MapController', ['$scope',
           layers: 'smartsea:Batas_Desa',
           format: 'image/png',
           crs: L.CRS.EPSG32749,
-          opacity: 0.25
+          opacity: 0.5,
+          style: {
+            color: '#00D',
+            fillColor: 'red',
+            weight: 2.0,
+            opacity: 0.6,
+            fillOpacity: 0.2
+          }
+        },
+        layerParams: {
+          showOnSelector: false
         }
       }
     };
@@ -75,9 +79,11 @@ angular.module('starter').controller('MapController', ['$scope',
     $scope.map = {
       layers: {
         baselayers: {
-          ossurfer: $scope.basemapLayers.ossurfer
+          surfer: $scope.basemapLayers.surfer
         },
-        overlays: {}
+        overlays: {
+          batasdesa: $scope.overlaidLayers.batasdesa
+        }
       },
       markers: {},
       events: {
@@ -88,12 +94,14 @@ angular.module('starter').controller('MapController', ['$scope',
       },
       center: {
         autoDiscover: true,
-        zoom: 12
+        zoom: 13
       },
       controls: {}
     };
 
-    // add some more overlay layers
+
+    /*
+    // add some more overlay layers (locally)
     $http.get("../../assets/desa_sleman.geojson").success(function(data, status) {
       console.log(status);
       angular.extend($scope.map.layers.overlays, {
@@ -118,27 +126,6 @@ angular.module('starter').controller('MapController', ['$scope',
       });
     });
 
-    // lessons learned: calling geojson directly consumes Android cache
-    /*
-    $http.get("../../assets/rencanaruangjkt.geojson").success(function(data, status) {
-      console.log(status);
-      angular.extend($scope.map.layers.overlays, {
-        polaruang2: {
-          name: 'Rencana Pola Ruang 2',
-          type: 'geoJSONShape',
-          data: data,
-          layerOptions: {
-            style: {
-              color: '#00D',
-              fillColor: 'red',
-              weight: 2.0,
-              opacity: 0.6,
-              fillOpacity: 0.2
-            }
-          }
-        }
-      });
-    });
     */
 
     $scope.$on("$stateChangeSuccess", function() {
@@ -199,7 +186,7 @@ angular.module('starter').controller('MapController', ['$scope',
         function(position) {
           $scope.map.center.lat = position.coords.latitude;
           $scope.map.center.lng = position.coords.longitude;
-          $scope.map.center.zoom = 15;
+          $scope.map.center.zoom = 14;
 
           var positionLabelLat = $filter('number')($scope.map.center.lat, 4);
           var positionLabelLng = $filter('number')($scope.map.center.lng, 4);
@@ -230,41 +217,49 @@ angular.module('starter').controller('MapController', ['$scope',
       );
     };
 
-    $scope.resetWatch = function() {
-      $cordovaGeolocation.clearWatch($scope.watch.watchId);
-      $scope.locateStatic();
+
+    $scope.isWatching = true;
+    $scope.toggleWatch = function() {
+      console.log($scope.isWatching);
+      $scope.isWatching = !$scope.isWatching;
+      if ($scope.isWatching) {
+        $scope.locateWatch();
+        console.log('watch');
+        } else {
+        $cordovaGeolocation.clearWatch($scope.watch.watchId);
+        console.log('clear watch');
+      }
     };
 
 
     //TODO:masukkan fungsi provider layers dalam service tersendiri
-    $scope.layersList = [{
-      text: "Layer UGM",
-      name: "ossurfer",
-      checked: true
-    }, {
-      text: "Layer 2",
-      name: "rencanapolaruang",
-    }, {
-      text: "Layer 3",
-      name: "desa",
+    $scope.layersList = {
+      batasdesa: {
+        text: "Batas Desa",
+        name: "batasdesa",
+        checked: true
+      }
+    };
 
-    }];
 
-    $scope.showAlert = function() {
+    $scope.toggleOverlay = function(layerName) {
+      var overlays = $scope.map.layers.overlays;
+      if (overlays.hasOwnProperty(layerName)) {
+        delete overlays[layerName];
+      } else {
+        overlays[layerName] = $scope.overlaidLayers[layerName];
+      }
+    };
+
+
+    $scope.showAlert = function(message) {
       var alertPopup = $ionicPopup.alert({
         title: 'Unduh Data',
-        template: 'Klik pada grid untuk mengunduh data'
+        template: message
       });
     };
 
 
-
-    $scope.toggleOverlay = function(overlayName) {
-      var overlays = $scope.map.layers.overlays;
-      //console.log(overlays.overlayName);
-      //overlays.overlayName.visible = false
-
-    };
 
     /*
     TODO:
@@ -272,8 +267,11 @@ angular.module('starter').controller('MapController', ['$scope',
       $ fungsi untuk ambil atribut geojson berdasarkan posisi
           - openlayers containspoint
           - WPS as geojson
+          - turf js
       $ fungsi untuk cek koneksi internet
+      $ wizard untuk landing page
       $ fungsi untuk memilih grid, download data berdasarkan grid tsb
+      $ exit with back button
 
 
 
