@@ -213,6 +213,12 @@ angular.module('starter').controller('MapController', ['$scope',
               labelAnchor: [0, 8]
             }
           };
+
+          // turf point in polygon
+          var pointNow = turf.point([position.coords.longitude, position.coords.latitude]);
+          console.log(pointNow);
+
+
         }
       );
     };
