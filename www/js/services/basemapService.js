@@ -3,7 +3,7 @@ angular.module('starter').factory('BasemapService', [ function() {
   var basemapsObj = {};
 
   basemapsObj.savedLayers = {
-    osm: {
+    /*osm: {
       name: 'OpenStreetMap',
       url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       type: 'xyz',
@@ -11,7 +11,7 @@ angular.module('starter').factory('BasemapService', [ function() {
       layerParams: {
         showOnSelector: false
       }
-    },
+    }, */
     surfer: {
       name: "OpenMapSurfer",
       type: "xyz",

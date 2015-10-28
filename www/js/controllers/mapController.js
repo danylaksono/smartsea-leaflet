@@ -19,11 +19,9 @@ angular.module('starter').controller('MapController', ['$scope',
     OverlayService
   ) {
 
-    $scope.basemapLayers = JSON.parse(JSON.stringify(BasemapService.savedLayers));
+    $scope.basemapLayers = BasemapService.savedLayers;
     $scope.overlaidLayers = OverlayService.savedLayers;
 
-    console.log('basemap', $scope.basemapLayers.surfer);
-    console.log('overlay', $scope.overlaidLayers);
 
     // Initial Map Settings
     $scope.map = {
@@ -45,7 +43,7 @@ angular.module('starter').controller('MapController', ['$scope',
       controls: {}
     };
 
-    angular.extend($scope.map.layers.baselayers, $scope.basemapLayers.surfer);
+    angular.extend($scope.map.layers.baselayers, $scope.basemapLayers);
     angular.extend($scope.map.layers.overlays, $scope.overlaidLayers);
 
     /*
