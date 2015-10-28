@@ -5,8 +5,8 @@ angular.module('starter').controller('MapController', ['$scope',
   '$ionicPopup',
   '$filter',
   '$http',
-  //'LocationsService',
-  'InstructionsService',
+  'BasemapService',
+  'OverlayService',
   function(
     $scope,
     $cordovaGeolocation,
@@ -15,75 +15,21 @@ angular.module('starter').controller('MapController', ['$scope',
     $ionicPopup,
     $filter,
     $http,
-    //LocationsService,
-    InstructionsService
+    BasemapService,
+    OverlayService
   ) {
 
-    /*
-    predefined layers
-    */
+    $scope.basemapLayers = JSON.parse(JSON.stringify(BasemapService.savedLayers));
+    $scope.overlaidLayers = OverlayService.savedLayers;
 
-    $scope.basemapLayers = {
-      osm: {
-        name: 'OpenStreetMap',
-        url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        type: 'xyz',
-        visible: true,
-        layerParams: {
-          showOnSelector: false
-        }
-      },
-      surfer: {
-        name: "OpenMapSurfer",
-        type: "xyz",
-        url: "http://openmapsurfer.uni-hd.de/tiles/roads/x={x}&y={y}&z={z}",
-        visible: true,
-        layerOptions: {
-          attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-          maxZoom: 20
-        },
-        layerParams: {
-          showOnSelector: false
-        }
-      }
-    };
-
-    $scope.overlaidLayers = {
-      batasdesa: {
-        name: 'Batas Desa',
-        type: 'wms',
-        url: 'http://localhost:8080/geoserver/smartsea/wms',
-        visible: true,
-        version: '1.1.0',
-        layerOptions: {
-          layers: 'smartsea:Batas_Desa',
-          format: 'image/png',
-          crs: L.CRS.EPSG32749,
-          opacity: 0.5,
-          style: {
-            color: '#00D',
-            fillColor: 'red',
-            weight: 2.0,
-            opacity: 0.6,
-            fillOpacity: 0.2
-          }
-        },
-        layerParams: {
-          showOnSelector: false
-        }
-      }
-    };
-
+    console.log('basemap', $scope.basemapLayers.surfer);
+    console.log('overlay', $scope.overlaidLayers);
 
     // Initial Map Settings
     $scope.map = {
       layers: {
-        baselayers: {
-          surfer: $scope.basemapLayers.surfer
-        },
-        overlays: {
-          batasdesa: $scope.overlaidLayers.batasdesa
-        }
+        baselayers: {},
+        overlays: {}
       },
       markers: {},
       events: {
@@ -99,6 +45,8 @@ angular.module('starter').controller('MapController', ['$scope',
       controls: {}
     };
 
+    angular.extend($scope.map.layers.baselayers, $scope.basemapLayers.surfer);
+    angular.extend($scope.map.layers.overlays, $scope.overlaidLayers);
 
     /*
     // add some more overlay layers (locally)
@@ -216,7 +164,7 @@ angular.module('starter').controller('MapController', ['$scope',
 
           // turf point in polygon
           var pointNow = turf.point([position.coords.longitude, position.coords.latitude]);
-          console.log(pointNow);
+          //console.log(pointNow);
 
 
         }
