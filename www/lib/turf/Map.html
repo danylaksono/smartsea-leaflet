@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!-- saved from url=(0031)http://localhost:8100/#/app/map -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+  <meta charset="utf-8">
+    <script>
+      // Injected Ionic Go To URL Live Reload Plugin
+      window.LiveReloadPlugin_IonicGoToUrl = (function() {
+        var GOTO_KEY = "__ionic_goto_url__";
+        var HISTORY_GO_KEY = "__ionic_history_go__";
+        var GoToUrlPlugin = function(window, host) {
+          this.window = window;
+          this.host = host;
+        }
+        GoToUrlPlugin.identifier = "__ionic_goto_url__";
+        GoToUrlPlugin.version = "1.0";
+        GoToUrlPlugin.prototype.reload = function(path) {
+          try {
+            if(path) {
+              if(path.indexOf(GOTO_KEY) === 0) {
+                this.window.document.location = path.replace(GOTO_KEY, "");
+                return true;
+              }
+              if(path.indexOf(HISTORY_GO_KEY) === 0) {
+                this.window.document.history.go( parseInt(path.replace(HISTORY_GO_KEY, ""), 10));
+                return true;
+              }
+            }
+          } catch(e) {
+            console.log(e);
+          }
+          return false;
+        };
+        return GoToUrlPlugin;
+      })();
+    </script>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title>Map</title>
+
+  <link href="./Map_files/ionic.css" rel="stylesheet">
+  <link rel="stylesheet" href="./Map_files/leaflet.css">
+  <link rel="stylesheet" href="./Map_files/style.css">
+  <link rel="stylesheet" href="./Map_files/leaflet.label.css">
+
+  <script src="./Map_files/ionic.bundle.js"></script>
+
+  <script src="./Map_files/leaflet.js"></script>
+  <script src="./Map_files/angular-leaflet-directive.min.js"></script>
+  <script src="./Map_files/leaflet.label.js"></script>
+  <script src="./Map_files/leaflet-pip.js"></script>
+  <script src="./Map_files/Leaflet.MakiMarkers.js"></script>
+
+  <script src="./Map_files/ng-cordova.js"></script>
+  <script src="./Map_files/cordova.js"></script>
+
+  <script src="./Map_files/app.js"></script>
+  <script src="./Map_files/homeController.js"></script>
+  <script src="./Map_files/mapController.js"></script>
+  <script src="./Map_files/basemapService.js"></script>
+  <script src="./Map_files/overlayService.js"></script>
+  <script src="./Map_files/igTruncate.js"></script>
+  <script src="./Map_files/turf.min.js"></script>
+
+<style id="style-1-cropbar-clipper">/* Copyright 2014 Evernote Corporation. All rights reserved. */
+.en-markup-crop-options {
+    top: 18px !important;
+    left: 50% !important;
+    margin-left: -100px !important;
+    width: 200px !important;
+    border: 2px rgba(255,255,255,.38) solid !important;
+    border-radius: 4px !important;
+}
+
+.en-markup-crop-options div div:first-of-type {
+    margin-left: 0px !important;
+}
+</style></head>
+
+<body ng-app="starter" class="platform-ios platform-cordova platform-webview grade-a platform-browser platform-win32 platform-ready">
+  <ion-nav-view class="view-container" nav-view-transition="ios" nav-view-direction="none" nav-swipe=""><ion-side-menus class="pane view" nav-view="active" style="opacity: 1; transform: translate3d(0%, 0px, 0px);">
+
+  <ion-pane ion-side-menu-content="" class="menu-content pane">
+
+    <ion-nav-bar class="bar-positive nav-title-slide-ios7 nav-bar-container" nav-bar-transition="ios" nav-bar-direction="none" nav-swipe="">
+      <!--ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i></ion-nav-back-button-->
+    <div class="nav-bar-block" nav-bar="cached"><ion-header-bar class="bar-positive nav-title-slide-ios7 bar bar-header disable-user-behavior" align-title="center"><div class="title title-center header-item"></div></ion-header-bar></div><div class="nav-bar-block" nav-bar="active"><ion-header-bar class="bar-positive nav-title-slide-ios7 bar bar-header disable-user-behavior" align-title="center"><div class="buttons buttons-left"><span class="left-buttons">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </span></div><div class="title title-center header-item" style="left: 63px; right: 63px;">Map</div><div class="buttons buttons-right"><span class="right-buttons">
+    <button ng-model="isWatching" ng-click="toggleGeolocation()" ng-class="{&#39;button button-icon icon ion-ios-navigate&#39;: isWatching, &#39;button button-icon icon ion-ios-navigate-outline&#39;: !isWatching}" class="ng-pristine ng-valid button button-icon icon ng-touched ion-ios-navigate" style="">
+  </button>
+  </span></div></ion-header-bar></div></ion-nav-bar>
+
+    <ion-nav-view name="mainContent" class="view-container" nav-view-transition="ios" nav-view-direction="none" nav-swipe=""><ion-view class="pane" nav-view="active" style="opacity: 1; transform: translate3d(0%, 0px, 0px);">
+
+  <ion-nav-buttons side="left" class="hide"></ion-nav-buttons>
+
+  <ion-nav-buttons side="right" class="hide"></ion-nav-buttons>
+
+  <ion-content data-tap-disabled="true" class="scroll-content ionic-scroll  has-header"><div class="scroll" style="transform: translate3d(0px, 0px, 0px) scale(1);">
+
+    <!-- ngIf: map --><div class="angular-leaflet-map leaflet-container leaflet-fade-anim" defaults="map.defaults" center="map.center" layers="map.layers" markers="map.markers" ng-if="map" tabindex="0" style="position: relative;"><div ng-transclude=""></div><div class="leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);"><div class="leaflet-tile-pane"><div class="leaflet-layer"><div class="leaflet-tile-container"></div><div class="leaflet-tile-container leaflet-zoom-animated"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/x=13214&y=8547&z=14" style="height: 256px; width: 256px; left: 100px; top: 214px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/x=13214&y=8546&z=14" style="height: 256px; width: 256px; left: 100px; top: -42px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/x=13213&y=8547&z=14" style="height: 256px; width: 256px; left: -156px; top: 214px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/x=13215&y=8547&z=14" style="height: 256px; width: 256px; left: 356px; top: 214px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/x=13214&y=8548&z=14" style="height: 256px; width: 256px; left: 100px; top: 470px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/x=13213&y=8546&z=14" style="height: 256px; width: 256px; left: -156px; top: -42px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/x=13215&y=8546&z=14" style="height: 256px; width: 256px; left: 356px; top: -42px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/x=13213&y=8548&z=14" style="height: 256px; width: 256px; left: -156px; top: 470px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/x=13215&y=8548&z=14" style="height: 256px; width: 256px; left: 356px; top: 470px;"></div></div><div class="leaflet-layer" style="opacity: 0.5;"><div class="leaflet-tile-container"></div><div class="leaflet-tile-container leaflet-zoom-animated"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/wms" style="height: 256px; width: 256px; left: 100px; top: 214px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/wms(1)" style="height: 256px; width: 256px; left: 100px; top: -42px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/wms(2)" style="height: 256px; width: 256px; left: -156px; top: 214px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/wms(3)" style="height: 256px; width: 256px; left: 356px; top: 214px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/wms(4)" style="height: 256px; width: 256px; left: 100px; top: 470px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/wms(5)" style="height: 256px; width: 256px; left: -156px; top: -42px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/wms(6)" style="height: 256px; width: 256px; left: 356px; top: -42px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/wms(7)" style="height: 256px; width: 256px; left: -156px; top: 470px;"><img class="leaflet-tile leaflet-tile-loaded" src="./Map_files/wms(8)" style="height: 256px; width: 256px; left: 356px; top: 470px;"></div></div></div><div class="leaflet-objects-pane"><div class="leaflet-shadow-pane"></div><div class="leaflet-overlay-pane"></div><div class="leaflet-marker-pane"><img src="./Map_files/pin-l-ferry+00f.png" class="leaflet-marker-icon maki-marker leaflet-zoom-animated leaflet-clickable" tabindex="0" style="margin-left: -10px; margin-top: -10px; width: 36px; height: 90px; transform: translate3d(263px, 268px, 0px); z-index: 268;"><div class="leaflet-label  leaflet-zoom-animated leaflet-label-left" style="z-index: 268; transform: translate3d(134px, 261px, 0px); opacity: 1;">-7.7809; 110.3607</div></div><div class="leaflet-popup-pane"></div></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="http://localhost:8100/#" title="Zoom in">+</a><a class="leaflet-control-zoom-out" href="http://localhost:8100/#" title="Zoom out">-</a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="http://leafletjs.com/" title="A JS library for interactive maps">Leaflet</a> | Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> — Map data © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a></div></div></div></div><!-- end ngIf: map -->
+
+  </div><div class="scroll-bar scroll-bar-v"><div class="scroll-bar-indicator scroll-bar-fade-out" style="transform: translate3d(0px, 0px, 0px) scaleY(1); height: 536px;"></div></div></ion-content>
+
+  <!-- for ion tabs -->
+  <div class="tabs tabs-icon-only">
+    <a nav-clear="" class="tab-item disable-user-behavior" title="Home" ui-sref="app.map" href="./Map_files/Map.html">
+      <i class="icon ion-earth"></i>
+      <span class="tab-title ng-binding" ng-bind-html="title"></span>
+    </a>
+    <a nav-clear="" class="tab-item disable-user-behavior active" title="Drink" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.help" href="http://localhost:8100/#/app/help">
+      <i class="icon ion-help"></i>
+      <span class="tab-title ng-binding" ng-bind-html="title"></span>
+    </a>
+  </div>
+</ion-view></ion-nav-view>
+
+  </ion-pane>
+
+  <ion-side-menu side="left" is-enabled="true" width="275" class="menu menu-left" style="width: 275px;">
+    <header class="bar bar-header bar-stable">
+      <h1 class="title">Menu Peta</h1>
+    </header>
+    <ion-content class="has-header scroll-content ionic-scroll"><div class="scroll" style="transform: translate3d(0px, 0px, 0px) scale(1);">
+
+      <ion-list class="disable-user-behavior"><div class="list">
+        <div class="item item-divider">
+          Layer Utama
+        </div>
+        <!-- ngRepeat: item in overlaidLayers --><label class="item item-checkbox ng-valid" ng-repeat="item in overlaidLayers" ng-model="item.checked" ng-change="toggleOverlay(item.text)"><div class="checkbox checkbox-input-hidden disable-pointer-events checkbox-circle"><input type="checkbox" ng-model="item.checked" ng-change="toggleOverlay(item.text)" class="ng-pristine ng-untouched ng-valid"><i class="checkbox-icon"></i></div><div class="item-content disable-pointer-events" ng-transclude=""><span class="ng-binding">
+          Batas Desa Sleman
+        </span></div></label><!-- end ngRepeat: item in overlaidLayers --><label class="item item-checkbox ng-valid" ng-repeat="item in overlaidLayers" ng-model="item.checked" ng-change="toggleOverlay(item.text)"><div class="checkbox checkbox-input-hidden disable-pointer-events checkbox-circle"><input type="checkbox" ng-model="item.checked" ng-change="toggleOverlay(item.text)" class="ng-pristine ng-untouched ng-valid"><i class="checkbox-icon"></i></div><div class="item-content disable-pointer-events" ng-transclude=""><span class="ng-binding">
+          Desa Yogyakarta WFS
+        </span></div></label><!-- end ngRepeat: item in overlaidLayers -->
+        <!--div class="item">
+          <pre ng-bind="layersList | json"></pre>
+        </div-->
+
+        <!--ion-item nav-clear menu-close ng-click="goTo(locationKey)" ng-repeat="(locationKey,location) in locations track by location.name">
+          {{location.name}}
+        </ion-item-->
+        <div class="item item-divider">
+          Menu tambahan
+        </div>
+        <ion-item ng-click="showAlert()" class="item">
+          Unduh Data
+        </ion-item>
+        <ion-item href="#/detail" class="item item-complex"><a class="item-content" ng-href="#/detail" href="http://localhost:8100/#/detail">
+          Tampilkan foto
+        </a></ion-item>
+        <ion-item href="#/detail" class="item item-complex"><a class="item-content" ng-href="#/detail" href="http://localhost:8100/#/detail">
+          ...
+        </a></ion-item>
+
+
+      </div></ion-list>
+
+    </div><div class="scroll-bar scroll-bar-v"><div class="scroll-bar-indicator scroll-bar-fade-out" style="transform: translate3d(0px, 0px, 0px) scaleY(1); height: 536px;"></div></div></ion-content>
+
+  </ion-side-menu>
+
+</ion-side-menus></ion-nav-view>
+
+
+<script>//<![CDATA[
+document.write('<script src="//' + (location.hostname || 'localhost') + ':35729/livereload.js?snipver=1"><\/script>')
+//]]></script><script src="./Map_files/livereload.js"></script>
+
+
+
+<div class="backdrop"></div></body></html>
