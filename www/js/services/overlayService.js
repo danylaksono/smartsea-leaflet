@@ -22,15 +22,44 @@ angular.module('starter').factory('OverlayService', [function() {
         showOnSelector: false
       }
     },
+    navigation: {
+      text: "Pelabuhan",
+      name: "navigation",
+      type: "agsTiled",
+      url: "http://gis.dephub.go.id/arcgis/rest/services/Laut/Pelabuhan/MapServer",
+      visible: true,
+      layerOptions:{
+        useCors: true
+      },
+      layerParams: {
+        showOnSelector: false
+      }
+    },
+    desa_yogya: {
+      name: "desa_yogya",
+      text: 'Yogyakarta',
+      type: "agsFeature",
+      url: "http://services5.arcgis.com/1aoscVxKFl7ZOgla/arcgis/rest/services/Batas_Administrasi_Yogyakarta/FeatureServer/0",
+      visible: true,
+      checked: false,
+      layerOptions:{
+        useCors: true
+      },
+      layerParams: {
+        showOnSelector: false
+      }
+    },
     batasdesa_yogya: {
       name: 'batasdesa_yogya',
       text: 'Desa Yogyakarta WFS',
       checked: false,
       type: 'wfs',
-      url: 'http://localhost:8080/geoserver/smartsea/ows?service=WFS', 
+      url: 'http://localhost:8080/geoserver/smartsea/ows?service=WFS',
+      //url: 'http://localhost:8080/geoserver/wfs?srsName=EPSG:4326&typename=geonode:administrasi_desa&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature',
       visible: true,
       layer: 'smartsea:administrasi_desa',
       layerOptions: {
+        useCors:true,
         crs: 'EPSG:4326',
         service: 'WFS',
         version: '1.0.0',
@@ -44,6 +73,7 @@ angular.module('starter').factory('OverlayService', [function() {
         showOnSelector: false
       }
     },
+    /*
     klorofil: {
       name: 'klorofil',
       text: 'Liputan Klorofil',
@@ -64,7 +94,7 @@ angular.module('starter').factory('OverlayService', [function() {
       layerParams: {
         showOnSelector: false
       }
-    },
+    },*/
     liputanawan: {
       name: 'liputanawan',
       text: 'Liputan Awan',
@@ -74,8 +104,8 @@ angular.module('starter').factory('OverlayService', [function() {
       url: 'http://{s}.tile.openweathermap.org/map/clouds/{z}/{x}/{y}.png',
       layerOptions: {
         maxZoom: 19,
-        opacity:0.5
-        //attribution: 'Map data &copy; <a href="http://openweathermap.org">OpenWeatherMap</a>'
+        opacity: 0.5
+          //attribution: 'Map data &copy; <a href="http://openweathermap.org">OpenWeatherMap</a>'
       },
       layerParams: {
         showOnSelector: false
