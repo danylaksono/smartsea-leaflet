@@ -54,7 +54,7 @@ angular.module('starter').controller('MapController', ['$scope',
     angular.extend($scope.map.layers.baselayers, $scope.basemapLayers);
     $scope.overlayer = $scope.map.layers.overlays;
     angular.forEach($scope.overlaidLayers, function(value, key) {
-      if ($scope.overlaidLayers[key].checked){
+      if ($scope.overlaidLayers[key].checked) {
         $scope.overlayer[key] = $scope.overlaidLayers[key];
       }
     });
@@ -221,7 +221,24 @@ angular.module('starter').controller('MapController', ['$scope',
       });
     };
 
+    $scope.exitApp = function() {
 
+        var confirmPopup = $ionicPopup.confirm({
+          title: 'Keluar Aplikasi',
+          template: 'Anda yakin mau menutup aplikasi SmartSea?',
+          okText: 'OK ',
+          cancelText: 'Tidak'
+        });
+        confirmPopup.then(function(res) {
+          if (res) {
+            window.close();
+            ionic.Platform.exitApp();
+          } else {
+            console.log('You are not sure');
+          }
+        });
+
+    };
 
     /*
     TODO:

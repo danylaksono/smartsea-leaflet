@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'nemLogging','leaflet-directive', 'ngCordova', 'igTruncate'])
 
-.run(function($ionicPlatform, $ionicPopup, $rootScope, $location) {
+.run(function($ionicPlatform, $ionicPopup, $rootScope, $ionicHistory) {
   $ionicPlatform.ready(function() {
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -35,36 +35,27 @@ angular.module('starter', ['ionic', 'nemLogging','leaflet-directive', 'ngCordova
   };
 
   //register back button on device
-  $ionicPlatform.registerBackButtonAction(function(e) {
+  $ionicPlatform.registerBackButtonAction(function(e){
+    if ($rootScope.backButtonPressedOnceToExit) {
+      ionic.Platform.exitApp();
+    }
 
+    else if ($ionicHistory.backView()) {
+      $ionicHistory.goBack();
+    }
+    else {
+      $rootScope.backButtonPressedOnceToExit = true;
+      window.plugins.toast.showShortCenter(
+        "Press back button again to exit",function(a){},function(b){}
+      );
+      setTimeout(function(){
+        $rootScope.backButtonPressedOnceToExit = false;
+      },2000);
+    }
     e.preventDefault();
-
-    function showConfirm() {
-      var confirmPopup = $ionicPopup.confirm({
-        title: '<strong>Exit SmartSea</strong>',
-        template: 'Are you sure you want to exit?'
-      });
-
-      confirmPopup.then(function(res) {
-        if (res) {
-          ionic.Platform.exitApp();
-        } else {
-          // Don't close
-        }
-      });
-    }
-
-    // Is there a page to go back to?
-    if ($rootScope.$viewHistory.backView) {
-      // Go back in history
-      $rootScope.$viewHistory.backView.go();
-    } else {
-      // This is the last page: Show confirmation popup
-      showConfirm();
-    }
-
     return false;
-  }, 101);
+  },101);
+
 
 })
 
