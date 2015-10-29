@@ -9,7 +9,7 @@ angular.module('starter').factory('OverlayService', [function() {
       text: 'Batas Desa Sleman',
       checked: true,
       type: 'wms',
-      url: 'http://localhost:8080/geoserver/smartsea/wms',
+      url: 'http://175.111.91.247:8080/geoserver/smartsea/wms',
       visible: true,
       version: '1.1.0',
       layerOptions: {
@@ -22,24 +22,11 @@ angular.module('starter').factory('OverlayService', [function() {
         showOnSelector: false
       }
     },
-    navigation: {
-      text: "Pelabuhan",
-      name: "navigation",
-      type: "agsTiled",
-      url: "http://gis.dephub.go.id/arcgis/rest/services/Laut/Pelabuhan/MapServer",
-      visible: true,
-      layerOptions:{
-        useCors: true
-      },
-      layerParams: {
-        showOnSelector: false
-      }
-    },
     desa_yogya: {
       name: "desa_yogya",
       text: 'Yogyakarta',
       type: "agsFeature",
-      url: "http://services5.arcgis.com/1aoscVxKFl7ZOgla/arcgis/rest/services/Batas_Administrasi_Yogyakarta/FeatureServer/0",
+      url: "http://services5.arcgis.com/1aoscVxKFl7ZOgla/arcgis/rest/services/Batas_Administrasi_Yogyakarta/",
       visible: true,
       checked: false,
       layerOptions:{
@@ -54,18 +41,16 @@ angular.module('starter').factory('OverlayService', [function() {
       text: 'Desa Yogyakarta WFS',
       checked: false,
       type: 'wfs',
-      url: 'http://localhost:8080/geoserver/smartsea/ows?service=WFS',
-      //url: 'http://localhost:8080/geoserver/wfs?srsName=EPSG:4326&typename=geonode:administrasi_desa&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature',
+      url: 'http://175.111.91.247:8080/geoserver/smartsea/ows?service=WFS',
       visible: true,
-      layer: 'smartsea:administrasi_desa',
+      layer: 'smartsea:rencanapolaruang',
       layerOptions: {
         useCors:true,
-        crs: 'EPSG:4326',
+        crs: 'EPSG:32749',
         service: 'WFS',
         version: '1.0.0',
         request: 'GetFeature',
         //typeName: 'smartsea:administrasi_desa',
-        maxFeatures: 200,
         outputFormat: 'text/javascript',
         format_options: 'callback: getJson'
       },
