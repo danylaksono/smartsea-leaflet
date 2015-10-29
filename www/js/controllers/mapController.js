@@ -55,7 +55,9 @@ angular.module('starter').controller('MapController', ['$scope',
 
     $scope.overlayer = $scope.map.layers.overlays;
     angular.forEach($scope.overlaidLayers, function(value, key) {
-      $scope.overlayer[key] = $scope.overlaidLayers[key];
+      if ($scope.overlaidLayers[key].checked){
+        $scope.overlayer[key] = $scope.overlaidLayers[key];
+      }
     });
 
     //angular.extend($scope.map.layers.overlays, $scope.overlaidLayers);
@@ -73,38 +75,38 @@ angular.module('starter').controller('MapController', ['$scope',
         console.log($scope.coords);
 
 
-            $scope.updateMapPosition = function() {
-              console.log('updating geolocation');
-              $scope.map.center.lat = $scope.coords.latitude;
-              $scope.map.center.lng = $scope.coords.longitude;
-              $scope.map.center.zoom = 14;
+        $scope.updateMapPosition = function() {
+          console.log('updating geolocation');
+          $scope.map.center.lat = $scope.coords.latitude;
+          $scope.map.center.lng = $scope.coords.longitude;
+          $scope.map.center.zoom = 14;
 
-              var positionLabelLat = $filter('number')($scope.map.center.lat, 4);
-              var positionLabelLng = $filter('number')($scope.map.center.lng, 4);
-              var positionLabel = positionLabelLat + "; " + positionLabelLng;
+          var positionLabelLat = $filter('number')($scope.map.center.lat, 4);
+          var positionLabelLng = $filter('number')($scope.map.center.lng, 4);
+          var positionLabel = positionLabelLat + "; " + positionLabelLng;
 
-              $scope.map.markers.now = {
-                lat: $scope.coords.latitude,
-                lng: $scope.coords.latitude,
-                label: {
-                  message: positionLabel,
-                  options: {
-                    noHide: true,
-                    direction: 'auto'
-                  }
-                },
-                focus: true,
-                draggable: false,
-                icon: {
-                  type: 'makiMarker',
-                  icon: 'ferry',
-                  color: '#00f',
-                  size: "l",
-                  iconAnchor: [10, 10],
-                  labelAnchor: [0, 8]
-                }
-              };
-            };
+          $scope.map.markers.now = {
+            lat: $scope.coords.latitude,
+            lng: $scope.coords.latitude,
+            label: {
+              message: positionLabel,
+              options: {
+                noHide: true,
+                direction: 'auto'
+              }
+            },
+            focus: true,
+            draggable: false,
+            icon: {
+              type: 'makiMarker',
+              icon: 'ferry',
+              color: '#00f',
+              size: "l",
+              iconAnchor: [10, 10],
+              labelAnchor: [0, 8]
+            }
+          };
+        };
       */
 
 
@@ -179,12 +181,13 @@ angular.module('starter').controller('MapController', ['$scope',
         $cordovaGeolocation.clearWatch($scope.watch.watchID);
         $scope.showAlert('Pemberitahuan', 'Update posisi non aktif');
       }
-
     };
+
 
 
     $scope.toggleOverlay = function(layerName) {
       var overlays = $scope.map.layers.overlays;
+      console.log(overlays[layerName]);
       if (overlays.hasOwnProperty(layerName)) {
         delete overlays[layerName];
       } else {
@@ -192,12 +195,24 @@ angular.module('starter').controller('MapController', ['$scope',
       }
     };
 
+
     /*
+    $scope.toggleOverlay = function() {
+    var overlays = $scope.map.layers.overlays;
+
     angular.forEach($scope.overlaidLayers, function(value, key) {
-        $scope.$watch($scope.overlaidLayers.checked, function() {
-      console.log('nilei', $scope.overlaidLayers[key].checked);
+        $scope.$watchGroup($scope.overlaidLayers.[key].checked, function() {
+          if (!$scope.overlaidLayers[key].checked) {
+            console.log('turning layer ' + overlays[key] +'off');
+            delete overlays[key];
+          } else {
+            console.log('turning layer ' + overlays[key] +'on');
+            overlays[key] = $scope.overlaidLayers[key];
+        }
+      }
     });
     */
+
 
 
     $scope.showAlert = function(title, message) {

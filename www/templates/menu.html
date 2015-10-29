@@ -20,8 +20,8 @@
         <div class="item item-divider">
           Layer Utama
         </div>
-        <ion-checkbox ng-repeat="item in overlayer"  ng-model="item.checked" ng-change ="toggleOverlay(item.text)">
-          {{ item.name }}
+        <ion-checkbox ng-repeat="item in overlaidLayers" ng-checked="item.checked" ng-model="item.checked" ng-change ="toggleOverlay(item.name)">
+          {{ item.text }}
         </ion-checkbox>
 
         <!--ion-item nav-clear menu-close ng-click="goTo(locationKey)" ng-repeat="(locationKey,location) in locations track by location.name">

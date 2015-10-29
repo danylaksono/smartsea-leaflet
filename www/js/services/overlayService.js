@@ -5,8 +5,8 @@ angular.module('starter').factory('OverlayService', [function() {
 
   overlayObj.savedLayers = {
     batasdesa: {
-      name: 'Batas Desa Sleman',
-      text: 'batasdesa',
+      name: 'batasdesa',
+      text: 'Batas Desa Sleman',
       checked: true,
       type: 'wms',
       url: 'http://localhost:8080/geoserver/smartsea/wms',
@@ -23,11 +23,11 @@ angular.module('starter').factory('OverlayService', [function() {
       }
     },
     batasdesa_yogya: {
-      name: 'Desa Yogyakarta WFS',
-      text: 'yogyakarta_wfs',
+      name: 'batasdesa_yogya',
+      text: 'Desa Yogyakarta WFS',
       checked: false,
       type: 'wfs',
-      url: 'http://localhost:8080/geoserver/smartsea/ows',
+      url: 'http://localhost:8080/geoserver/smartsea/ows?service=WFS',
       visible: true,
       layer: 'smartsea:administrasi_desa',
       layerOptions: {
@@ -38,9 +38,9 @@ angular.module('starter').factory('OverlayService', [function() {
       }
     },
     klorofil: {
-      name: 'Liputan Klorofil',
-      text: 'klorofil',
-      checked: true,
+      name: 'klorofil',
+      text: 'Liputan Klorofil',
+      checked: false,
       visible: true,
       type: 'xyz',
       url: 'http://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_Chlorophyll_A/default/{time}/{tilematrixset}{maxZoom}/{z}/{y}/{x}.{format}',
@@ -59,14 +59,15 @@ angular.module('starter').factory('OverlayService', [function() {
       }
     },
     liputanawan: {
-      type: 'xyz',
-      name: 'Liputan Awan',
-      text: 'owm_awan',
-      checked: true,
+      name: 'liputanawan',
+      text: 'Liputan Awan',
+      checked: false,
       visible: true,
+      type: 'xyz',
       url: 'http://{s}.tile.openweathermap.org/map/clouds/{z}/{x}/{y}.png',
       layerOptions: {
-        maxZoom: 19
+        maxZoom: 19,
+        opacity:0.5
         //attribution: 'Map data &copy; <a href="http://openweathermap.org">OpenWeatherMap</a>'
       },
       layerParams: {
