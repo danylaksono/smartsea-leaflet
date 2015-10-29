@@ -7,6 +7,7 @@ angular.module('starter').controller('MapController', ['$scope',
   '$http',
   'BasemapService',
   'OverlayService',
+  'GeolocationService',
   function(
     $scope,
     $cordovaGeolocation,
@@ -16,14 +17,19 @@ angular.module('starter').controller('MapController', ['$scope',
     $filter,
     $http,
     BasemapService,
-    OverlayService
+    OverlayService,
+    GeolocationService
   ) {
 
-    $scope.basemapLayers = BasemapService.savedLayers;
-    $scope.overlaidLayers = OverlayService.savedLayers;
+    // adb -d install -r D:\_androidApp\smartsea-leaflet\platforms\android\build\outputs\apk\android-debug.apk
+
+    $scope.$on("$stateChangeSuccess", function() {
+      console.log('Platform state changed');
+      $scope.locateWatch();
+    });
 
 
-    // Initial Map Settings
+    // Initialize Map Settings
     $scope.map = {
       layers: {
         baselayers: {},
@@ -43,76 +49,58 @@ angular.module('starter').controller('MapController', ['$scope',
       controls: {}
     };
 
+    $scope.basemapLayers = BasemapService.savedLayers;
+    $scope.overlaidLayers = OverlayService.savedLayers;
     angular.extend($scope.map.layers.baselayers, $scope.basemapLayers);
     angular.extend($scope.map.layers.overlays, $scope.overlaidLayers);
 
-    /*
-    // add some more overlay layers (locally)
-    $http.get("../../assets/desa_sleman.geojson").success(function(data, status) {
-      console.log(status);
-      angular.extend($scope.map.layers.overlays, {
-        batasdesa: {
-          name: 'Batas Desa',
-          type: 'geoJSONShape',
-          visible: true,
-          data: data,
-          layerOptions: {
-            style: {
-              color: '#00D',
-              fillColor: 'red',
-              weight: 2.0,
-              opacity: 0.6,
-              fillOpacity: 0.2
+/*
+    GeolocationService.getPosition().then(
+      function(position) {
+        $scope.coords = position.coords;
+      },
+      function(err) {
+        console.log('getCurrentPosition error: ' + angular.toJson(err));
+      });
+
+
+    console.log($scope.coords);
+
+
+        $scope.updateMapPosition = function() {
+          console.log('updating geolocation');
+          $scope.map.center.lat = $scope.coords.latitude;
+          $scope.map.center.lng = $scope.coords.longitude;
+          $scope.map.center.zoom = 14;
+
+          var positionLabelLat = $filter('number')($scope.map.center.lat, 4);
+          var positionLabelLng = $filter('number')($scope.map.center.lng, 4);
+          var positionLabel = positionLabelLat + "; " + positionLabelLng;
+
+          $scope.map.markers.now = {
+            lat: $scope.coords.latitude,
+            lng: $scope.coords.latitude,
+            label: {
+              message: positionLabel,
+              options: {
+                noHide: true,
+                direction: 'auto'
+              }
+            },
+            focus: true,
+            draggable: false,
+            icon: {
+              type: 'makiMarker',
+              icon: 'ferry',
+              color: '#00f',
+              size: "l",
+              iconAnchor: [10, 10],
+              labelAnchor: [0, 8]
             }
-          },
-          layerParams: {
-            showOnSelector: false
-          }
-        }
-      });
-    });
-
-    */
-
-    $scope.$on("$stateChangeSuccess", function() {
-      console.log('state changed');
-      $scope.locateWatch();
-    });
-
-    /**
-     * Center map on user's current position
-     */
-
-    // static geolocation
-    $scope.locateStatic = function() {
-      console.log('activate geolocation');
-      var geoSettings = {
-        frequency: 1000,
-        timeout: 3000,
-        enableHighAccuracy: false
-      };
-
-      var geo = $cordovaGeolocation.getCurrentPosition(geoSettings);
-
-      geo.then(function(position) {
-        $scope.map.center.lat = position.coords.latitude;
-        $scope.map.center.lng = position.coords.longitude;
-        $scope.map.center.zoom = 15;
-
-        $scope.map.markers.now = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-          message: "test",
-          focus: true,
-          draggable: false
+          };
         };
-      }, function(err) {
-        // error
-        console.log("Location error!");
-        console.log(err);
-      });
+  */
 
-    };
 
     // dynamic geolocation
     $scope.locateWatch = function() {
@@ -128,7 +116,7 @@ angular.module('starter').controller('MapController', ['$scope',
         function(err) {
           console.log("Location error!");
           if (err.code == 1) {
-              $scope.showAlert('Peringatan!', 'Anda perlu mengaktifkan fungsi GPS');
+            $scope.showAlert('Peringatan!', 'Anda perlu mengaktifkan fungsi GPS');
           };
           console.log(err);
         },
@@ -171,17 +159,19 @@ angular.module('starter').controller('MapController', ['$scope',
       );
     };
 
+    
+
 
     $scope.isWatching = true;
     $scope.toggleGeolocation = function() {
       $scope.isWatching = !$scope.isWatching;
       console.log($scope.isWatching);
       if ($scope.isWatching) {
-          $scope.locateWatch();
-          $scope.showAlert('Pemberitahuan', 'Update posisi aktif')
+        $scope.locateWatch();
+        $scope.showAlert('Pemberitahuan', 'Update posisi aktif')
       } else {
-          $cordovaGeolocation.clearWatch($scope.watch.watchId);
-          $scope.showAlert('Pemberitahuan', 'Update posisi non aktif');
+        $cordovaGeolocation.clearWatch($scope.watch.watchID);
+        $scope.showAlert('Pemberitahuan', 'Update posisi non aktif');
       }
 
     };
