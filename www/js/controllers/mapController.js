@@ -52,7 +52,6 @@ angular.module('starter').controller('MapController', ['$scope',
     $scope.basemapLayers = BasemapService.savedLayers;
     $scope.overlaidLayers = OverlayService.savedLayers;
     angular.extend($scope.map.layers.baselayers, $scope.basemapLayers);
-
     $scope.overlayer = $scope.map.layers.overlays;
     angular.forEach($scope.overlaidLayers, function(value, key) {
       if ($scope.overlaidLayers[key].checked){

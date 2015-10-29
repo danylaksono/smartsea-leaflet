@@ -27,11 +27,18 @@ angular.module('starter').factory('OverlayService', [function() {
       text: 'Desa Yogyakarta WFS',
       checked: false,
       type: 'wfs',
-      url: 'http://localhost:8080/geoserver/smartsea/ows?service=WFS',
+      url: 'http://localhost:8080/geoserver/smartsea/ows?service=WFS', 
       visible: true,
       layer: 'smartsea:administrasi_desa',
       layerOptions: {
-        crs: L.CRS.EPSG32749
+        crs: 'EPSG:4326',
+        service: 'WFS',
+        version: '1.0.0',
+        request: 'GetFeature',
+        //typeName: 'smartsea:administrasi_desa',
+        maxFeatures: 200,
+        outputFormat: 'text/javascript',
+        format_options: 'callback: getJson'
       },
       layerParams: {
         showOnSelector: false
