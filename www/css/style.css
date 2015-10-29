@@ -33,3 +33,11 @@ body {
 .list .item.item-accordion.ng-hide-remove {
   display: block !important;
 }
+
+.item-checkbox {
+  border-style:none !important;
+}
+
+.larger {
+    font-size: 50px;
+}

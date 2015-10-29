@@ -1603,7 +1603,7 @@ angular.module("leaflet-directive")
                 return new L.GeoJSON.WFS(params.url, params.layer, options);
             }
         },
-        
+
         group: {
             mustHaveUrl: false,
             createLayer: function (params) {
@@ -1887,7 +1887,7 @@ angular.module("leaflet-directive")
 
     function isValidLayerType(layerDefinition) {
         // Check if the baselayer has a valid type
-        console.log(layerDefinition);
+        //console.log(layerDefinition);
         if (!isString(layerDefinition.type)) {
             $log.error('[AngularJS - Leaflet] A layer must have a valid type defined.');
             return false;

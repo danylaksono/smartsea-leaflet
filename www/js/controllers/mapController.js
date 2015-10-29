@@ -221,23 +221,39 @@ angular.module('starter').controller('MapController', ['$scope',
       });
     };
 
+
+
+
     $scope.exitApp = function() {
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Keluar Aplikasi',
+        template: 'Anda yakin mau menutup aplikasi SmartSea?',
+        okText: 'OK ',
+        cancelText: 'Tidak'
+      });
+      confirmPopup.then(function(res) {
+        if (res) {
+          window.close();
+          ionic.Platform.exitApp();
+        } else {
+          console.log('You are not sure');
+        }
+      });
 
-        var confirmPopup = $ionicPopup.confirm({
-          title: 'Keluar Aplikasi',
-          template: 'Anda yakin mau menutup aplikasi SmartSea?',
-          okText: 'OK ',
-          cancelText: 'Tidak'
-        });
-        confirmPopup.then(function(res) {
-          if (res) {
-            window.close();
-            ionic.Platform.exitApp();
-          } else {
-            console.log('You are not sure');
-          }
-        });
+    };
 
+
+
+    $scope.group = [];
+    $scope.toggleGroup = function(group) {
+      if ($scope.isGroupShown(group)) {
+        $scope.shownGroup = null;
+      } else {
+        $scope.shownGroup = group;
+      }
+    };
+    $scope.isGroupShown = function(group) {
+      return $scope.shownGroup === group;
     };
 
     /*

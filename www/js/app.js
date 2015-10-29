@@ -3,9 +3,9 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'nemLogging','leaflet-directive', 'ngCordova', 'igTruncate'])
+angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordova', 'igTruncate'])
 
-.run(function($ionicPlatform, $ionicPopup, $rootScope, $ionicHistory) {
+.run(function($ionicPlatform, $ionicPopup, $location, $ionicHistory, $ionicSideMenuDelegate) {
   $ionicPlatform.ready(function() {
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -17,6 +17,13 @@ angular.module('starter', ['ionic', 'nemLogging','leaflet-directive', 'ngCordova
     if (window.StatusBar) {
       StatusBar.styleDefault();
     }
+
+    document.addEventListener("menubutton", onMenuKeyDown, false);
+    function onMenuKeyDown() {
+          console.log("some menu pops pup!! ");
+          $ionicSideMenuDelegate.toggleLeft();
+        }
+
   });
 
   // check if internet is connected
@@ -35,26 +42,17 @@ angular.module('starter', ['ionic', 'nemLogging','leaflet-directive', 'ngCordova
   };
 
   //register back button on device
-  $ionicPlatform.registerBackButtonAction(function(e){
-    if ($rootScope.backButtonPressedOnceToExit) {
+  $ionicPlatform.registerBackButtonAction(function(e) {
+    if ($location.path() === "/home" || $location.path() === "home") {
+      window.close();
       ionic.Platform.exitApp();
-    }
-
-    else if ($ionicHistory.backView()) {
+    } else {
       $ionicHistory.goBack();
     }
-    else {
-      $rootScope.backButtonPressedOnceToExit = true;
-      window.plugins.toast.showShortCenter(
-        "Press back button again to exit",function(a){},function(b){}
-      );
-      setTimeout(function(){
-        $rootScope.backButtonPressedOnceToExit = false;
-      },2000);
-    }
+
     e.preventDefault();
     return false;
-  },101);
+  }, 101);
 
 
 })

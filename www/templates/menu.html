@@ -17,16 +17,17 @@
     <ion-content class="has-header">
 
       <ion-list>
-        <div class="item item-divider">
-          Layer Utama
+        <div class="item item-divider item-light" ng-click="toggleGroup(group)" ng-class="{active: isGroupShown(group)}">
+          <i style="float:right" class="icon pull-right" ng-class="isGroupShown(group) ? 'ion-chevron-down' : 'ion-chevron-right'"></i>
+          Daftar Layer
         </div>
-        <ion-checkbox ng-repeat="item in overlaidLayers" ng-checked="item.checked" ng-model="item.checked" ng-change ="toggleOverlay(item.name)">
-          {{ item.text }}
-        </ion-checkbox>
+        <div class="item item-accordion" ng-show="isGroupShown(group)">
+          <ion-checkbox ng-repeat="item in overlaidLayers" ng-checked="item.checked" ng-model="item.checked" ng-change="toggleOverlay(item.name)">
+            {{ item.text }}
+          </ion-checkbox>
+        </div>
 
-        <!--ion-item nav-clear menu-close ng-click="goTo(locationKey)" ng-repeat="(locationKey,location) in locations track by location.name">
-          {{location.name}}
-        </ion-item-->
+
         <div class="item item-divider">
           Menu tambahan
         </div>
