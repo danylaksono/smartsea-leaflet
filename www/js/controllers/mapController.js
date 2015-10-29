@@ -52,61 +52,67 @@ angular.module('starter').controller('MapController', ['$scope',
     $scope.basemapLayers = BasemapService.savedLayers;
     $scope.overlaidLayers = OverlayService.savedLayers;
     angular.extend($scope.map.layers.baselayers, $scope.basemapLayers);
-    angular.extend($scope.map.layers.overlays, $scope.overlaidLayers);
 
-/*
-    GeolocationService.getPosition().then(
-      function(position) {
-        $scope.coords = position.coords;
-      },
-      function(err) {
-        console.log('getCurrentPosition error: ' + angular.toJson(err));
-      });
+    $scope.overlayer = $scope.map.layers.overlays;
+    angular.forEach($scope.overlaidLayers, function(value, key) {
+      $scope.overlayer[key] = $scope.overlaidLayers[key];
+    });
+
+    //angular.extend($scope.map.layers.overlays, $scope.overlaidLayers);
+
+    /*
+        GeolocationService.getPosition().then(
+          function(position) {
+            $scope.coords = position.coords;
+          },
+          function(err) {
+            console.log('getCurrentPosition error: ' + angular.toJson(err));
+          });
 
 
-    console.log($scope.coords);
+        console.log($scope.coords);
 
 
-        $scope.updateMapPosition = function() {
-          console.log('updating geolocation');
-          $scope.map.center.lat = $scope.coords.latitude;
-          $scope.map.center.lng = $scope.coords.longitude;
-          $scope.map.center.zoom = 14;
+            $scope.updateMapPosition = function() {
+              console.log('updating geolocation');
+              $scope.map.center.lat = $scope.coords.latitude;
+              $scope.map.center.lng = $scope.coords.longitude;
+              $scope.map.center.zoom = 14;
 
-          var positionLabelLat = $filter('number')($scope.map.center.lat, 4);
-          var positionLabelLng = $filter('number')($scope.map.center.lng, 4);
-          var positionLabel = positionLabelLat + "; " + positionLabelLng;
+              var positionLabelLat = $filter('number')($scope.map.center.lat, 4);
+              var positionLabelLng = $filter('number')($scope.map.center.lng, 4);
+              var positionLabel = positionLabelLat + "; " + positionLabelLng;
 
-          $scope.map.markers.now = {
-            lat: $scope.coords.latitude,
-            lng: $scope.coords.latitude,
-            label: {
-              message: positionLabel,
-              options: {
-                noHide: true,
-                direction: 'auto'
-              }
-            },
-            focus: true,
-            draggable: false,
-            icon: {
-              type: 'makiMarker',
-              icon: 'ferry',
-              color: '#00f',
-              size: "l",
-              iconAnchor: [10, 10],
-              labelAnchor: [0, 8]
-            }
-          };
-        };
-  */
+              $scope.map.markers.now = {
+                lat: $scope.coords.latitude,
+                lng: $scope.coords.latitude,
+                label: {
+                  message: positionLabel,
+                  options: {
+                    noHide: true,
+                    direction: 'auto'
+                  }
+                },
+                focus: true,
+                draggable: false,
+                icon: {
+                  type: 'makiMarker',
+                  icon: 'ferry',
+                  color: '#00f',
+                  size: "l",
+                  iconAnchor: [10, 10],
+                  labelAnchor: [0, 8]
+                }
+              };
+            };
+      */
 
 
     // dynamic geolocation
     $scope.locateWatch = function() {
       console.log('activate watch location');
       var watchOptions = {
-        timeout: 3000,
+        timeout: 10000,
         enableHighAccuracy: true // may cause errors if true
       };
 
@@ -159,7 +165,7 @@ angular.module('starter').controller('MapController', ['$scope',
       );
     };
 
-    
+
 
 
     $scope.isWatching = true;
@@ -186,6 +192,13 @@ angular.module('starter').controller('MapController', ['$scope',
       }
     };
 
+    /*
+    angular.forEach($scope.overlaidLayers, function(value, key) {
+        $scope.$watch($scope.overlaidLayers.checked, function() {
+      console.log('nilei', $scope.overlaidLayers[key].checked);
+    });
+    */
+
 
     $scope.showAlert = function(title, message) {
       var alertPopup = $ionicPopup.alert({
@@ -198,15 +211,15 @@ angular.module('starter').controller('MapController', ['$scope',
 
     /*
     TODO:
-      $ check if geolocation activated
+      $ check if geolocation activated >> done
       $ fungsi untuk ambil atribut geojson berdasarkan posisi
           - openlayers containspoint
           - WPS as geojson
           - turf js
-      $ fungsi untuk cek koneksi internet
+      $ fungsi untuk cek koneksi internet >> done
       $ wizard untuk landing page
       $ fungsi untuk memilih grid, download data berdasarkan grid tsb
-      $ exit with back button
+      $ exit with back button >> done
 
 
 
