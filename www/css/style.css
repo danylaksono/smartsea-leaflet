@@ -38,6 +38,13 @@ body {
   border-style:none !important;
 }
 
+.pull-right {
+  float:right;
+}
+.pull-left {
+  float:left;
+}
+
 .larger {
-    font-size: 50px;
+    font-size: 30px;
 }

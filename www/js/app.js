@@ -43,7 +43,7 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
 
   //register back button on device
   $ionicPlatform.registerBackButtonAction(function(e) {
-    if ($location.path() === "/home" || $location.path() === "home") {
+    if ($location.path() === "/landing" || $location.path() === "landing") {
       window.close();
       ionic.Platform.exitApp();
     } else {
