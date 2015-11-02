@@ -241,12 +241,6 @@ angular.module('starter').controller('MapController', ['$scope',
     };
 
 
-    var url = 'http://giswebservices.massgis.state.ma.us/geoserver/wms?VERSION=1.1.1&LAYERS=massgis:GISDATA.ACECS_POLY&SRS=EPSG:26986&BBOX=11830.0,776202.9449152543,348201.0,961492.0550847457&WIDTH=708&HEIGHT=390&INFO_FORMAT=text/javascript&FEATURE_COUNT=10&QUERY_LAYERS=massgis:GISDATA.ACECS_POLY&X=120&Y=109&FORMAT&STYLES=&SERVICE=WMS';
-    $http.jsonp(url)
-        .success(function(data){
-          //  console.log(data.found);
-    });
-
     $scope.toggleGroup = function(group) {
     if ($scope.isGroupShown(group)) {
       $scope.shownGroup = null;
