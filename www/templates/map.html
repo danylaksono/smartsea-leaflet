@@ -1,7 +1,7 @@
 <ion-view title="Map">
 
   <ion-nav-buttons side="left">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    <button menu-toggle="left" class="button button-icon icon ion-social-buffer-outline"></button>
   </ion-nav-buttons>
 
   <ion-nav-buttons side="right">
@@ -17,14 +17,20 @@
   </ion-content>
 
   <!-- for ion tabs -->
-  <div class="tabs tabs-icon-only">
-    <a nav-clear class="tab-item disable-user-behavior" title="Home" nav-clear ui-sref="app.map">
+
+  <div class="tabs tabs-calm">
+    <a nav-clear class="tab-item disable-user-behavior" title="Dashboard" nav-clear ui-sref="app.dashboard">
+      <i class="icon ion-android-compass"></i>
+      <span class="tab-title ng-binding" ng-bind-html="title"></span>
+    </a>
+    <a nav-clear class="tab-item disable-user-behavior active" title="Map" nav-clear ui-sref="app.map">
       <i class="icon ion-earth"></i>
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>
-    <a nav-clear class="tab-item disable-user-behavior active" title="Drink" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.help">
-      <i class="icon ion-help"></i>
+    <a nav-clear class="tab-item disable-user-behavior" title="Help" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.help">
+      <i class="icon ion-help-buoy"></i>
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>
   </div>
+
 </ion-view>
