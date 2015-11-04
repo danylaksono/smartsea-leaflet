@@ -1,7 +1,9 @@
 angular.module('starter').controller('DashboardController', ['$scope',
   '$cordovaDeviceOrientation',
+  '$cordovaNetwork',
   function($scope,
-    $cordovaDeviceOrientation
+    $cordovaDeviceOrientation,
+    $cordovaNetwork
   ) {
 
     //watch broadcasted event from rootScope
@@ -9,15 +11,17 @@ angular.module('starter').controller('DashboardController', ['$scope',
       $scope.position = data;
     });
 
-    if (window.DeviceOrientationEvent) {
-      console.log("DeviceOrientation is supported");
-    }
+    $scope.$on('networkstate', function(event, networkState) {
+      $scope.onlineState = networkState;
+      console.log($scope.onlineState);
+    })
+
 
     $scope.$on("$stateChangeSuccess", function() {
       console.log('starting compass');
       $scope.startCompass();
     });
-    
+
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
         console.log(navigator.compass);
