@@ -1,4 +1,5 @@
   angular.module('starter').controller('MapController', ['$scope',
+  '$rootScope',
   '$cordovaGeolocation',
   '$stateParams',
   '$ionicPopup',
@@ -6,19 +7,20 @@
   '$http',
   'BasemapService',
   'OverlayService',
-  'GeolocationService',
-  'geoLocation',
+  //'GeolocationService',
+  //'geoLocation',
   function(
     $scope,
+    $rootScope,
     $cordovaGeolocation,
     $stateParams,
     $ionicPopup,
     $filter,
     $http,
     BasemapService,
-    OverlayService,
-    GeolocationService,
-    geoLocation
+    OverlayService
+    //GeolocationService,
+    //geoLocation
   ) {
 
     // adb -d install -r D:\_androidApp\smartsea-leaflet\platforms\android\build\outputs\apk\android-debug.apk
@@ -26,7 +28,6 @@
     $scope.$on("$stateChangeSuccess", function() {
       console.log('Platform state changed');
       $scope.locateWatch();
-
     });
 
 
@@ -61,59 +62,7 @@
     });
 
 
-    /*
-    $scope.updateMapPosition = function() {
-      GeolocationService.getLatLong()
-      .then(
-        function(pos) {
-          console.log('success', pos.lat);
-          $scope.map.center.lat = pos.lat;
-          $scope.map.center.lng = pos.long;
-          //$scope.map.center.zoom = 14;
-
-          var positionLabelLat = $filter('number')($scope.map.center.lat, 4);
-          var positionLabelLng = $filter('number')($scope.map.center.lng, 4);
-          var positionLabel = positionLabelLat + "; " + positionLabelLng;
-
-          $scope.map.markers.now = {
-            lat: pos.lat,
-            lng: pos.long,
-            label: {
-              message: positionLabel,
-              options: {
-                noHide: true,
-                direction: 'auto'
-              }
-            },
-            focus: true,
-            draggable: false,
-            icon: {
-              type: 'makiMarker',
-              icon: 'ferry',
-              color: '#00f',
-              size: "l",
-              iconAnchor: [10, 10],
-              labelAnchor: [0, 8]
-            }
-          };
-        }
-      )
-      .catch(
-        function(err) {
-          console.log('error', err);
-          if (err.code == 1) {
-            $scope.showAlert('Peringatan!', 'Anda perlu mengaktifkan fungsi GPS');
-          };
-        }
-      )
-    };
-
-    */
-
-
     // dynamic geolocation
-
-
     $scope.locateWatch = function() {
       console.log('Activate watch location');
       var watchOptions = {
@@ -132,11 +81,11 @@
           console.log(err);
         },
         function(position) {
+          //broadcast position to dashboard
+          $rootScope.$broadcast('someEvent', position.coords);
           $scope.map.center.lat = position.coords.latitude;
           $scope.map.center.lng = position.coords.longitude;
-          $scope.coords = position.coords;
-          $scope.setMap($scope.map.center.lat, $scope.map.center.long)
-
+          $scope.setMap($scope.map.center.lat, $scope.map.center.lng);
         }
       );
     };
@@ -145,12 +94,13 @@
     $scope.setMap = function(lat, long){
       // label the marker
       var positionLabelLat = $filter('number')(lat, 4);
-      var positionLabelLng = $filter('number')(lng, 4);
+      var positionLabelLng = $filter('number')(long, 4);
       var positionLabel = positionLabelLat + "; " + positionLabelLng;
+      //console.log(positionLabel);
 
       $scope.map.markers.now = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
+        lat: lat,
+        lng: long,
         label: {
           message: positionLabel,
           options: {

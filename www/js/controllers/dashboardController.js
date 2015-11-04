@@ -1,39 +1,43 @@
 angular.module('starter').controller('DashboardController', ['$scope',
+  '$window',
   '$cordovaDeviceOrientation',
-  'GeolocationService',
   function($scope,
-    $cordovaDeviceOrientation,
-    GeolocationService
+    $window,
+    $cordovaDeviceOrientation
   ) {
 
+    //watch broadcasted event from rootScope
+    $scope.$on('someEvent', function(event, data) {
+      $scope.position = data;
+    });
 
     var options = {
-        frequency: 3000
-      }
+      frequency: 3000
+    }
 
-      /*
-      $scope.startCompass = function() {
-        $scope.watchCompass = $cordovaDeviceOrientation.watchHeading(options);
-        $scope.watchCompass.then(
-          null,
-          function(err) {
-            console.log(err)
-          },
-          function(result) { // updates constantly (depending on frequency value)
-            $scope.deg = result.trueHeading;
-            var magneticHeading = result.magneticHeading;
-            var accuracy = result.headingAccuracy;
-            var timeStamp = result.timestamp;
-          });
+    /*
+    $scope.startCompass = function() {
+      $scope.watchCompass = $cordovaDeviceOrientation.watchHeading(options);
+      $scope.watchCompass.then(
+        null,
+        function(err) {
+          console.log(err)
+        },
+        function(result) { // updates constantly (depending on frequency value)
+          $scope.deg = result.trueHeading;
+          var magneticHeading = result.magneticHeading;
+          var accuracy = result.headingAccuracy;
+          var timeStamp = result.timestamp;
+        });
 
-      };
+    };
 
 
-      $scope.$on("$stateChangeSuccess", function() {
-        console.log('starting compass');
-        $scope.startCompass();
-      });
-      */
+    $scope.$on("$stateChangeSuccess", function() {
+      console.log('starting compass');
+      $scope.startCompass();
+    });
+    */
   }
 ]);
 

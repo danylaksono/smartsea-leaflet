@@ -1,15 +1,18 @@
 angular.module('starter').factory('GeolocationService',
   function() {
+/*
+    var sharedService = {};
 
-    var geolocationData = {};
+    sharedService.message = '';
 
-    return {
-      getLocationData: function(){
-        return getLocationData;
-      },
-      setLocationData: function(data){
-        getLocationData.push(data);
-    }
-  };
+    sharedService.prepForBroadcast = function(msg) {
+        this.message = msg;
+        this.broadcastItem();
+    };
 
+    sharedService.broadcastItem = function() {
+        $rootScope.$broadcast('handleBroadcast');
+    };
+
+    return sharedService; */
   });
