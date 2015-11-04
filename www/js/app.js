@@ -5,9 +5,30 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordova', 'igTruncate' ])
 
-.run(function($ionicPlatform, $ionicPopup, $location, $ionicHistory, $ionicSideMenuDelegate, $cordovaGeolocation) {
+.run(function($ionicPlatform, $rootScope, $cordovaNetwork, $location, $ionicHistory) {
 
   $ionicPlatform.ready(function() {
+
+    //check network
+    var isOnline = $cordovaNetwork.isOnline()
+    var isOffline = $cordovaNetwork.isOffline()
+
+    // listen for Online event
+    $rootScope.$on('$cordovaNetwork:online', function(event, networkState){
+      var onlineState = networkState;
+      console.log(onlineState);
+    })
+
+    // listen for Offline event
+    $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
+      var offlineState = networkState;
+    })
+
+
+
+
+
+
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -18,40 +39,24 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
       StatusBar.styleDefault();
     }
 
-    // code adapted from http://blog.dynamicprogrammer.com/2014/05/05/recording-geolocation-data-PhoneGap-part-3.html
-    /*
-    var options = {
-      frequency: 1000,
-      timeout: 15000,
-      enableHighAccuracy: true
-    };
+    //register back button on device
+    $ionicPlatform.registerBackButtonAction(function(e) {
+      if ($location.path() === "/landing" || $location.path() === "landing") {
+        window.close();
+        ionic.Platform.exitApp();
+      } else {
+        $ionicHistory.goBack();
+      }
 
-    var watch = $cordovaGeolocation.watchPosition(options);
-    watch.then(function() { },
-      function(err) {
-        console.log('location error!', err)
-      },
-      function(position) {
-        geoLocation.setGeolocation(position.coords.latitude, position.coords.longitude)
-      });
-      */
+      e.preventDefault();
+      return false;
+    }, 101);
 
 });
 
 
 
-//register back button on device
-$ionicPlatform.registerBackButtonAction(function(e) {
-  if ($location.path() === "/landing" || $location.path() === "landing") {
-    window.close();
-    ionic.Platform.exitApp();
-  } else {
-    $ionicHistory.goBack();
-  }
 
-  e.preventDefault();
-  return false;
-}, 101);
 
 
 

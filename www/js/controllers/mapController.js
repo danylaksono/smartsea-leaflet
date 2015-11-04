@@ -7,8 +7,6 @@
   '$http',
   'BasemapService',
   'OverlayService',
-  //'GeolocationService',
-  //'geoLocation',
   function(
     $scope,
     $rootScope,
@@ -19,8 +17,6 @@
     $http,
     BasemapService,
     OverlayService
-    //GeolocationService,
-    //geoLocation
   ) {
 
     // adb -d install -r D:\_androidApp\smartsea-leaflet\platforms\android\build\outputs\apk\android-debug.apk

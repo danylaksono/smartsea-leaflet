@@ -7,7 +7,7 @@
         Kompas
       </div>
       <div class="item item-text-wrap" style="text-align:center;">
-        <div rotate degrees="{{deg}}">
+        <div rotate degrees="90">
           <img class="img-responsive" style="max-height:150px" src="./assets/img/compass.png"></img>
         </div>
       </div>
@@ -21,7 +21,7 @@
             Koordinat (Geo)
           </div>
           <div class="item item-text-wrap" style="text-align:center;">
-            {{position.latitude | number:4}}; {{position.longitude | number:4}} derajat
+            {{position.latitude | number:4}}; {{position.longitude | number:4}}
           </div>
         </div>
       </div>
@@ -30,7 +30,7 @@
           <div class="item item-divider">
             Koordinat (UTM)
           </div>
-          <div class="item item-text-wrap">
+          <div class="item item-text-wrap" style="text-align:center;">
             Posisi : {{deg}}
           </div>
         </div>
@@ -43,8 +43,9 @@
           <div class="item item-divider">
             Arah
           </div>
-          <div class="item item-text-wrap">
-            heading
+          <div class="item item-text-wrap" style="text-align:center;">
+            <i ng-show="{{!position.heading}}"> Tidak tersedia </i>
+            {{position.heading}}
           </div>
         </div>
       </div>
@@ -53,8 +54,9 @@
           <div class="item item-divider">
             Kecepatan
           </div>
-          <div class="item item-text-wrap">
-            speed
+          <div class="item item-text-wrap" style="text-align:center;">
+            <i ng-show="{{!position.speed}}"> Tidak tersedia </i>
+            {{position.speed}}
           </div>
         </div>
       </div>
