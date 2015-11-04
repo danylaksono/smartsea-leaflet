@@ -1,20 +1,14 @@
 angular.module('starter').controller('DashboardController', ['$scope',
   '$cordovaDeviceOrientation',
-  '$localStorage',
   'GeolocationService',
   function($scope,
     $cordovaDeviceOrientation,
-    $localStorage,
     GeolocationService
   ) {
 
 
-    $scope.$storage = $localStorage;
-    console.log('isi storage dr seberang', $scope.$storage.coords);
-
-      var options = {
-        frequency: 3000,
-        filter: true // if frequency is set, filter is ignored
+    var options = {
+        frequency: 3000
       }
 
       /*

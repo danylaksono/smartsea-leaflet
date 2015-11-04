@@ -1,7 +1,4 @@
 angular.module('starter').factory('geoLocation', function($scope, $localStorage) {
-
-/*
-
   return {
     setGeolocation: function(latitude, longitude) {
       var _position = {
@@ -16,5 +13,5 @@ angular.module('starter').factory('geoLocation', function($scope, $localStorage)
         lng: lat: $storage.geoLocation.longitude
       }
     }
-  }*/
+  }
 })

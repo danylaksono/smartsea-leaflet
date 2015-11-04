@@ -1,13 +1,13 @@
-angular.module('starter').controller('MapController', ['$scope',
+  angular.module('starter').controller('MapController', ['$scope',
   '$cordovaGeolocation',
   '$stateParams',
   '$ionicPopup',
   '$filter',
   '$http',
-  '$localStorage',
   'BasemapService',
   'OverlayService',
   'GeolocationService',
+  'geoLocation',
   function(
     $scope,
     $cordovaGeolocation,
@@ -15,10 +15,10 @@ angular.module('starter').controller('MapController', ['$scope',
     $ionicPopup,
     $filter,
     $http,
-    $localStorage,
     BasemapService,
     OverlayService,
-    GeolocationService
+    GeolocationService,
+    geoLocation
   ) {
 
     // adb -d install -r D:\_androidApp\smartsea-leaflet\platforms\android\build\outputs\apk\android-debug.apk
@@ -26,7 +26,7 @@ angular.module('starter').controller('MapController', ['$scope',
     $scope.$on("$stateChangeSuccess", function() {
       console.log('Platform state changed');
       $scope.locateWatch();
-      //$scope.updateMapPosition();
+
     });
 
 
@@ -111,11 +111,9 @@ angular.module('starter').controller('MapController', ['$scope',
     */
 
 
-    //$scope.updateMapPosition();
-
-
     // dynamic geolocation
-    $scope.$storage = $localStorage;
+
+
     $scope.locateWatch = function() {
       console.log('Activate watch location');
       var watchOptions = {
@@ -136,17 +134,18 @@ angular.module('starter').controller('MapController', ['$scope',
         function(position) {
           $scope.map.center.lat = position.coords.latitude;
           $scope.map.center.lng = position.coords.longitude;
-          $scope.$storage.coords = position.coords;
+          $scope.coords = position.coords;
+          $scope.setMap($scope.map.center.lat, $scope.map.center.long)
 
         }
       );
     };
 
-    console.log('isi storage dr sini', $scope.$storage.coords);
-
+    // set the map properties based on position
     $scope.setMap = function(lat, long){
-      var positionLabelLat = $filter('number')($scope.map.center.lat, 4);
-      var positionLabelLng = $filter('number')($scope.map.center.lng, 4);
+      // label the marker
+      var positionLabelLat = $filter('number')(lat, 4);
+      var positionLabelLng = $filter('number')(lng, 4);
       var positionLabel = positionLabelLat + "; " + positionLabelLng;
 
       $scope.map.markers.now = {
