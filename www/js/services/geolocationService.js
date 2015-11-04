@@ -3,21 +3,22 @@ angular.module('starter').factory('GeolocationService',
 
     var latLong = null;
     var watchOptions = {
-      timeout: 10000,
+      timeout: 15000,
+      frequency: 1000,
       enableHighAccuracy: true // may cause errors if true
     };
+
+    var watch = $cordovaGeolocation.watchPosition(watchOptions);
 
     var getLatLong = function(refresh) {
       var deferred = $q.defer();
       if (latLong === null || refresh) {
-        console.log('Getting lat long');
-        var watch = $cordovaGeolocation.watchPosition(watchOptions);
+        console.log('Mengupdate lokasi');
         watch.then(
           null,
           function(err) {
-            console.log(err);
             latLong = null
-            deferred.reject('Failed to Get Lat Long')
+            deferred.reject(err)
           },
           function(position) {
             latLong = {

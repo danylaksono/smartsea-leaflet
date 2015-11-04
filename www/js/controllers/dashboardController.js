@@ -1,17 +1,43 @@
 angular.module('starter').controller('DashboardController', ['$scope',
+  '$cordovaDeviceOrientation',
   'GeolocationService',
   function($scope,
+    $cordovaDeviceOrientation,
     GeolocationService
   ) {
 
-
-
     GeolocationService.getLatLong().then(
-      function(latLong) {
-          $scope.position = latLong;
+      function(pos) {
+        $scope.position = pos;
         console.log('LatLong=', $scope.position.lat);
       }
     );
+
+      var options = {
+        frequency: 3000,
+        filter: true // if frequency is set, filter is ignored
+      }
+
+      $scope.startCompass = function() {
+        $scope.watchCompass = $cordovaDeviceOrientation.watchHeading(options);
+        $scope.watchCompass.then(
+          null,
+          function(err) {
+            console.log(err)
+          },
+          function(result) { // updates constantly (depending on frequency value)
+            $scope.deg = result.trueHeading;
+            var magneticHeading = result.magneticHeading;
+            var accuracy = result.headingAccuracy;
+            var timeStamp = result.timestamp;
+          });
+
+      };
+
+      $scope.$on("$stateChangeSuccess", function() {
+        console.log('starting compass');
+        $scope.startCompass();
+      });
 
   }
 ]);
@@ -20,7 +46,7 @@ angular.module('starter').controller('DashboardController', ['$scope',
 /*
   Todo next:
     - employ geolocation service into map controller
-    - change tombatossals' angular leaflet with ui-leaflet
+    - change tombatossals' angular leaflet with ui-leaflet -- skip
     - add ui bootstrap
     - add components to dashboard (coordinates (utm and geo), heading, speed, compass)
     - detect GPS and implement cordova diagnostic plugins

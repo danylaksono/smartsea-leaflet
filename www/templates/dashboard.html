@@ -1,15 +1,67 @@
 <ion-view title="Dashboard">
 
   <ion-content>
-  <div class="card">
-    <div class="item item-divider">
-      Koordinat
+    <div class="row row-no-padding responsive-sm">
+    <div class="card">
+      <div class="item item-divider">
+        Kompas
+      </div>
+      <div class="item item-text-wrap" style="text-align:center;">
+        <div rotate degrees="{{deg}}">
+          <img class="img-responsive" style="max-height:150px" src="./assets/img/compass.png"></img>
+        </div>
+      </div>
     </div>
-    <div class="item item-text-wrap">
-      Posisi : {{position.lat}}
     </div>
-  </div>
-</ion-content>
+
+    <div class="row row-no-padding">
+      <div class="col">
+        <div class="card">
+          <div class="item item-divider">
+            Koordinat (Geo)
+          </div>
+          <div class="item item-text-wrap">
+            Posisi : {{position.lat}}
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="item item-divider">
+            Koordinat (UTM)
+          </div>
+          <div class="item item-text-wrap">
+            Posisi : {{deg}}
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row row-no-padding">
+      <div class="col">
+        <div class="card">
+          <div class="item item-divider">
+            Arah
+          </div>
+          <div class="item item-text-wrap">
+            heading
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="item item-divider">
+            Kecepatan
+          </div>
+          <div class="item item-text-wrap">
+            speed
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </ion-content>
 
 
 

@@ -36,12 +36,6 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
       });
       */
 
-  // delegate menu button
-  document.addEventListener("menubutton", onMenuKeyDown, false);
-  function onMenuKeyDown() {
-    console.log("some menu pops pup!! ");
-    $ionicSideMenuDelegate.toggleLeft();
-  }
 });
 
 
