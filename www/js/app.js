@@ -3,11 +3,11 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordova', 'igTruncate'])
+angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordova', 'igTruncate', 'ngStorage'])
 
-.run(function($ionicPlatform, $ionicPopup, $location, $ionicHistory, $ionicSideMenuDelegate) {
+.run(function($ionicPlatform, $ionicPopup, $location, $ionicHistory, $ionicSideMenuDelegate, $cordovaGeolocation) {
+
   $ionicPlatform.ready(function() {
-
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -18,41 +18,41 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
       StatusBar.styleDefault();
     }
 
-    document.addEventListener("menubutton", onMenuKeyDown, false);
-    function onMenuKeyDown() {
-          console.log("some menu pops pup!! ");
-          $ionicSideMenuDelegate.toggleLeft();
-        }
+    // code adapted from http://blog.dynamicprogrammer.com/2014/05/05/recording-geolocation-data-PhoneGap-part-3.html
+    /*
+    var options = {
+      frequency: 1000,
+      timeout: 15000,
+      enableHighAccuracy: true
+    };
 
-  });
+    var watch = $cordovaGeolocation.watchPosition(options);
+    watch.then(function() { },
+      function(err) {
+        console.log('location error!', err)
+      },
+      function(position) {
+        geoLocation.setGeolocation(position.coords.latitude, position.coords.longitude)
+      });
+      */
 
-  // check if internet is connected
-  if (window.Connection) {
-    if (navigator.connection.type == Connection.NONE) {
-      $ionicPopup.confirm({
-          title: "Internet Disconnected",
-          content: "The internet is disconnected on your device."
-        })
-        .then(function(result) {
-          if (!result) {
-            ionic.Platform.exitApp();
-          }
-        });
-    }
-  };
+});
 
-  //register back button on device
-  $ionicPlatform.registerBackButtonAction(function(e) {
-    if ($location.path() === "/landing" || $location.path() === "landing") {
-      window.close();
-      ionic.Platform.exitApp();
-    } else {
-      $ionicHistory.goBack();
-    }
 
-    e.preventDefault();
-    return false;
-  }, 101);
+
+//register back button on device
+$ionicPlatform.registerBackButtonAction(function(e) {
+  if ($location.path() === "/landing" || $location.path() === "landing") {
+    window.close();
+    ionic.Platform.exitApp();
+  } else {
+    $ionicHistory.goBack();
+  }
+
+  e.preventDefault();
+  return false;
+}, 101);
+
 
 
 })
@@ -81,6 +81,17 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
     abstract: true,
     templateUrl: "templates/menu.html",
     controller: 'MapController'
+  })
+
+
+  .state('app.dashboard', {
+    url: "/dashboard",
+    views: {
+      'mainContent': {
+        templateUrl: "templates/dashboard.html",
+        controller: 'DashboardController'
+      }
+    }
   })
 
   .state('app.map', {

@@ -1,0 +1,83 @@
+<ion-view title="Dashboard">
+
+  <ion-content>
+    <div class="row row-no-padding responsive-sm">
+    <div class="card">
+      <div class="item item-divider">
+        Kompas
+      </div>
+      <div class="item item-text-wrap" style="text-align:center;">
+        <div rotate degrees="{{deg}}">
+          <img class="img-responsive" style="max-height:150px" src="./assets/img/compass.png"></img>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="row row-no-padding">
+      <div class="col">
+        <div class="card">
+          <div class="item item-divider">
+            Koordinat (Geo)
+          </div>
+          <div class="item item-text-wrap">
+            Posisi : {{position.lat}}
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="item item-divider">
+            Koordinat (UTM)
+          </div>
+          <div class="item item-text-wrap">
+            Posisi : {{deg}}
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row row-no-padding">
+      <div class="col">
+        <div class="card">
+          <div class="item item-divider">
+            Arah
+          </div>
+          <div class="item item-text-wrap">
+            heading
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="item item-divider">
+            Kecepatan
+          </div>
+          <div class="item item-text-wrap">
+            speed
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </ion-content>
+
+
+
+  <!-- for ion tabs -->
+  <div class="tabs tabs-calm">
+    <a nav-clear class="tab-item disable-user-behavior active" title="Dashboard" nav-clear ui-sref="app.dashboard">
+      <i class="icon ion-android-compass"></i>
+      <span class="tab-title ng-binding" ng-bind-html="title"></span>
+    </a>
+    <a nav-clear class="tab-item disable-user-behavior" title="Map" nav-clear ui-sref="app.map">
+      <i class="icon ion-earth"></i>
+      <span class="tab-title ng-binding" ng-bind-html="title"></span>
+    </a>
+    <a nav-clear class="tab-item disable-user-behavior" title="Help" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.help">
+      <i class="icon ion-help-buoy"></i>
+      <span class="tab-title ng-binding" ng-bind-html="title"></span>
+    </a>
+  </div>
+</ion-view>

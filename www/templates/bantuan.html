@@ -1,23 +1,23 @@
 <ion-view title="Help">
 
-  <ion-nav-buttons side="left">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-  </ion-nav-buttons>
-
   <ion-content data-tap-disabled="true">
       <!-- Nyoba nambahin buat test pull request-->
     <p>Bantuan penggunaan aplikasi SmartSea.</p>
 
   </ion-content>
 
-  <div class="tabs tabs-icon-only">
-    <a nav-clear class="tab-item disable-user-behavior" title="Peta" nav-clear ui-sref="app.map">
+  <!-- for ion tabs -->
+  <div class="tabs tabs-calm">
+    <a nav-clear class="tab-item disable-user-behavior" title="Dashboard" nav-clear ui-sref="app.dashboard">
+      <i class="icon ion-android-compass"></i>
+      <span class="tab-title ng-binding" ng-bind-html="title"></span>
+    </a>
+    <a nav-clear class="tab-item disable-user-behavior" title="Map" nav-clear ui-sref="app.map">
       <i class="icon ion-earth"></i>
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>
-    <a nav-clear class="tab-item disable-user-behavior active" title="Bantuan"
-    icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.help">
-      <i class="icon ion-help"></i>
+    <a nav-clear class="tab-item disable-user-behavior  active" title="Help" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.help">
+      <i class="icon ion-help-buoy"></i>
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>
   </div>

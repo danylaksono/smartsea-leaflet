@@ -1,19 +1,15 @@
 angular.module('starter').factory('GeolocationService',
-  function($ionicPlatform, $cordovaGeolocation) {
+  function() {
 
-    var positionOptions = {
-      timeout: 3000,
-      enableHighAccuracy: true
-    };
+    var geolocationData = {};
 
     return {
-      getPosition: function() {
-        return $ionicPlatform.ready()
-          .then(function() {
-            return $cordovaGeolocation.watchPosition(positionOptions);
-          })
-      }
-    };
-
+      getLocationData: function(){
+        return getLocationData;
+      },
+      setLocationData: function(data){
+        getLocationData.push(data);
+    }
+  };
 
   });

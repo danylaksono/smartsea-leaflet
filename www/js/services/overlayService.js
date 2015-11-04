@@ -1,8 +1,7 @@
-angular.module('starter').factory('OverlayService', [function() {
+angular.module('starter').factory('OverlayService', [function($scope, $http) {
 
 
   var overlayObj = {};
-
   overlayObj.savedLayers = {
     batasdesa: {
       name: 'batasdesa',
@@ -14,7 +13,6 @@ angular.module('starter').factory('OverlayService', [function() {
       version: '1.1.0',
       layerOptions: {
         layers: 'smartsea:Batas_Desa',
-        format: 'image/png',
         crs: L.CRS.EPSG32749,
         opacity: 0.5
       },
@@ -26,17 +24,18 @@ angular.module('starter').factory('OverlayService', [function() {
       name: 'batasdesa_yogya',
       text: 'Desa Yogyakarta (Geos)',
       checked: false,
-      type: 'wms',
-      url: 'http://175.111.91.247:8080/geoserver/smartsea/wms',
+      type: 'wfs',
+      url: 'http://175.111.91.247:8080/geoserver/smartsea/wfs',
       visible: true,
-      layer: 'smartsea:rencanapolaruang',
+      layer: 'smartsea:Batas_Desa',
       layerOptions: {
         //useCors:true,
-        crs: L.CRS.EPSG4326,
-        //service: 'WFS',
+        srsName: 'EPSG:32749',
+        outputFormat: 'application/json',
+        service: 'WFS',
         //version: '1.0.0',
-        //request: 'GetFeatureInfo',
-        //typeName: 'smartsea:administrasi_desa',
+        request: 'GetFeature',
+        //typeName: 'smartsea:Batas_Desa'
         //outputFormat: 'text/javascript',
         //format_options: 'callback: getJson'
       },

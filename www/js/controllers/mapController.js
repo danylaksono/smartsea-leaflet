@@ -1,10 +1,10 @@
 angular.module('starter').controller('MapController', ['$scope',
   '$cordovaGeolocation',
   '$stateParams',
-  '$ionicModal',
   '$ionicPopup',
   '$filter',
   '$http',
+  '$localStorage',
   'BasemapService',
   'OverlayService',
   'GeolocationService',
@@ -12,10 +12,10 @@ angular.module('starter').controller('MapController', ['$scope',
     $scope,
     $cordovaGeolocation,
     $stateParams,
-    $ionicModal,
     $ionicPopup,
     $filter,
     $http,
+    $localStorage,
     BasemapService,
     OverlayService,
     GeolocationService
@@ -26,6 +26,7 @@ angular.module('starter').controller('MapController', ['$scope',
     $scope.$on("$stateChangeSuccess", function() {
       console.log('Platform state changed');
       $scope.locateWatch();
+      //$scope.updateMapPosition();
     });
 
 
@@ -59,34 +60,24 @@ angular.module('starter').controller('MapController', ['$scope',
       }
     });
 
-    //angular.extend($scope.map.layers.overlays, $scope.overlaidLayers);
 
     /*
-        GeolocationService.getPosition().then(
-          function(position) {
-            $scope.coords = position.coords;
-          },
-          function(err) {
-            console.log('getCurrentPosition error: ' + angular.toJson(err));
-          });
-
-
-        console.log($scope.coords);
-
-
-        $scope.updateMapPosition = function() {
-          console.log('updating geolocation');
-          $scope.map.center.lat = $scope.coords.latitude;
-          $scope.map.center.lng = $scope.coords.longitude;
-          $scope.map.center.zoom = 14;
+    $scope.updateMapPosition = function() {
+      GeolocationService.getLatLong()
+      .then(
+        function(pos) {
+          console.log('success', pos.lat);
+          $scope.map.center.lat = pos.lat;
+          $scope.map.center.lng = pos.long;
+          //$scope.map.center.zoom = 14;
 
           var positionLabelLat = $filter('number')($scope.map.center.lat, 4);
           var positionLabelLng = $filter('number')($scope.map.center.lng, 4);
           var positionLabel = positionLabelLat + "; " + positionLabelLng;
 
           $scope.map.markers.now = {
-            lat: $scope.coords.latitude,
-            lng: $scope.coords.latitude,
+            lat: pos.lat,
+            lng: pos.long,
             label: {
               message: positionLabel,
               options: {
@@ -105,16 +96,31 @@ angular.module('starter').controller('MapController', ['$scope',
               labelAnchor: [0, 8]
             }
           };
-        };
-      */
+        }
+      )
+      .catch(
+        function(err) {
+          console.log('error', err);
+          if (err.code == 1) {
+            $scope.showAlert('Peringatan!', 'Anda perlu mengaktifkan fungsi GPS');
+          };
+        }
+      )
+    };
+
+    */
+
+
+    //$scope.updateMapPosition();
 
 
     // dynamic geolocation
+    $scope.$storage = $localStorage;
     $scope.locateWatch = function() {
-      console.log('activate watch location');
+      console.log('Activate watch location');
       var watchOptions = {
-        timeout: 10000,
-        enableHighAccuracy: true // may cause errors if true
+        timeout: 15000,
+        enableHighAccuracy: true
       };
 
       $scope.watch = $cordovaGeolocation.watchPosition(watchOptions);
@@ -130,43 +136,41 @@ angular.module('starter').controller('MapController', ['$scope',
         function(position) {
           $scope.map.center.lat = position.coords.latitude;
           $scope.map.center.lng = position.coords.longitude;
-          $scope.map.center.zoom = 14;
-
-          var positionLabelLat = $filter('number')($scope.map.center.lat, 4);
-          var positionLabelLng = $filter('number')($scope.map.center.lng, 4);
-          var positionLabel = positionLabelLat + "; " + positionLabelLng;
-
-          $scope.map.markers.now = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-            label: {
-              message: positionLabel,
-              options: {
-                noHide: true,
-                direction: 'auto'
-              }
-            },
-            focus: true,
-            draggable: false,
-            icon: {
-              type: 'makiMarker',
-              icon: 'ferry',
-              color: '#00f',
-              size: "l",
-              iconAnchor: [10, 10],
-              labelAnchor: [0, 8]
-            }
-          };
-
-          // turf point in polygon
-          var pointNow = turf.point([position.coords.longitude, position.coords.latitude]);
-          //console.log(pointNow);
+          $scope.$storage.coords = position.coords;
 
         }
       );
     };
 
+    console.log('isi storage dr sini', $scope.$storage.coords);
 
+    $scope.setMap = function(lat, long){
+      var positionLabelLat = $filter('number')($scope.map.center.lat, 4);
+      var positionLabelLng = $filter('number')($scope.map.center.lng, 4);
+      var positionLabel = positionLabelLat + "; " + positionLabelLng;
+
+      $scope.map.markers.now = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+        label: {
+          message: positionLabel,
+          options: {
+            noHide: true,
+            direction: 'auto'
+          }
+        },
+        focus: true,
+        draggable: false,
+        icon: {
+          type: 'makiMarker',
+          icon: 'ferry',
+          color: '#00f',
+          size: "l",
+          iconAnchor: [10, 10],
+          labelAnchor: [0, 8]
+        }
+      }
+    };
 
 
     $scope.isWatching = true;
@@ -174,10 +178,11 @@ angular.module('starter').controller('MapController', ['$scope',
       $scope.isWatching = !$scope.isWatching;
       console.log($scope.isWatching);
       if ($scope.isWatching) {
-        $scope.locateWatch();
+        $scope.updateMapPosition();
+        //$scope.locateWatch();
         $scope.showAlert('Pemberitahuan', 'Update posisi aktif')
       } else {
-        $cordovaGeolocation.clearWatch($scope.watch.watchID);
+        //$cordovaGeolocation.clearWatch($scope.watch.watchID);
         $scope.showAlert('Pemberitahuan', 'Update posisi non aktif');
       }
     };
@@ -195,33 +200,12 @@ angular.module('starter').controller('MapController', ['$scope',
     };
 
 
-    /*
-    $scope.toggleOverlay = function() {
-    var overlays = $scope.map.layers.overlays;
-
-    angular.forEach($scope.overlaidLayers, function(value, key) {
-        $scope.$watchGroup($scope.overlaidLayers.[key].checked, function() {
-          if (!$scope.overlaidLayers[key].checked) {
-            console.log('turning layer ' + overlays[key] +'off');
-            delete overlays[key];
-          } else {
-            console.log('turning layer ' + overlays[key] +'on');
-            overlays[key] = $scope.overlaidLayers[key];
-        }
-      }
-    });
-    */
-
-
-
     $scope.showAlert = function(title, message) {
       var alertPopup = $ionicPopup.alert({
         title: title,
         template: message
       });
     };
-
-
 
 
     $scope.exitApp = function() {
@@ -241,22 +225,16 @@ angular.module('starter').controller('MapController', ['$scope',
     };
 
 
-    var url = 'http://giswebservices.massgis.state.ma.us/geoserver/wms?VERSION=1.1.1&LAYERS=massgis:GISDATA.ACECS_POLY&SRS=EPSG:26986&BBOX=11830.0,776202.9449152543,348201.0,961492.0550847457&WIDTH=708&HEIGHT=390&INFO_FORMAT=text/javascript&FEATURE_COUNT=10&QUERY_LAYERS=massgis:GISDATA.ACECS_POLY&X=120&Y=109&FORMAT&STYLES=&SERVICE=WMS';
-    $http.jsonp(url)
-        .success(function(data){
-          //  console.log(data.found);
-    });
-
     $scope.toggleGroup = function(group) {
-    if ($scope.isGroupShown(group)) {
-      $scope.shownGroup = null;
-    } else {
-      $scope.shownGroup = group;
-    }
-  };
-  $scope.isGroupShown = function(group) {
-    return $scope.shownGroup === group;
-  };
+      if ($scope.isGroupShown(group)) {
+        $scope.shownGroup = null;
+      } else {
+        $scope.shownGroup = group;
+      }
+    };
+    $scope.isGroupShown = function(group) {
+      return $scope.shownGroup === group;
+    };
 
     /*
     TODO:
