@@ -1,23 +1,23 @@
 angular.module('starter').controller('DashboardController', ['$scope',
   '$cordovaDeviceOrientation',
+  '$localStorage',
   'GeolocationService',
   function($scope,
     $cordovaDeviceOrientation,
+    $localStorage,
     GeolocationService
   ) {
 
-    GeolocationService.getLatLong().then(
-      function(pos) {
-        $scope.position = pos;
-        console.log('LatLong=', $scope.position.lat);
-      }
-    );
+
+    $scope.$storage = $localStorage;
+    console.log('isi storage dr seberang', $scope.$storage.coords);
 
       var options = {
         frequency: 3000,
         filter: true // if frequency is set, filter is ignored
       }
 
+      /*
       $scope.startCompass = function() {
         $scope.watchCompass = $cordovaDeviceOrientation.watchHeading(options);
         $scope.watchCompass.then(
@@ -34,11 +34,12 @@ angular.module('starter').controller('DashboardController', ['$scope',
 
       };
 
+
       $scope.$on("$stateChangeSuccess", function() {
         console.log('starting compass');
         $scope.startCompass();
       });
-
+      */
   }
 ]);
 

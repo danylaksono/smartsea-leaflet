@@ -1,17 +1,20 @@
-angular.module('starter').factory('geoLocation', function ($localStorage) {
-        return {
-            setGeolocation: function (latitude, longitude) {
-                var _position = {
-                    latitude: latitude,
-                    longitude: longitude
-                }
-                $localStorage.setObject('geoLocation', _position)
-            },
-            getGeolocation: function () {
-                return glocation = {
-                    lat: $localStorage.getObject('geoLocation').latitude,
-                    lng: $localStorage.getObject('geoLocation').longitude
-                }
-            }
-        }
-    })
+angular.module('starter').factory('geoLocation', function($scope, $localStorage) {
+
+/*
+
+  return {
+    setGeolocation: function(latitude, longitude) {
+      var _position = {
+        latitude: latitude,
+        longitude: longitude
+      }
+      $storage.geoLocation =  _position;
+    },
+    getGeolocation: function() {
+      return glocation = {
+        lat: $storage.geoLocation.latitude,
+        lng: lat: $storage.geoLocation.longitude
+      }
+    }
+  }*/
+})
