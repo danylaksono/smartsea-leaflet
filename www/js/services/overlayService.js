@@ -46,8 +46,8 @@ angular.module('starter').factory('OverlayService', [function($scope, $http) {
     desa_yogya: {
       name: "desa_yogya",
       text: 'Yogyakarta (ArcGIS)',
-      type: "agsTiled",
-      url: "http://175.111.91.247:6080/arcgis/services/Yogyakarta/admin_yogyakarta/MapServer/",
+      type: "agsFeature",
+      url: "http://175.111.91.247:6080/arcgis/rest/services/smartsea/pg_batas_desa/FeatureServer/0",
       visible: true,
       checked: false,
       layerOptions:{

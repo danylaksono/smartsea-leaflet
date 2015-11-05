@@ -41,14 +41,23 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
     }
 
     //register back button on device
-    $ionicPlatform.registerBackButtonAction(function(e) {
-      if ($location.path() === "/dashboard" || $location.path() === "dashboard") {
-        window.close();
-        ionic.Platform.exitApp();
-      } else {
-        $ionicHistory.goBack();
-      }
+    var exitApp = function() {
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Keluar Aplikasi',
+        template: 'Anda yakin mau menutup aplikasi SmartSea?',
+        okText: 'OK ',
+        cancelText: 'Tidak'
+      });
+      confirmPopup.then(function(res) {
+        if (res) {
+          window.close();
+          ionic.Platform.exitApp();
+        } else {}
+      });
+    }
 
+    $ionicPlatform.registerBackButtonAction(function(e) {
+      exitApp();
       e.preventDefault();
       return false;
     }, 101);

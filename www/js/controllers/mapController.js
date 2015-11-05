@@ -107,8 +107,9 @@
         focus: true,
         draggable: false,
         icon: {
-          type: 'makiMarker',
-          icon: 'ferry',
+          //type: 'makiMarker',
+          //icon: 'ferry',
+          iconUrl: './assets/ferry.png',
           color: '#00f',
           size: "l",
           iconAnchor: [10, 10],
@@ -153,6 +154,8 @@
     };
 
 
+
+    /*
     $scope.exitApp = function() {
       var confirmPopup = $ionicPopup.confirm({
         title: 'Keluar Aplikasi',
@@ -168,7 +171,7 @@
       });
 
     };
-
+    */
 
     $scope.toggleGroup = function(group) {
       if ($scope.isGroupShown(group)) {
@@ -180,22 +183,6 @@
     $scope.isGroupShown = function(group) {
       return $scope.shownGroup === group;
     };
-
-    /*
-    TODO:
-      $ check if geolocation activated >> done
-      $ fungsi untuk ambil atribut geojson berdasarkan posisi
-          - openlayers containspoint
-          - WPS as geojson
-          - turf js
-      $ fungsi untuk cek koneksi internet >> done
-      $ wizard untuk landing page
-      $ fungsi untuk memilih grid, download data berdasarkan grid tsb
-      $ exit with back button >> done
-
-
-
-    */
 
 
 
