@@ -17,7 +17,7 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
     // listen for Offline event
     $rootScope.$on('$cordovaNetwork:offline', function(event, networkState) {
       var offlineState = networkState;
-      alert("Anda tidak terhubung dengan internet. Beberapa layer layanan dan fungsi unduh tidak dapat digunakan")
+      alert("Anda berada dalam mode offline. Beberapa layer layanan dan fungsi unduh tidak dapat digunakan pada mode ini")
     })
 
     //check GPS
@@ -54,10 +54,6 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
     }, 101);
 
   });
-
-
-
-
 
 
 
