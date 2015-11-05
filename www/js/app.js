@@ -6,11 +6,11 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
 
     //check network
     var isOnline = $cordovaNetwork.isOnline()
+    $rootScope.$broadcast('onlinestate', isOnline);
     var isOffline = $cordovaNetwork.isOffline()
 
     $rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
       var onlineState = networkState;
-      $rootScope.$broadcast('networkstate', onlineState);
       console.log(onlineState);
     })
 

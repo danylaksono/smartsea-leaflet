@@ -11,7 +11,7 @@ angular.module('starter').controller('DashboardController', ['$scope',
       $scope.position = data;
     });
 
-    $scope.$on('networkstate', function(event, networkState) {
+    $scope.$on('onlinestate', function(event, networkState) {
       $scope.onlineState = networkState;
       console.log($scope.onlineState);
     })
@@ -21,11 +21,6 @@ angular.module('starter').controller('DashboardController', ['$scope',
       console.log('starting compass');
       $scope.startCompass();
     });
-
-    document.addEventListener("deviceready", onDeviceReady, false);
-    function onDeviceReady() {
-        console.log(navigator.compass);
-    }
 
     $scope.startCompass = function() {
       var options = {
@@ -49,7 +44,13 @@ angular.module('starter').controller('DashboardController', ['$scope',
 
     };
 
-
+    $scope.showToast = function(message, duration, location) {
+        $cordovaToast.show(message, duration, location).then(function(success) {
+            console.log("The toast was shown");
+        }, function (error) {
+            console.log("The toast was not shown due to " + error);
+        });
+    };
 
 
 

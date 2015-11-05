@@ -1,6 +1,7 @@
   angular.module('starter').controller('MapController', ['$scope',
   '$rootScope',
   '$cordovaGeolocation',
+  '$cordovaToast',
   '$stateParams',
   '$ionicPopup',
   '$filter',
@@ -11,6 +12,7 @@
     $scope,
     $rootScope,
     $cordovaGeolocation,
+    $cordovaToast,
     $stateParams,
     $ionicPopup,
     $filter,
@@ -19,12 +21,19 @@
     OverlayService
   ) {
 
-    // adb -d install -r D:\_androidApp\smartsea-leaflet\platforms\android\build\outputs\apk\android-debug.apk
+    // $ ionic build android
+    // $ adb -d install -r D:\_androidApp\smartsea-leaflet\platforms\android\build\outputs\apk\android-debug.apk
 
     $scope.$on("$stateChangeSuccess", function() {
       console.log('Platform state changed');
       $scope.locateWatch();
     });
+
+    // watch network connection state
+    $scope.$on('onlinestate', function(event, networkState) {
+      $scope.onlineState = networkState;
+      console.log($scope.onlineState);
+    })
 
 
     // Initialize Map Settings
@@ -77,10 +86,13 @@
           console.log(err);
         },
         function(position) {
-          //broadcast position to dashboard
+          //broadcast position to dashboard controller
           $rootScope.$broadcast('someEvent', position.coords);
           $scope.map.center.lat = position.coords.latitude;
           $scope.map.center.lng = position.coords.longitude;
+          $scope.map.center.zoom = 14;
+
+          //set the map with these values
           $scope.setMap($scope.map.center.lat, $scope.map.center.lng);
         }
       );
@@ -118,22 +130,19 @@
       }
     };
 
-
+    // need this, since device timeout seems to be differently implemented across devices
     $scope.isWatching = true;
     $scope.toggleGeolocation = function() {
       $scope.isWatching = !$scope.isWatching;
       console.log($scope.isWatching);
       if ($scope.isWatching) {
-        $scope.updateMapPosition();
-        //$scope.locateWatch();
-        $scope.showAlert('Pemberitahuan', 'Update posisi aktif')
+        $scope.locateWatch();
+        $scope.showToast('Pembaruan posisi aktif', 'short', 'top')
       } else {
-        //$cordovaGeolocation.clearWatch($scope.watch.watchID);
-        $scope.showAlert('Pemberitahuan', 'Update posisi non aktif');
+        $cordovaGeolocation.clearWatch($scope.watch.watchID);
+        $scope.showToast('Pembaruan posisi non-aktif', 'short', 'top')
       }
     };
-
-
 
     $scope.toggleOverlay = function(layerName) {
       var overlays = $scope.map.layers.overlays;
@@ -153,7 +162,13 @@
       });
     };
 
-
+    $scope.showToast = function(message, duration, location) {
+        $cordovaToast.show(message, duration, location).then(function(success) {
+            console.log("The toast was shown");
+        }, function (error) {
+            console.log("The toast was not shown due to " + error);
+        });
+    };
 
     /*
     $scope.exitApp = function() {
