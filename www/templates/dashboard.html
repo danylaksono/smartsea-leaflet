@@ -30,9 +30,10 @@
       <div class="col">
         <div class="card">
           <div class="item item-divider">
-            Koneksi
+            Koneksi internet
           </div>
           <div class="item item-text-wrap" style="text-align:center;">
+            <i ng-show="{{!onlineState}}"> Tidak terhubung </i>
              {{onlineState}}
           </div>
         </div>
