@@ -11,11 +11,10 @@ angular.module('starter').controller('DashboardController', ['$scope',
       $scope.position = data;
     });
 
-    $scope.$on('onlinestate', function(event, networkState) {
+    $scope.$on('onlinewith', function(event, networkState) {
       $scope.onlineState = networkState;
       console.log($scope.onlineState);
     })
-
 
     $scope.$on("$stateChangeSuccess", function() {
       console.log('starting compass');

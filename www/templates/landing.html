@@ -1,19 +1,26 @@
 <ion-view title="Home">
   <ion-content class="padding" style="text-align:center;  background-color:#e0e9fb;">
-    <br/>
-    <br/>
-    <img class="img-responsive" style="max-height:200px" src="./assets/img/new_smartsea.png"></img>
+    <img class="img-responsive" style="max-height:200px" src="./assets/img/logo.png"></img>
     <h3>Selamat Datang di prototype Smart Sea</h3>
-    <br/>
     <p>
       <strong>SmartSea</strong> merupakan aplikasi peta pemanfaatan ruang perairan laut oleh Kementrian Kelautan dan Perikanan</p>
-    </br>
     <strong>Versi 0.2.5</strong>
     <br/>
-    <br/>
 
-    <button class="button icon-right ion-chevron-right button-fullwidth button-positive" ui-sref='app.dashboard'>
-      Buka Peta
+      <div class="list list-inset">
+          <label class="item item-input">
+              <input type="text" placeholder="Username" ng-model="data.username">
+          </label>
+          <label class="item item-input">
+              <input type="password" placeholder="Password" ng-model="data.password">
+          </label>
+      </div>
+      <button class="button button-block button-calm" ng-click="login()">Login</button>
+
+
+    <button class="button icon-right ion-chevron-right button-block button-positive" ui-sref='app.dashboard'>
+      Buka Peta Tanpa Login
     </button>
+    <br/>
   </ion-content>
 </ion-view>

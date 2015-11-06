@@ -11,6 +11,7 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
 
     $rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
       var onlineState = networkState;
+      $rootScope.$broadcast('onlinewith', isOnline);
       console.log(onlineState);
     })
 

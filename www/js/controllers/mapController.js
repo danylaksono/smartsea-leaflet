@@ -30,8 +30,8 @@
     });
 
     // watch network connection state
-    $scope.$on('onlinestate', function(event, networkState) {
-      $scope.isOnline = networkState;
+    $scope.$on('onlinestate', function(event, isonline) {
+      $scope.isOnline = isonline;
       console.log($scope.isOnline);
     })
 
@@ -137,10 +137,10 @@
       console.log($scope.isWatching);
       if ($scope.isWatching) {
         $scope.locateWatch();
-        $scope.showToast('Pembaruan posisi aktif', 'short', 'center')
+        $scope.showToast('Pembaruan posisi aktif', 'short', 'bottom')
       } else {
         $cordovaGeolocation.clearWatch($scope.watch.watchID);
-        $scope.showToast('Pembaruan posisi non-aktif', 'short', 'center')
+        $scope.showToast('Pembaruan posisi non-aktif', 'short', 'bottom')
       }
     };
 
