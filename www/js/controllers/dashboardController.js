@@ -44,16 +44,6 @@ angular.module('starter').controller('DashboardController', ['$scope',
 
     };
 
-    $scope.showToast = function(message, duration, location) {
-        $cordovaToast.show(message, duration, location).then(function(success) {
-            console.log("The toast was shown");
-        }, function (error) {
-            console.log("The toast was not shown due to " + error);
-        });
-    };
-
-
-
   }
 ]);
 
@@ -64,8 +54,8 @@ angular.module('starter').controller('DashboardController', ['$scope',
     - change tombatossals' angular leaflet with ui-leaflet -- skip
     - add ui bootstrap >> done
     - add components to dashboard (coordinates (utm and geo), heading, speed, compass)
-    - detect GPS and implement cordova diagnostic plugins
-    - detect network (cordova network information plugin)
+    - detect GPS and implement cordova diagnostic plugins >> done
+    - detect network (cordova network information plugin) >> done
     - add login and implement pouchdb for user auth
     - add download wizard state
 

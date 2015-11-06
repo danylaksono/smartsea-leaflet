@@ -15,12 +15,11 @@
       <h1 class="title">Menu Peta</h1>
     </header>
     <ion-content class="has-header">
-
       <ion-list>
-        <div class="item item-divider item-calm" ng-click="toggleGroup(group)" ng-class="{active: isGroupShown(group)}">
+        <div class="item item-divider item-calm">
           <i class="icon pull-right" ng-class="isGroupShown(group) ? 'ion-chevron-down' : 'ion-chevron-right'"></i>
-          <i class="icon ion-social-buffer-outline"></i>
-          Daftar Layer
+          <i class="icon ion-social-buffer"></i>
+          Layer Layanan (online)
         </div>
         <div class="item item-accordion" ng-show="isGroupShown(group)">
           <ion-checkbox ng-repeat="item in overlaidLayers" ng-checked="item.checked" ng-model="item.checked" ng-change="toggleOverlay(item.name)">
@@ -28,10 +27,10 @@
           </ion-checkbox>
         </div>
 
-
         <div class="item item-divider item-calm" style="font-size:15px">
-          <i class="icon ion-ios-toggle"></i>
-          Pengaturan Aplikasi
+          <i class="icon pull-right" ng-class="isGroupShown(group) ? 'ion-chevron-down' : 'ion-chevron-right'"></i>
+          <i class="icon ion-social-buffer-outline"></i>
+          Layer lokal
         </div>
         <ion-item ng-click='get_data()'>
           Unduh Data

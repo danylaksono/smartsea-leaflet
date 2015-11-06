@@ -7,6 +7,7 @@ angular.module('starter').factory('OverlayService', [function($scope, $http) {
       name: 'batasdesa',
       text: 'Desa Sleman (Geos)',
       checked: true,
+      disabled: true,
       type: 'wms',
       url: 'http://175.111.91.247:8080/geoserver/smartsea/wms',
       visible: true,

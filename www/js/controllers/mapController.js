@@ -31,8 +31,8 @@
 
     // watch network connection state
     $scope.$on('onlinestate', function(event, networkState) {
-      $scope.onlineState = networkState;
-      console.log($scope.onlineState);
+      $scope.isOnline = networkState;
+      console.log($scope.isOnline);
     })
 
 
@@ -137,10 +137,10 @@
       console.log($scope.isWatching);
       if ($scope.isWatching) {
         $scope.locateWatch();
-        $scope.showToast('Pembaruan posisi aktif', 'short', 'top')
+        $scope.showToast('Pembaruan posisi aktif', 'short', 'center')
       } else {
         $cordovaGeolocation.clearWatch($scope.watch.watchID);
-        $scope.showToast('Pembaruan posisi non-aktif', 'short', 'top')
+        $scope.showToast('Pembaruan posisi non-aktif', 'short', 'center')
       }
     };
 

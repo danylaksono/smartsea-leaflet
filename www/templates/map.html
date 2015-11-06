@@ -1,12 +1,12 @@
 <ion-view title="Map">
 
   <ion-nav-buttons side="left">
-    <button menu-toggle="left" class="button button-icon icon ion-social-buffer-outline"></button>
+    <button menu-toggle="left" class="button button-icon icon ion-ios-settings"></button>
   </ion-nav-buttons>
 
 
   <ion-nav-buttons side="right">
-    <button ng-class="{'button button-icon  button-assertive icon ion-android-checkmark-circle': isOnline, 'button button-icon icon ion-android-radio-button-off': !isOnline}">
+    <button data-tap-disabled="true" style=" pointer-events: none;" ng-class="{'button button-icon disable-user-behavior icon ion-android-checkmark-circle': isOnline, 'button button-icon icon ion-android-radio-button-off': !isOnline}">
     </button>
     <button ng-model="isWatching" ng-click="toggleGeolocation()"
     ng-class="{'button button-icon icon ion-ios-navigate': isWatching, 'button button-icon icon ion-ios-navigate-outline': !isWatching}">
