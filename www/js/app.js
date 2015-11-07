@@ -45,7 +45,7 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
     var exitApp = function() {
       var confirmPopup = $ionicPopup.confirm({
         title: 'Keluar Aplikasi',
-        template: 'Anda yakin mau menutup aplikasi SmartSea?',
+        template: 'Tutup aplikasi SmartSea?',
         okText: 'OK ',
         cancelText: 'Tidak'
       });

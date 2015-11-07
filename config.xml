@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.smartsealeaflet521422" version="0.2.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>smartsea-leaflet</name>
+  <name>Smartsea</name>
   <description>
-        An Ionic Framework and Cordova project.
+        aplikasi peta pemanfaatan ruang perairan laut oleh Kementrian Kelautan dan Perikanan
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+  <author email="ppids@ugm.ac.id" href="http://ppids.ft.ugm.ac.id/">
+      Tim Aplikasi SmartSea-UGM
     </author>
   <content src="index.html"/>
   <access origin="*"/>
