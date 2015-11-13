@@ -47,7 +47,7 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
         title: 'Keluar Aplikasi',
         template: 'Tutup aplikasi SmartSea?',
         okText: 'OK ',
-        cancelText: 'Tidak'
+        cancelText: 'Batal'
       });
       confirmPopup.then(function(res) {
         if (res) {
@@ -65,8 +65,6 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
 
   });
 
-
-
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -81,12 +79,31 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
   .state('home.landing', {
     url: "/landing",
     views: {
-      'landing': {
+      'landingContent': {
         templateUrl: "templates/landing.html",
         controller: 'HomeController'
       }
     }
   })
+  .state('home.wizard', {
+    url: "/wizard",
+    views: {
+      'landingContent': {
+        templateUrl: "templates/wizard.html",
+        controller: 'WizardController'
+      }
+    }
+  })
+  .state('home.help', {
+    url: "/help",
+    views: {
+      'landingContent': {
+        templateUrl: "templates/help.html",
+        controller: 'HelpController'
+      }
+    }
+  })
+
 
   .state('app', {
     url: "/app",
@@ -94,8 +111,6 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
     templateUrl: "templates/menu.html",
     controller: 'MapController'
   })
-
-
   .state('app.dashboard', {
     url: "/dashboard",
     views: {
