@@ -47,7 +47,7 @@
             Arah
           </div>
           <div class="item item-text-wrap" style="text-align:center;">
-            <i ng-show="{{!position.heading}}"> Tidak tersedia </i>
+            <i ng-show="{{!position.heading != null}}"> Tidak tersedia </i>
             {{position.heading}}
           </div>
         </div>
@@ -58,7 +58,7 @@
             Kecepatan
           </div>
           <div class="item item-text-wrap" style="text-align:center;">
-            <i ng-show="{{!position.speed}}"> Tidak tersedia </i>
+            <i ng-show="{{position.speed != null}}"> Tidak tersedia </i>
             {{position.speed}}
           </div>
         </div>

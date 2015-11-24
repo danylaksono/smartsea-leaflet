@@ -11,7 +11,7 @@ angular.module('starter').factory('BasemapService', [ function() {
       layerParams: {
         showOnSelector: false
       }
-    } /*
+    },
     surfer: {
       name: "OpenMapSurfer",
       type: "xyz",
@@ -24,7 +24,7 @@ angular.module('starter').factory('BasemapService', [ function() {
       layerParams: {
         showOnSelector: false
       }
-    } */
+    }
   };
 
   return basemapsObj;

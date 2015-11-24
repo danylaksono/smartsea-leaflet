@@ -76,6 +76,7 @@
       };
 
       $scope.watch = $cordovaGeolocation.watchPosition(watchOptions);
+      console.log('Watch ID:', $scope.watch.watchID);
       $scope.watch.then(
         null,
         function(err) {
@@ -134,12 +135,13 @@
     $scope.isWatching = true;
     $scope.toggleGeolocation = function() {
       $scope.isWatching = !$scope.isWatching;
-      console.log($scope.isWatching);
+      console.log("is watching location", $scope.isWatching);
       if ($scope.isWatching) {
         $scope.locateWatch();
         $scope.showToast('Pembaruan posisi aktif', 'short', 'bottom')
       } else {
         $cordovaGeolocation.clearWatch($scope.watch.watchID);
+        console.log('Stop WatchID:', $scope.watch.watchID);
         $scope.showToast('Pembaruan posisi non-aktif', 'short', 'bottom')
       }
     };
@@ -164,7 +166,7 @@
 
     $scope.showToast = function(message, duration, location) {
         $cordovaToast.show(message, duration, location).then(function(success) {
-            console.log("The toast was shown");
+            console.log("activate toast");
         }, function (error) {
             console.log("The toast was not shown due to " + error);
         });
