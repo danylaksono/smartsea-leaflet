@@ -99,6 +99,9 @@
       );
     };
 
+
+
+
     // set the map properties based on position
     $scope.setMap = function(lat, long){
       // label the marker
