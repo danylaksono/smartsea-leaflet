@@ -45,8 +45,17 @@ angular.module('starter').controller('DashboardController', ['$scope',
         method: 'GET',
         url: url
       }).then(function successCallback(response) {
+          //set some variables
+
           $scope.weatherData = response.data;
-          console.log($scope.weatherData)
+
+          console.log($scope.weatherData.main)
+
+
+          $scope.weatherData2 = $scope.weatherData.weather[0];
+          $scope.weatherIcon = 'http://openweathermap.org/img/w/'+ $scope.weatherData2.icon +'.png'
+
+          console.log($scope.weatherIcon)
         }, function errorCallback(response) {
           console.log(response)
         });

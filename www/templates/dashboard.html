@@ -10,7 +10,7 @@
                     <div class="item" style="font-size:15px">
                         {{onlineState}}
                         <i ng-class="{'pull-right icon ion-flash larger balanced': isOnline, 'pull-right icon ion-flash-off larger assertive': !isOnline}"></i>
-                        Status Internet
+                        Status Koneksi Internet
                     </div>
                 </div>
             </div>
@@ -29,34 +29,33 @@
 
             <!------------------ Weather Thumbnail ---------------------->
             <!-- Baru semacam placeholder aja, aku bingung masukin data weathernya -->
-            
+
             <div class="row">
                 <div class="col">
                     <div class="list">
                         <a class="item item-thumbnail-left" href="#">
-                        <img src="../assets/img/cloudy.png">
-                        <h2>Cuaca</h2>
-                        <p>28<sup>o</sup>C
-                        <p>20 km/h</p>
-                        <p>Yogyakarta</p>
+                        <img src="{{weatherIcon}}">
+                        <h2>{{weatherData.name}}</h2>
+                        <i>{{weatherData2.description}}</i>
+                        <p>{{weatherData.main.temp}} <sup>o</sup>C </p>
+                        <p>Kecepatan angin: {{weatherData.wind.speed}} km/jam</p>
                         </p>
                         </a>
                     </div>
 
                 </div>
             </div>
-        
+
         <!------------------ Navigation Thumbnail ---------------------->
-        <!-- sama, belum ta'test apa fungsinya beneran jalan. -->
-            <div class="row">
-                <div class="col">
+            <div class="row" style="padding-bottom:10px">
+                <div class="col" style="padding-bottom:50px">
                     <div class="list">
                         <a class="item item-thumbnail-left">
                         <img src="../assets/img/smartseacompass.svg">
-                        <h2>Berawan</h2>
-                        <p>Arah : Tidak tersedia<br/>
-                        Posisi : {{position.latitude | number:4}}; {{position.longitude | number:4}} <br/>
-                        Kecepatan : <i ng-show="{{!position.speed != null}}"> Tidak tersedia </i> {{position.speed}}
+                        <h2>Navigasi</h2>
+                        <p>Lat: {{position.latitude | number:4}}  <sup>o</sup> &nbsp; Long: {{position.longitude | number:4}} <sup>o</sup></p>
+                        <p>Arah : {{position.heading}} <sup>o</sup></p>
+                        <p>Kecepatan : {{position.speed}} km/jam</p>
                         </p>
                         </a>
                     </div>
@@ -112,7 +111,7 @@
               </div>
             </div>
             ------------------------------------------------------------------------>
-          </div>
+
         </ion-scroll>
     </ion-content>
 
@@ -124,11 +123,11 @@
       <i class="icon ion-android-compass"></i>
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>
-    <a nav-clear class="tab-item disable-user-behavior" title="Map" nav-clear ui-sref="app.map">
+    <a nav-clear class="tab-item disable-user-behavior" title="Peta" nav-clear ui-sref="app.map">
       <i class="icon ion-earth"></i>
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>
-    <a nav-clear class="tab-item disable-user-behavior" title="Help" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.help">
+    <a nav-clear class="tab-item disable-user-behavior" title="Bantuan" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.help">
       <i class="icon ion-help-buoy"></i>
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>
