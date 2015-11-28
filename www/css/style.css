@@ -48,3 +48,25 @@ body {
 .larger {
     font-size: 30px;
 }
+
+/* style buat compass */
+.compasshead
+{
+    position: relative;
+    text-align: center;
+    z-index: 2;
+}
+.compassmain
+{
+    text-align: center;
+    z-index: 1;
+    position: relative;
+    top: -20px;
+}
+.compasstext
+{
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    z-index: 3;
+}

@@ -3,7 +3,7 @@ angular.module('starter').controller('HelpController',
     '$state',
     '$stateParams',
    function($scope, $state, $stateParams, $ionicConfigProvider) {
-
+   
     //$ionicConfigProvider.backButton.previousTitleText(false).text('');
 
 }])
