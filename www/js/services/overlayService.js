@@ -8,6 +8,7 @@ angular.module('starter').factory('OverlayService', [function($scope, $http) {
       text: 'Desa Sleman (Geos)',
       checked: true,
       disabled: true,
+      online: true,
       type: 'wms',
       url: 'http://175.111.91.247:8080/geoserver/smartsea/wms',
       visible: true,
@@ -59,28 +60,6 @@ angular.module('starter').factory('OverlayService', [function($scope, $http) {
       }
     },
 
-    /*
-    klorofil: {
-      name: 'klorofil',
-      text: 'Liputan Klorofil',
-      checked: false,
-      visible: true,
-      type: 'xyz',
-      url: 'http://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_Chlorophyll_A/default/{time}/{tilematrixset}{maxZoom}/{z}/{y}/{x}.{format}',
-      opacity: 0.75,
-      layerOptions: {
-        //attribution: 'Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (<a href="https://earthdata.nasa.gov">ESDIS</a>) with funding provided by NASA/HQ.',
-        minZoom: 1,
-        maxZoom: 7,
-        format: 'png',
-        time: '',
-        tilematrixset: 'GoogleMapsCompatible_Level',
-        opacity: 0.75
-      },
-      layerParams: {
-        showOnSelector: false
-      }
-    },*/
     liputanawan: {
       name: 'liputanawan',
       text: 'Liputan Awan',

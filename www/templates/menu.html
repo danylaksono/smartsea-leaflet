@@ -17,9 +17,8 @@
     <ion-content class="has-header">
       <ion-list>
         <div class="item item-divider item-calm">
-          <i class="icon pull-right" ng-class="isGroupShown(group) ? 'ion-chevron-down' : 'ion-chevron-right'"></i>
-          <i class="icon ion-social-buffer"></i>
-          Layer Layanan (online)
+          <i class="icon ion-social-buffer" style="font-size:20px"></i>
+          Layer Peta
         </div>
         <div class="item item-accordion" ng-show="isGroupShown(group)">
           <ion-checkbox ng-repeat="item in overlaidLayers" ng-checked="item.checked" ng-model="item.checked" ng-change="toggleOverlay(item.name)">
@@ -28,18 +27,18 @@
         </div>
 
         <div class="item item-divider item-calm" style="font-size:15px">
-          <i class="icon pull-right" ng-class="isGroupShown(group) ? 'ion-chevron-down' : 'ion-chevron-right'"></i>
-          <i class="icon ion-social-buffer-outline"></i>
-          Layer lokal
+          <i class="icon ion-speedometer"></i>
+          Pengaturan Peta
         </div>
-        <ion-item ng-click='get_data()'>
-          Unduh Data
+        <ion-item ng-click='addLayer()'>
+          <i class="icon ion-plus-circled larger pull-right balanced"></i> Tambah Layer
         </ion-item>
-        <ion-item href="#/detail">
-          Tampilkan foto
-        </ion-item>
+        <ion-toggle ng-model="airplaneMode2" toggle-class="toggle-balanced">Label peta
+        </ion-toggle>
+        <ion-toggle ng-model="airplaneMode" toggle-class="toggle-balanced">Mode Kursor
+        </ion-toggle>
         <ion-item ng-click='exitApp()'>
-          <i class="icon ion-reply larger"></i> Keluar
+          <i class="icon ion-reply larger pull-right assertive"></i> Keluar
         </ion-item>
 
 

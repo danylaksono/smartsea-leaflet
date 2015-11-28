@@ -1,6 +1,6 @@
 angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordova', 'igTruncate'])
 
-.run(function($ionicPlatform, $rootScope, $ionicPopup, $cordovaNetwork, $location, $ionicHistory) {
+.run(function($ionicPlatform, $rootScope, $ionicPopup, $cordovaNetwork, $cordovaDeviceOrientation, $location, $ionicHistory) {
 
   $ionicPlatform.ready(function() {
 
@@ -11,14 +11,15 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
 
     $rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
       var onlineState = networkState;
-      $rootScope.$broadcast('onlinewith', isOnline);
+      $rootScope.$broadcast('onlinewith', onlineState);
+      alert("Anda online dengan jaringan:", onlineState)
       console.log(onlineState);
     })
 
     // listen for Offline event
     $rootScope.$on('$cordovaNetwork:offline', function(event, networkState) {
       var offlineState = networkState;
-      alert("Anda berada dalam mode offline. Beberapa layer layanan dan fungsi unduh tidak dapat digunakan pada mode ini")
+      alert("Anda berada dalam mode offline")
     })
 
     //check GPS
@@ -30,6 +31,34 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
     }, function(error) {
       console.error("The following error occurred: " + error);
     });
+
+
+
+    //check compass. erroneous on Cordova 3. Waiting for bugfix to apply
+    /*
+    var options = {
+        frequency: 3000,
+        filter: true
+      };
+
+    $cordovaDeviceOrientation.getCurrentHeading(options).then(
+      null,
+      function(err) {
+        console.log(err);
+        alert("kompasmu eror", err)
+      },
+      function(result) { // updates constantly (depending on frequency value)
+        var deg = result.trueHeading;
+        console.log(deg);
+        var magneticHeading = result.magneticHeading;
+        var accuracy = result.headingAccuracy;
+        var timeStamp = result.timestamp;
+      });
+      */
+
+
+
+
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

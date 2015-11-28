@@ -1,71 +1,79 @@
 <ion-view title="Dashboard">
 
+  <!-- smartsea compass icon is taken from: Arrow Up by Pham Thi Dieu Linh from the Noun Project -->
+
   <ion-content>
-    <ion-pane>
-    <div class="row row-no-padding responsive-sm">
-    <div class="card">
-      <div class="item item-divider">
-        Kompas
-      </div>
-      <div class="item item-text-wrap" style="text-align:center;">
-        <div rotate degrees="90">
-          <img class="img-responsive" style="max-height:150px" src="./assets/img/compass.png"></img>
-          <i> {{deg}}</i>
-        </div>
-      </div>
-    </div>
-    </div>
-
-    <div class="row row-no-padding">
-      <div class="col">
-        <div class="card">
-          <div class="item item-divider">
-            Koordinat
-          </div>
-          <div class="item item-text-wrap" style="text-align:center;">
-            {{position.latitude | number:4}}; {{position.longitude | number:4}}
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <div class="item item-divider">
-            Koneksi internet
-          </div>
-          <div class="item item-text-wrap" style="text-align:center;">
-            <p> Terhubung </p>
-
+    <ion-scroll direction="y">
+      <div class="row">
+        <div class="col">
+          <div class="item" style="font-size:15px">
+            Status Internet: {{onlineState}}
+            <i ng-class="{'pull-right icon ion-checkmark-circled larger balanced': isOnline, 'pull-right icon ion-close-circled larger assertive': !isOnline}"></i>
           </div>
         </div>
       </div>
 
-    </div>
-    <div class="row row-no-padding">
-      <div class="col">
-        <div class="card">
-          <div class="item item-divider">
-            Arah
-          </div>
-          <div class="item item-text-wrap" style="text-align:center;">
-            <i ng-show="{{!position.heading != null}}"> Tidak tersedia </i>
-            {{position.heading}}
+      <div class="row row-no-padding">
+        <div class="col">
+          <div rotate degrees="{{deg}}">
+            <img class="img-responsive" style="max-height:100px" src="./assets/img/smartseacompass.svg" />
           </div>
         </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <div class="item item-divider">
-            Kecepatan
-          </div>
-          <div class="item item-text-wrap" style="text-align:center;">
-            <i ng-show="{{position.speed != null}}"> Tidak tersedia </i>
-            {{position.speed}}
+        <div class="col">
+          <div rotate degrees="56">
+            <img class="img-responsive" style="max-height:100px" src="./assets/img/smartseacompass.svg" />
           </div>
         </div>
       </div>
 
-    </div>
-  </ion-pane>
+      <div class="row row-no-padding">
+        <div class="col">
+          <div class="card">
+            <div class="item item-divider">
+              Koordinat
+            </div>
+            <div ng-show="{{!position.latitude != null}}" class="item item-text-wrap" style="text-align:center;">
+              {{position.latitude | number:4}}; {{position.longitude | number:4}}
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="item item-divider">
+              Cuaca
+            </div>
+            <div class="item item-text-wrap" style="text-align:center;">
+              <p> {{$scope.weatherData.weather}}</p>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row row-no-padding">
+        <div class="col">
+          <div class="card">
+            <div class="item item-divider">
+              Arah
+            </div>
+            <div class="item item-text-wrap" style="text-align:center;">
+              <i ng-show="{{!position.heading != null}}"> Tidak tersedia </i> {{position.heading}}
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="item item-divider">
+              Kecepatan
+            </div>
+            <div class="item item-text-wrap" style="text-align:center;">
+              <i ng-show="{{!position.speed != null}}"> Tidak tersedia </i> {{position.speed}}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </ion-scroll>
   </ion-content>
 
 
@@ -85,4 +93,5 @@
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>
   </div>
+
 </ion-view>

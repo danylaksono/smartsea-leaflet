@@ -1,14 +1,43 @@
 <ion-view title="Unduh Data">
-  <ion-nav-bar class="bar bar-stable">
+  <!--ion-nav-bar class="bar bar-stable"-->
     <!--ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i></ion-nav-back-button-->
-  </ion-nav-bar>
+    <ion-header-bar class="bar-stable">
+      <h1 class="title"> Birthdays </h1>
+      <div class="buttons">
+        <button ng-click="showAddBirthdayModal()" class="button button-icon icon ion-plus"></button>
+      </div>
+    </ion-header-bar>
+  <!--/ion-nav-bar-->
   <ion-content>
-
-    <p> Anda belum mengunduh data </p>
-
-
-
-
-
+    <ion-list>
+      <ion-item ng-repeat="b in birthdays" ng-click="showEditBirthdayModal(b)">
+        <div style="float: left">{{ b.Name }}</div>
+        <div style="float: right">{{ b.Date | date:"dd MMMM yyyy" }}</div>
+      </ion-item>
+    </ion-list>
   </ion-content>
+  <script id="add-or-edit-birthday.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar>
+        <h1 class="title">{{ action }} Birthday</h1>
+        <div class="buttons">
+          <button ng-hide="isAdd" ng-click="deleteBirthday()" class="button button-icon icon ion-trash-a"></button>
+        </div>
+      </ion-header-bar>
+      <ion-content>
+        <div class="list list-inset">
+          <label class="item item-input">
+            <input type="text" placeholder="Name" ng-model="birthday.Name">
+          </label>
+          <label class="item item-input">
+            <input type="date" placeholder="Birthday" ng-model="birthday.Date">
+          </label>
+        </div>
+        <div class="padding">
+          <button ng-click="saveBirthday()" class="button button-block button-positive activated">Save</button>
+        </div>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+
 </ion-view>
