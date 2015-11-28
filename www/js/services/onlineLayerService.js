@@ -1,4 +1,4 @@
-angular.module('starter').factory('OverlayService', [function($scope, $http) {
+angular.module('starter').factory('OverlayOnlineService', [function($scope, $http) {
 
 
   var overlayObj = {};
