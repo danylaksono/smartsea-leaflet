@@ -6,9 +6,8 @@
 
 
   <ion-nav-buttons side="right">
-    <button ng-model="isWatching" ng-click="toggleGeolocation()"
-    ng-class="{'button button-icon icon ion-ios-navigate': isWatching, 'button button-icon icon ion-ios-navigate-outline': !isWatching}">
-  </button>
+    <button ng-model="isWatching" ng-click="toggleGeolocation()" ng-class="{'button button-icon icon ion-ios-navigate': isWatching, 'button button-icon icon ion-ios-navigate-outline': !isWatching}">
+    </button>
   </ion-nav-buttons>
 
   <ion-content data-tap-disabled="true">
@@ -17,6 +16,34 @@
 
   </ion-content>
 
+  <script id="contact-modal.html" type="text/ng-template">
+    <div class="modal">
+      <ion-header-bar>
+        <h1 class="title">Edit Contact</h1>
+      </ion-header-bar>
+      <ion-content>
+        <div class="list">
+          <label class="item item-input">
+            <span class="input-label">Name</span>
+            <input type="text" ng-model="contact.name">
+          </label>
+          <label class="item item-input">
+            <span class="input-label">Info</span>
+            <input type="text" ng-model="contact.info">
+          </label>
+        </div>
+
+        <button class="button button-full button-energized" ng-click="closeModal()">Done</button>
+      </ion-content>
+    </div>
+  </script>
+
+
+
+
+
+
+
   <!-- for ion tabs -->
 
   <div class="tabs tabs-calm">
@@ -24,11 +51,11 @@
       <i class="icon ion-android-compass"></i>
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>
-    <a nav-clear class="tab-item disable-user-behavior active" title="Map" nav-clear ui-sref="app.map">
+    <a nav-clear class="tab-item disable-user-behavior active" title="Peta" nav-clear ui-sref="app.map">
       <i class="icon ion-earth"></i>
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>
-    <a nav-clear class="tab-item disable-user-behavior" title="Help" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.help">
+    <a nav-clear class="tab-item disable-user-behavior" title="Bantuan" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.help">
       <i class="icon ion-help-buoy"></i>
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>
