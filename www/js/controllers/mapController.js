@@ -92,7 +92,7 @@
       console.log(data)
       $scope.batassermo = data;
     });
-  });
+  
 
   // dynamic geolocation
   $scope.locateWatch = function() {
@@ -183,7 +183,6 @@
   }
   };
 
-
   $scope.showAlert = function(title, message) {
   var alertPopup = $ionicPopup.alert({
     title: title,
@@ -198,7 +197,6 @@
     console.log("The toast was not shown due to " + error);
   });
   };
-
 
   $scope.exitApp = function() {
   var confirmPopup = $ionicPopup.confirm({
