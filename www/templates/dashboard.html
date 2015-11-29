@@ -21,7 +21,7 @@
                     <div class="compasshead"> <!-- ini yang diem -->
                         <img class="img-reponsive" style="max-height:70px" src="./assets/img/compass-head.png"/>
                     </div>
-                    <div class="compassmain" rotate degrees="{{deg}}"> <!-- ini yang gerak -->
+                    <div class="compassmain" rotate degrees="{{position.heading}}"> <!-- ini yang gerak -->
                         <img class="img-responsive" style="max-height:200px" src="./assets/img/compass-main.png" />
                     </div>
                 </div>
@@ -51,66 +51,17 @@
                 <div class="col" style="padding-bottom:50px">
                     <div class="list">
                         <a class="item item-thumbnail-left">
-                        <img src="../assets/img/smartseacompass.svg">
+                        <img src="./assets/img/smartseacompass.svg">
                         <h2>Navigasi</h2>
                         <p>Lat: {{position.latitude | number:4}}  <sup>o</sup> &nbsp; Long: {{position.longitude | number:4}} <sup>o</sup></p>
                         <p>Arah : {{position.heading}} <sup>o</sup></p>
-                        <p>Kecepatan : {{position.speed}} km/jam</p>
+                        <p>Kecepatan : {{position.speed | number:3}} km/jam</p>
                         </p>
                         </a>
                     </div>
 
                 </div>
             </div>
-
-        <!--------------- Kalo yang atas udah bisa jalan, berarti yang di bawah nggak usah aja kali ya?
-          <div class="row row-no-padding">
-            <div class="col">
-              <div class="card">
-                <div class="item item-divider">
-                  Koordinat
-                </div>
-                <div ng-show="{{!position.latitude != null}}" class="item item-text-wrap" style="text-align:center;">
-                  {{position.latitude | number:4}}; {{position.longitude | number:4}}
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card">
-                <div class="item item-divider">
-                  Cuaca
-                </div>
-                <div class="item item-text-wrap" style="text-align:center;">
-                  <p> {{$scope.weatherData.weather}}</p>
-
-                  </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="row row-no-padding">
-            <div class="col">
-              <div class="card">
-                <div class="item item-divider">
-                  Arah
-                </div>
-                <div class="item item-text-wrap" style="text-align:center;">
-                  <i ng-show="{{!position.heading != null}}"> Tidak tersedia </i> {{position.heading}}
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card">
-                <div class="item item-divider">
-                  Kecepatan
-                </div>
-                <div class="item item-text-wrap" style="text-align:center;">
-                  <i ng-show="{{!position.speed != null}}"> Tidak tersedia </i> {{position.speed}}
-                </div>
-              </div>
-            </div>
-            ------------------------------------------------------------------------>
 
         </ion-scroll>
     </ion-content>
