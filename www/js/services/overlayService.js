@@ -2,6 +2,7 @@ angular.module('starter').factory('OverlayService', [function($scope, $http) {
 
 
   var overlayObj = {};
+  //overlayObj.localLayers = {};
   overlayObj.savedLayers = {
     batasdesa: {
       name: 'batasdesa',
