@@ -76,24 +76,71 @@
 
     */
 
+    $http.get("./assets/localStorage/dummy.geojson").success(function(data, status) {
+        /*OverlayService.localLayers['dummy'] = {*/
+        $scope.map.layers.overlays['dummy'] = {
+            name:'Dummyzone',
+            text:'Dummy Zone',
+            checked: false,
+            disabled: true,
+            type: 'geoJSONShape',
+            data: data,
+            visible: true,
+            layerOptions: {
+                style: {
+                    color: '#00D',
+                    fillColor: 'red',
+                    weight: 2.0,
+                    opacity: 0.6,
+                    fillOpacity: 0.2
+                }
+            }            
+        };
+    });
+        
     $scope.basemapLayers = BasemapService.savedLayers;
     $scope.overlaidLayers = OverlayService.savedLayers;
+    /*$scope.localLayers = OverlayService.localLayers;*/
     angular.extend($scope.map.layers.baselayers, $scope.basemapLayers);
     $scope.overlayer = $scope.map.layers.overlays;
+
+    //testing local storage. will be implemented as login succeeded
+    // ---- KRB merapi
+    /*$http.get("./assets/localStorage/dummy.geojson").success(function(data, status) {
+        angular.extend($scope.overlayer, {
+            dummy: {
+                name:'Dummyzone',
+                text:'Dummy Zone',
+                checked: false,
+                disabled: true,
+                type: 'geoJSONShape',
+                data: data,
+                visible: true,
+                layerOptions: {
+                    style: {
+                        color: '#00D',
+                        fillColor: 'red',
+                        weight: 2.0,
+                        opacity: 0.6,
+                        fillOpacity: 0.2
+                    }
+                }
+            }
+        });
+    });*/
+
     angular.forEach($scope.overlaidLayers, function(value, key) {
       if ($scope.overlaidLayers[key].checked) {
         $scope.overlayer[key] = $scope.overlaidLayers[key];
       }
     });
-
-    //testing local storage. will be implemented as login succeeded
-
-    $http.get("./assets/localStorage/batassermo.geojson").success(function(data, status) {
-      console.log(data)
-      $scope.batassermo = data;
-    });
-  
-
+    // for local layer
+    /*angular.forEach($scope.localLayers, function(value, key) {
+      if ($scope.localLayers[key].checked) {
+        $scope.overlayer[key] = $scope.localLayers[key];
+      }
+    });*/    
+        
   // dynamic geolocation
   $scope.locateWatch = function() {
   console.log('Activate watch location');
@@ -118,8 +165,8 @@
       $rootScope.$broadcast('someEvent', position.coords);
       $scope.map.center.lat = position.coords.latitude;
       $scope.map.center.lng = position.coords.longitude;
-      $scope.map.center.zoom = 14;
-
+      $scope.map.center.zoom = 16;
+        $scope.currentPos = [position.coords.latitude, position.coords.longitude];
       //set the map with these values
       $scope.setMap($scope.map.center.lat, $scope.map.center.lng);
     }
@@ -135,6 +182,23 @@
   var positionLabel = positionLabelLat + "; " + positionLabelLng;
   //console.log(positionLabel);
 
+  //current position as Geojson point
+  var currentPos = {
+        "type" : "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [positionLabelLat, positionLabelLng]
+        },
+        "properties": {
+            "name": "Current Position"
+        }
+  }
+  // try calling in dummy zone
+  var overLayingZone = $scope.map.layers.overlays['dummy'];
+  var overLayingAdmin = OverlayService.savedLayers['batasdesa']
+  // turf tag operation
+  //var tagged = turf.tag(currentPos, overLayingAdmin,'zone', 'abb');
+  
   $scope.map.markers.now = {
     lat: lat,
     lng: long,

@@ -16,8 +16,9 @@
     </header>
     <ion-content class="has-header">
       <ion-list>
+        
         <div class="item item-divider item-calm">
-          <i class="icon ion-social-buffer" style="font-size:20px"></i>
+          <i class="icon ion-social-buffer" style="font-size:20px"> </i>
           Layer Peta
         </div>
         <div class="item item-accordion" ng-show="isGroupShown(group)">
@@ -25,9 +26,20 @@
             {{ item.text }}
           </ion-checkbox>
         </div>
+        
+        <!-- Local Layers  
+        <div class="item item-divider item-calm">
+            <i class="icon ion-ios-cloud-download" style="font-size:20px"> </i>
+             Layer Offline
+        </div>
+        <div class="item item-accordion" ng-show="isGroupShown(group)">
+            <ion-checkbox ng-repeat="item in localLayers" ng-checked="item.checked" ng-model="item.checked" ng-change="toggleOverlay(item.name)">
+                {{ item.text }}
+            </ion-checkbox>
+        </div> -->
 
         <div class="item item-divider item-calm" style="font-size:15px">
-          <i class="icon ion-settings"></i>
+          <i class="icon ion-settings"> </i>
           Pengaturan Peta
         </div>
         <ion-item ng-click='addLayer()'>
