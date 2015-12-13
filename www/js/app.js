@@ -35,27 +35,17 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
 
     //check compass. erroneous on Cordova 3. Waiting for bugfix to apply
     /*
-    var options = {
-        frequency: 3000,
-        filter: true
-      };
+    $cordovaDeviceOrientation.getCurrentHeading().then(function(result) {
+      var magneticHeading = result.magneticHeading;
+      console.log("magnetic", magneticHeading)
+      var trueHeading = result.trueHeading;
+      var accuracy = result.headingAccuracy;
+      var timeStamp = result.timestamp;
+    }, function(err) {
+      console.log("The following error occurred: " + err);
+    });
 
-    $cordovaDeviceOrientation.getCurrentHeading(options).then(
-      null,
-      function(err) {
-        console.log(err);
-        alert("kompasmu eror", err)
-      },
-      function(result) { // updates constantly (depending on frequency value)
-        var deg = result.trueHeading;
-        console.log(deg);
-        var magneticHeading = result.magneticHeading;
-        var accuracy = result.headingAccuracy;
-        var timeStamp = result.timestamp;
-      });
-      */
-
-
+    */
 
 
 
@@ -105,49 +95,49 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
   })
 
   .state('home.landing', {
-    url: "/landing",
-    views: {
-      'landingContent': {
-        templateUrl: "templates/landing.html",
-        controller: 'HomeController'
+      url: "/landing",
+      views: {
+        'landingContent': {
+          templateUrl: "templates/landing.html",
+          controller: 'HomeController'
+        }
       }
-    }
-  })
-  .state('home.wizard', {
-    url: "/wizard",
-    views: {
-      'landingContent': {
-        templateUrl: "templates/wizard.html",
-        controller: 'WizardController'
+    })
+    .state('home.wizard', {
+      url: "/wizard",
+      views: {
+        'landingContent': {
+          templateUrl: "templates/wizard.html",
+          controller: 'WizardController'
+        }
       }
-    }
-  })
-  .state('home.help', {
-    url: "/help",
-    views: {
-      'landingContent': {
-        templateUrl: "templates/help.html",
-        controller: 'HelpController'
+    })
+    .state('home.help', {
+      url: "/help",
+      views: {
+        'landingContent': {
+          templateUrl: "templates/help.html",
+          controller: 'HelpController'
+        }
       }
-    }
-  })
+    })
 
 
   .state('app', {
-    url: "/app",
-    abstract: true,
-    templateUrl: "templates/menu.html",
-    controller: 'MapController'
-  })
-  .state('app.dashboard', {
-    url: "/dashboard",
-    views: {
-      'mainContent': {
-        templateUrl: "templates/dashboard.html",
-        controller: 'DashboardController'
+      url: "/app",
+      abstract: true,
+      templateUrl: "templates/menu.html",
+      controller: 'MapController'
+    })
+    .state('app.dashboard', {
+      url: "/dashboard",
+      views: {
+        'mainContent': {
+          templateUrl: "templates/dashboard.html",
+          controller: 'DashboardController'
+        }
       }
-    }
-  })
+    })
 
   .state('app.map', {
     url: "/map",
