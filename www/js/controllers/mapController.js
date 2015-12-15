@@ -186,7 +186,9 @@
         // label the marker
         var positionLabelLat = $filter('number')(lat, 4);
         var positionLabelLng = $filter('number')(long, 4);
-        var positionLabel = positionLabelLat + "; " + positionLabelLng;
+        //var positionLabel = positionLabelLat + "; " + positionLabelLng;
+        var connectionStatus = null;
+          var positionLabel = "Zone : " + connectionStatus;
         //console.log(positionLabel);
 
         //current position as Geojson point
