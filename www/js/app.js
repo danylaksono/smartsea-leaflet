@@ -33,6 +33,35 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
 
 
 
+    if (navigator.fusion) {
+      console.log('SensorFusion available.');
+
+      function success(result) {
+        alert('new Mode: ' + result);
+      };
+
+      function err(error) {
+        alert('Error: ' + error);
+      };
+
+
+      navigator.fusion.setMode(onSuccess, onError, 5);
+
+      navigator.fusion.watchSensorFusion(function(result) {
+        console.log(result)
+        $rootScope.$broadcast('sensorvalue', result);
+      }, function(err) {
+        console.log('error', err);
+      }, {
+        frequency: 10
+      });
+    };
+
+
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+
     //check compass. erroneous on Cordova 3. Waiting for bugfix to apply
     /*
     $cordovaDeviceOrientation.getCurrentHeading().then(function(result) {

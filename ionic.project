@@ -1,4 +1,11 @@
 {
   "name": "smartsea-leaflet",
-  "app_id": "da0fd176"
+  "app_id": "da0fd176",
+  "browsers": [
+    {
+      "platform": "android",
+      "browser": "crosswalk",
+      "version": "12.41.296.5"
+    }
+  ]
 }

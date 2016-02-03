@@ -11,8 +11,28 @@ angular.module('starter').controller('DashboardController', ['$scope',
   ) {
 
 
+    document.addEventListener("deviceready", function () {
+      var options = {
+        frequency: 500
+      }
+      var watch = $cordovaDeviceOrientation.watchHeading(options).then(
+        null,
+        function(error){
+          console.log(error)
+        },
+        function(result){
+          $scope.mag = result.magneticHeading;
+          console.log($scope.mag);
+        }
+      )
+    });
+
+
     // Preconfigured value for compass heading
-    $scope.deg = 0;
+    $scope.$on('sensorvalue', function(event, value) {
+      console.log('sensorvalue', value);
+      $scope.deg = value;
+    });
 
     //watch broadcasted event from rootScope
 
@@ -32,7 +52,7 @@ angular.module('starter').controller('DashboardController', ['$scope',
       $scope.position = data;
 
       // Redefine heading
-      $scope.deg = $scope.position.heading;
+      //$scope.deg = 360-$scope.position.heading;
 
       //define lat and long for weather API
       $scope.lat = $filter('number')($scope.position.latitude,2);
