@@ -76,8 +76,8 @@
 
       */
 
-      /*
-      $http.get("./assets/localStorage/rencanapolaruang.geojson").success(function(data, status) {
+      
+      $http.get("./assets/localStorage/alokasi_ruang_simplify_wgs.geojson").success(function(data, status) {
         //OverlayService.localLayers['dummy'] = {
         $scope.map.layers.overlays['dummy'] = {
           name: 'Dummyzone',
@@ -99,7 +99,7 @@
         };
       });
 
-      */
+      
 
       $scope.basemapLayers = BasemapService.savedLayers;
       $scope.overlaidLayers = OverlayService.savedLayers;
@@ -186,7 +186,9 @@
         // label the marker
         var positionLabelLat = $filter('number')(lat, 4);
         var positionLabelLng = $filter('number')(long, 4);
-        var positionLabel = positionLabelLat + "; " + positionLabelLng;
+        //var positionLabel = positionLabelLat + "; " + positionLabelLng;
+        var connectionStatus = null;
+          var positionLabel = "Zona : " + connectionStatus;
         //console.log(positionLabel);
 
         //current position as Geojson point
@@ -202,10 +204,33 @@
           }
           // try calling in dummy zone
         var overLayingZone = $scope.map.layers.overlays['dummy'];
-        var overLayingAdmin = OverlayService.savedLayers['batasdesa']
+        var overLayingAdmin = OverlayService.savedLayers['batasdesa'];
           // turf tag operation
           //var tagged = turf.tag(currentPos, overLayingAdmin,'zone', 'abb');
-
+        
+          $scope.$on("leafletDirectiveMap.click",function(event, args){
+              var leafEvent = args.leafletEvent;
+              var tapLat = leafEvent.latlng.lat;
+              var tapLong = leafEvent.latlng.lng;
+              posMessage = tapLat + ' , ' + tapLong;
+              
+                $scope.map.markers.tap = {
+                    lat: tapLat,
+                    lng: tapLong,
+                    message: posMessage,  
+                    focus: false,   
+                    draggable: false,
+                    icon: {
+                        iconUrl: './assets/ferry.png',
+                        color: '#00f',
+                        size: "l",
+                        iconAnchor: [10, 10],
+                        }
+                }
+              
+          });
+  
+          
         $scope.map.markers.now = {
           lat: lat,
           lng: long,
@@ -216,7 +241,7 @@
               direction: 'auto'
             }
           },
-          focus: true,
+          focus: false,
           draggable: false,
           icon: {
             iconUrl: './assets/ferry.png',

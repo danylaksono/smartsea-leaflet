@@ -4,7 +4,7 @@ angular.module('starter').factory('OverlayService', [function($scope, $http) {
   var overlayObj = {};
   //overlayObj.localLayers = {};
   overlayObj.savedLayers = {
-    batasdesa: {
+    /*batasdesa: {
       name: 'batasdesa',
       text: 'Batas Administrasi',
       checked: true,
@@ -60,7 +60,7 @@ angular.module('starter').factory('OverlayService', [function($scope, $http) {
       layerParams: {
         showOnSelector: false
       }
-    }
+    }*/
 
   };
 
