@@ -5,6 +5,8 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
   $ionicPlatform.ready(function() {
 
     //check network
+    // turn this off, implementing deviceready event in controller aside from broadcasting
+    /*
     var isOnline = $cordovaNetwork.isOnline()
     $rootScope.$broadcast('onlinestate', isOnline);
     var isOffline = $cordovaNetwork.isOffline()
@@ -21,6 +23,8 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
       alert("Anda berada dalam mode offline")
     })
 
+    */
+
     //check GPS
     cordova.plugins.diagnostic.isLocationEnabled(function(enabled) {
       if (!enabled) {
@@ -30,52 +34,6 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
     }, function(error) {
       console.error("The following error occurred: " + error);
     });
-
-
-
-    if (navigator.fusion) {
-      console.log('SensorFusion available.');
-
-      function success(result) {
-        alert('new Mode: ' + result);
-      };
-
-      function err(error) {
-        alert('Error: ' + error);
-      };
-
-
-      navigator.fusion.setMode(onSuccess, onError, 5);
-
-      navigator.fusion.watchSensorFusion(function(result) {
-        console.log(result)
-        $rootScope.$broadcast('sensorvalue', result);
-      }, function(err) {
-        console.log('error', err);
-      }, {
-        frequency: 10
-      });
-    };
-
-
-
-    document.addEventListener("deviceready", onDeviceReady, false);
-
-
-    //check compass. erroneous on Cordova 3. Waiting for bugfix to apply
-    /*
-    $cordovaDeviceOrientation.getCurrentHeading().then(function(result) {
-      var magneticHeading = result.magneticHeading;
-      console.log("magnetic", magneticHeading)
-      var trueHeading = result.trueHeading;
-      var accuracy = result.headingAccuracy;
-      var timeStamp = result.timestamp;
-    }, function(err) {
-      console.log("The following error occurred: " + err);
-    });
-
-    */
-
 
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

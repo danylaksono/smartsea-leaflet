@@ -2,6 +2,7 @@
     '$rootScope',
     '$cordovaGeolocation',
     '$cordovaToast',
+    '$cordovaSQLite',
     '$stateParams',
     '$ionicPopup',
     '$filter',
@@ -13,6 +14,7 @@
       $rootScope,
       $cordovaGeolocation,
       $cordovaToast,
+      $cordovaSQLite,
       $stateParams,
       $ionicPopup,
       $filter,
@@ -24,6 +26,28 @@
       // $ ionic build android
       // $ adb -d install -r D:\_androidApp\smartsea-leaflet\platforms\android\build\outputs\apk\android-debug.apk
 
+      document.addEventListener("deviceready", function() {
+        //db = $cordovaSQLite.openDB({name:"./assets/test.mbtiles"});
+        var db = window.sqlitePlugin.openDatabase({name:"./assets/test.mbtiles", location: 1},
+          function (suc) {
+            console.log(suc)
+          },
+          function (err) {
+            console.log(err)
+          }
+        );
+        var query =  "SELECT DISTINCT zoom_level FROM tiles ORDER BY zoom_level;" //DESC LIMIT 1;"
+        //$cordovaSQLite.execute(db, query, []).then(function(res) {
+        db.executeSql(query, [], function(res){
+               console.log("SELECTED -> " + JSON.Stringify(res));
+       }, function (err) {
+           console.error(err);
+       });
+
+       db.close(successcb, errorcb);
+
+      });
+
       $scope.$on("$stateChangeSuccess", function() {
         console.log('Platform state changed');
         $scope.locateWatch();
@@ -34,7 +58,6 @@
         $scope.isOnline = isonline;
         console.log($scope.isOnline);
       })
-
 
       // Initialize Map Settings
       $scope.map = {
@@ -76,7 +99,10 @@
 
       */
 
-      
+
+
+
+
       $http.get("./assets/localStorage/alokasi_ruang_simplify_wgs.geojson").success(function(data, status) {
         //OverlayService.localLayers['dummy'] = {
         $scope.map.layers.overlays['dummy'] = {
@@ -99,7 +125,7 @@
         };
       });
 
-      
+
 
       $scope.basemapLayers = BasemapService.savedLayers;
       $scope.overlaidLayers = OverlayService.savedLayers;
@@ -170,7 +196,7 @@
             //set the map with these values
             $scope.setMap(position.coords.latitude, position.coords.longitude);
 
-            $scope.zoomToLocation = function (lat,long){
+            $scope.zoomToLocation = function(lat, long) {
               $scope.map.center.lat = position.coords.latitude;
               $scope.map.center.lng = position.coords.longitude;
               $scope.map.center.zoom = 16;
@@ -188,7 +214,7 @@
         var positionLabelLng = $filter('number')(long, 4);
         //var positionLabel = positionLabelLat + "; " + positionLabelLng;
         var connectionStatus = null;
-          var positionLabel = "Zona : " + connectionStatus;
+        var positionLabel = "Zona : " + connectionStatus;
         //console.log(positionLabel);
 
         //current position as Geojson point
@@ -205,32 +231,32 @@
           // try calling in dummy zone
         var overLayingZone = $scope.map.layers.overlays['dummy'];
         var overLayingAdmin = OverlayService.savedLayers['batasdesa'];
-          // turf tag operation
-          //var tagged = turf.tag(currentPos, overLayingAdmin,'zone', 'abb');
-        
-          $scope.$on("leafletDirectiveMap.click",function(event, args){
-              var leafEvent = args.leafletEvent;
-              var tapLat = leafEvent.latlng.lat;
-              var tapLong = leafEvent.latlng.lng;
-              posMessage = tapLat + ' , ' + tapLong;
-              
-                $scope.map.markers.tap = {
-                    lat: tapLat,
-                    lng: tapLong,
-                    message: posMessage,  
-                    focus: false,   
-                    draggable: false,
-                    icon: {
-                        iconUrl: './assets/ferry.png',
-                        color: '#00f',
-                        size: "l",
-                        iconAnchor: [10, 10],
-                        }
-                }
-              
-          });
-  
-          
+        // turf tag operation
+        //var tagged = turf.tag(currentPos, overLayingAdmin,'zone', 'abb');
+
+        $scope.$on("leafletDirectiveMap.click", function(event, args) {
+          var leafEvent = args.leafletEvent;
+          var tapLat = leafEvent.latlng.lat;
+          var tapLong = leafEvent.latlng.lng;
+          posMessage = tapLat + ' , ' + tapLong;
+
+          $scope.map.markers.tap = {
+            lat: tapLat,
+            lng: tapLong,
+            message: posMessage,
+            focus: false,
+            draggable: false,
+            icon: {
+              iconUrl: './assets/ferry.png',
+              color: '#00f',
+              size: "l",
+              iconAnchor: [10, 10],
+            }
+          }
+
+        });
+
+
         $scope.map.markers.now = {
           lat: lat,
           lng: long,
