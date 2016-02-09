@@ -25,28 +25,37 @@
 
       // $ ionic build android
       // $ adb -d install -r D:\_androidApp\smartsea-leaflet\platforms\android\build\outputs\apk\android-debug.apk
-
+      /*
       document.addEventListener("deviceready", function() {
         //db = $cordovaSQLite.openDB({name:"./assets/test.mbtiles"});
-        var db = window.sqlitePlugin.openDatabase({name:"./assets/test.mbtiles", location: 1},
-          function (suc) {
+        var db = window.sqlitePlugin.openDatabase({
+            name: "./assets/test.mbtiles",
+            location: 1
+          },
+          function(suc) {
             console.log(suc)
           },
-          function (err) {
+          function(err) {
             console.log(err)
           }
         );
-        var query =  "SELECT DISTINCT zoom_level FROM tiles ORDER BY zoom_level;" //DESC LIMIT 1;"
+        //var query =  "SELECT DISTINCT zoom_level FROM tiles ORDER BY zoom_level;" //DESC LIMIT 1;"
         //$cordovaSQLite.execute(db, query, []).then(function(res) {
-        db.executeSql(query, [], function(res){
-               console.log("SELECTED -> " + JSON.Stringify(res));
-       }, function (err) {
-           console.error(err);
-       });
+        db.executeSql(query, [], function(res) {
+          console.log("SELECTED -> " + JSON.Stringify(res));
+        }, function(err) {
+          console.error(err);
+        });
 
-       db.close(successcb, errorcb);
-
+        db.close(function(suc) {
+            console.log(suc)
+          },
+          function(err) {
+            console.log(err)
+          });
       });
+      */
+
 
       $scope.$on("$stateChangeSuccess", function() {
         console.log('Platform state changed');
@@ -99,11 +108,82 @@
 
       */
 
+      /*
+      function drawingOnCanvas(canvasOverlay, params) {
+
+            var bounds = params.bounds;
+            params.tilePoint.z = params.zoom;
+
+            var ctx = params.canvas.getContext('2d');
+            ctx.globalCompositeOperation = 'source-over';
+
+
+            console.log('getting tile z' + params.tilePoint.z + '-' + params.tilePoint.x + '-' + params.tilePoint.y);
+
+            var tile = tileIndex.getTile(params.tilePoint.z, params.tilePoint.x, params.tilePoint.y);
+            if (!tile) {
+                console.log('tile empty');
+                return;
+            }
+
+            ctx.clearRect(0, 0, params.canvas.width, params.canvas.height);
+
+            var features = tile.features;
+
+            ctx.strokeStyle = 'grey';
+
+
+            for (var i = 0; i < features.length; i++) {
+                var feature = features[i],
+                    type = feature.type;
+
+                ctx.fillStyle = feature.tags.color ? feature.tags.color : 'rgba(255,0,0,0.05)';
+                ctx.beginPath();
+
+                for (var j = 0; j < feature.geometry.length; j++) {
+                    var geom = feature.geometry[j];
+
+                    if (type === 1) {
+                        ctx.arc(geom[0] * ratio + pad, geom[1] * ratio + pad, 2, 0, 2 * Math.PI, false);
+                        continue;
+                    }
+
+                    for (var k = 0; k < geom.length; k++) {
+                        var p = geom[k];
+                        var extent = 4096;
+
+                        var x = p[0] / extent * 256;
+                        var y = p[1] / extent * 256;
+                        if (k) ctx.lineTo(x  + pad, y   + pad);
+                        else ctx.moveTo(x  + pad, y  + pad);
+                    }
+                }
+
+                if (type === 3 || type === 1) ctx.fill('evenodd');
+                ctx.stroke();
+            }
+
+        };
+        */
 
 
 
+      $http.get("./assets/localStorage/jogja.geojson").success(function(data, status) {
 
-      $http.get("./assets/localStorage/alokasi_ruang_simplify_wgs.geojson").success(function(data, status) {
+        var tileIndex = geojsonvt(data);
+        console.log(tileIndex)
+        var tile = tileIndex.getTile(1, 1, 1);
+        console.log(tile.features[1].geometry)
+        var turfing = turf.polygon(tile.features[1].geometry, {
+          "fill": "#6BC65F",
+          "crs": "WGS84",
+          "stroke": "#6BC65F",
+          "stroke-width": 5
+        })
+        var p = turf.featurecollection([turfing]);
+        console.log(p)
+        console.log(data)
+
         //OverlayService.localLayers['dummy'] = {
         $scope.map.layers.overlays['dummy'] = {
           name: 'Dummyzone',
@@ -111,7 +191,7 @@
           checked: false,
           disabled: true,
           type: 'geoJSONShape',
-          data: data,
+          data: p,
           visible: true,
           layerOptions: {
             style: {
@@ -124,7 +204,6 @@
           }
         };
       });
-
 
 
       $scope.basemapLayers = BasemapService.savedLayers;
@@ -201,8 +280,6 @@
               $scope.map.center.lng = position.coords.longitude;
               $scope.map.center.zoom = 16;
             }
-
-
           }
         );
       };
