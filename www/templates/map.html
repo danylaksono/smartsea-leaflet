@@ -6,15 +6,13 @@
 
 
   <ion-nav-buttons side="right">
-    <!--button ng-model="isWatching" ng-click="toggleGeolocation()" ng-class="{'button button-icon icon ion-ios-navigate': isWatching, 'button button-icon icon ion-ios-navigate-outline': !isWatching}"-->
-    <button ng-click="zoomToLocation()" class="button button-icon icon ion-pinpoint">
+    <button ng-model="isWatching" ng-click="toggleGeolocation()" ng-class="{'button button-icon icon ion-ios-navigate': isWatching, 'button button-icon icon ion-ios-navigate-outline': !isWatching}">
+    <!--button ng-click="zoomToLocation()" class="button button-icon icon ion-pinpoint"-->
     </button>
   </ion-nav-buttons>
 
   <ion-content data-tap-disabled="true">
-
     <leaflet defaults="map.defaults" center="map.center" layers="map.layers" markers="map.markers" ng-if="map"></leaflet>
-
   </ion-content>
 
   <script id="contact-modal.html" type="text/ng-template">
