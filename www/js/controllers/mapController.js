@@ -2,10 +2,13 @@
     '$rootScope',
     '$cordovaGeolocation',
     '$cordovaToast',
+    '$cordovaSQLite',
     '$stateParams',
     '$ionicPopup',
     '$filter',
     '$http',
+    'localStorage',
+    'leafletData',
     'BasemapService',
     'OverlayService',
     function(
@@ -13,10 +16,13 @@
       $rootScope,
       $cordovaGeolocation,
       $cordovaToast,
+      $cordovaSQLite,
       $stateParams,
       $ionicPopup,
       $filter,
       $http,
+      localStorage,
+      leafletData,
       BasemapService,
       OverlayService
     ) {
@@ -25,15 +31,15 @@
       // $ adb -d install -r D:\_androidApp\smartsea-leaflet\platforms\android\build\outputs\apk\android-debug.apk
 
       $scope.$on("$stateChangeSuccess", function() {
-        console.log('Platform state changed');
+        //console.log('Platform state changed');
         $scope.locateWatch();
       });
 
       // watch network connection state
       $scope.$on('onlinestate', function(event, isonline) {
         $scope.isOnline = isonline;
-        console.log($scope.isOnline);
-      })
+        //console.log($scope.isOnline);
+      });
 
 
       // Initialize Map Settings
@@ -57,111 +63,145 @@
       };
 
 
+      // getting data
+      $http.get("./assets/localStorage/alokasi_ruang_batang.geojson")
+        .success(function(data) {
+          localStorage.setObject('zona', data);
+        });
 
-      /*
-      http://175.111.91.247:8001/geoserver/geonode/wms?service=WMS&version=1.1.0&request=GetFeatureInfo&layers=geonode:layertataruanglaut&styles=&bbox=401800.2834385319,9134660.160813307,403303.3296813526,9135787.445495423&width=768&height=576&srs=EPSG:32749&info_format=application/json&query_layers=geonode:layertataruanglaut&x=402558&y=9135207
-      var getfiurl = '175.111.91.247:8001/geoserver/wms?service=wms& \
-      version=1.1.1&request=GetFeatureInfo&info_format=application/json& \
-      layers=geonode:layertataruanglaut&x=402558&y=9135207& \
-      query_layers=geonode:layertataruanglaut'
+      $scope.geojsonzone = localStorage.getObject('zona');
 
-      $http({
-        method: 'GET',
-        url: getfiurl
-      }).then(function successCallback(response) {
-        console.log(response);
-      }, function errorCallback(response) {
-        console.log('err', response);
-      });
+      $scope.activateLegend = false;
+      $scope.showLegend = function() {
+        $scope.activateLegend = !$scope.activateLegend;
+        if ($scope.activateLegend) {
+          $scope.legend = {
+            position: 'topright',
+            colors:
+            [
+              "#ff0000"	,
+              "#ff00e1"	,
+              "#e59f7e"	,
+              "#f02e3e"	,
+              "#bed319"	,
+              "#3fdaae"	,
+              "#0e6dd2"	,
+              "#7fc93a"	,
+              "#e3ad25"	,
+              "#6add8e"	,
+              "#9376cf"	,
+              "#42de34"	,
+              "#eb84df"
+            ],
+            labels:
+            [
+              'SZ Budidaya Laut',
+              'SZ Penangkapan Ikan IA (0-2 mil)',
+              'SZ Penangkapan Ikan IB (2-4 mil)',
+              'SZ Penunjang Kawasan Peruntukan Industri',
+              'SZ Lindung Karang Maeso(ZIKM)',
+              'SZ Penyangga Zona Inti (ZTPI)',
+              'SZ Pelabuhan Niaga',
+              'SZ Rehabilitasi Hutan Pantai',
+              'SZ Rehabilitasi Mangrove (ZTRM)',
+              'SZ Rehabilitasi Mangrove(ZRTM)',
+              'SZ Situs Budaya',
+              'SZ Wisata Bahari',
+              'Zona Lainnya (ZL-A)'
+            ]
+          };
+        } else {
+          $scope.legend = null;
+        }
+      };
 
-      */
 
-      
-      $http.get("./assets/localStorage/alokasi_ruang_simplify_wgs.geojson").success(function(data, status) {
-        //OverlayService.localLayers['dummy'] = {
-        $scope.map.layers.overlays['dummy'] = {
-          name: 'Dummyzone',
-          text: 'Dummy Zone',
-          checked: false,
-          disabled: true,
+
+
+
+      //console.log('content of ', $scope.geojsonzone);
+      var jsonlib = {
+        zona: {
+          name: 'polaruang',
+          text: 'Pola Ruang',
+          checked: true,
+          disabled: false,
           type: 'geoJSONShape',
-          data: data,
+          data: $scope.geojsonzone,
           visible: true,
           layerOptions: {
-            style: {
-              color: '#00D',
-              fillColor: 'red',
+            style: function(feature){
+              switch(feature.properties.Sub_Zona){
+                case 'SZ Budidaya Laut': return {color: "#ff0000"};
+                case 'SZ Penangkapan Ikan IA (0-2 mil)': return {color: "#ff00e1"};
+                case 'SZ Penangkapan Ikan IB (2-4 mil)': return {color: "#e59f7e"};
+                case 'SZ Penunjang Kawasan Peruntukan Industri': return {color: "#f02e3e"};
+                case 'SZ Lindung Karang Maeso(ZIKM)': return {color: "#bed319"};
+                case 'SZ Penyangga Zona Inti (ZTPI)': return {color: "#3fdaae"};
+                case 'SZ Pelabuhan Niaga': return {color: "#0e6dd2"};
+                case 'SZ Rehabilitasi Hutan Pantai': return {color: "#7fc93a"};
+                case 'SZ Rehabilitasi Mangrove (ZTRM)': return {color: "#e3ad25"};
+                case 'SZ Rehabilitasi Mangrove(ZRTM)': return {color: "#6add8e"};
+                case 'SZ Situs Budaya': return {color: "#9376cf"};
+                case 'SZ Wisata Bahari': return {color: "#42de34"};
+                case 'Zona Lainnya (ZL-A)': return {color: "#eb84df", opacity:100};
+                return {
+                  weight: 1,
+                  opacity: 1,
+                  //color: 'white',
+                  dashArray: '3',
+                  fillOpacity: 1
+                };
+              }
+            },
+            /*style: {
+              //color: '#00D',
+              //color: 'red',
               weight: 2.0,
               opacity: 0.6,
-              fillOpacity: 0.2
+              //fillOpacity: 0.2,
+            }, */
+              showOnSelector: false
+            },
+            layerParams: {
+              showOnSelector: false
             }
-          }
-        };
-      });
+        }
+      };
 
-      
 
+      $scope.overlaidLayers = {};
+      angular.extend($scope.overlaidLayers, jsonlib);
+      //console.log("overlaidlayers", $scope.overlaidLayers);
       $scope.basemapLayers = BasemapService.savedLayers;
-      $scope.overlaidLayers = OverlayService.savedLayers;
-      /*$scope.localLayers = OverlayService.localLayers;*/
       angular.extend($scope.map.layers.baselayers, $scope.basemapLayers);
-      $scope.overlayer = $scope.map.layers.overlays;
-
-      //testing local storage. will be implemented as login succeeded
-      // ---- KRB merapi
-      /*$http.get("./assets/localStorage/dummy.geojson").success(function(data, status) {
-          angular.extend($scope.overlayer, {
-              dummy: {
-                  name:'Dummyzone',
-                  text:'Dummy Zone',
-                  checked: false,
-                  disabled: true,
-                  type: 'geoJSONShape',
-                  data: data,
-                  visible: true,
-                  layerOptions: {
-                      style: {
-                          color: '#00D',
-                          fillColor: 'red',
-                          weight: 2.0,
-                          opacity: 0.6,
-                          fillOpacity: 0.2
-                      }
-                  }
-              }
-          });
-      });*/
-
       angular.forEach($scope.overlaidLayers, function(value, key) {
         if ($scope.overlaidLayers[key].checked) {
-          $scope.overlayer[key] = $scope.overlaidLayers[key];
+          $scope.map.layers.overlays[key] = $scope.overlaidLayers[key];
         }
+        //console.log($scope.map.layers.overlays[key])
       });
-      // for local layer
-      /*angular.forEach($scope.localLayers, function(value, key) {
-        if ($scope.localLayers[key].checked) {
-          $scope.overlayer[key] = $scope.localLayers[key];
-        }
-      });*/
+
+
 
       // dynamic geolocation
       $scope.locateWatch = function() {
-        console.log('Activate watch location');
+        //console.log('Activate watch location');
         var watchOptions = {
           timeout: 15000,
           enableHighAccuracy: true
         };
 
         $scope.watch = $cordovaGeolocation.watchPosition(watchOptions);
-        console.log('Watch ID:', $scope.watch.watchID);
+
         $scope.watch.then(
           null,
           function(err) {
-            console.log("Location error!");
+            //console.log("Location error!");
             if (err.code == 1) {
               $scope.showAlert('Peringatan!', 'Anda perlu mengaktifkan fungsi GPS');
             };
-            console.log(err);
+
           },
           function(position) {
             //broadcast position to dashboard controller
@@ -170,107 +210,81 @@
             //set the map with these values
             $scope.setMap(position.coords.latitude, position.coords.longitude);
 
-            $scope.zoomToLocation = function (lat,long){
+            $scope.zoomToLocation = function() {
               $scope.map.center.lat = position.coords.latitude;
               $scope.map.center.lng = position.coords.longitude;
-              $scope.map.center.zoom = 16;
+              $scope.map.center.zoom = 13;
+              leafletData.getMap().then(function(map) {
+                if (!map.getBounds().contains([position.coords.latitude, position.coords.longitude])) {
+                  map.panTo([position.coords.latitude, position.coords.longitude])
+                }
+
+              });
+
             }
-
-
           }
         );
       };
 
       // set the map properties based on position
       $scope.setMap = function(lat, long) {
-        // label the marker
-        var positionLabelLat = $filter('number')(lat, 4);
-        var positionLabelLng = $filter('number')(long, 4);
-        //var positionLabel = positionLabelLat + "; " + positionLabelLng;
-        var connectionStatus = null;
-          var positionLabel = "Zona : " + connectionStatus;
-        //console.log(positionLabel);
+        var pipolygon = {};
+        leafletData.getMap().then(function(map) {
+          $scope.Lgeojsonzone = L.geoJson($scope.geojsonzone);
+          var pipolygon = leafletPip.pointInLayer([long, lat], $scope.Lgeojsonzone, true);
+          var positionLabel = ''
+          //console.log(pipolygon)
+          if (pipolygon.hasOwnProperty('0')) {
+            //positionLabel = "Zona : " + pipolygon[0].feature.properties.DESA;
+            positionLabel = "Zona : " + pipolygon[0].feature.properties.Sub_Zona;
+            //console.log('Zone detected')
+          } else {
+            positionLabel = "Di luar zona laut";
+            //console.log('Zone undetected. Possibly outside of geojson area')
+          }
 
-        //current position as Geojson point
-        var currentPos = {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates": [positionLabelLat, positionLabelLng]
+          $scope.map.markers.now = {
+            lat: lat,
+            lng: long,
+            label: {
+              message: positionLabel,
+              options: {
+                noHide: true,
+                direction: 'auto'
+              }
             },
-            "properties": {
-              "name": "Current Position"
+            focus: false,
+            draggable: false,
+            icon: {
+              iconUrl: './assets/ferry.png',
+              color: '#00f',
+              size: "l",
+              iconAnchor: [10, 10],
+              labelAnchor: [0, 8]
             }
           }
-          // try calling in dummy zone
-        var overLayingZone = $scope.map.layers.overlays['dummy'];
-        var overLayingAdmin = OverlayService.savedLayers['batasdesa'];
-          // turf tag operation
-          //var tagged = turf.tag(currentPos, overLayingAdmin,'zone', 'abb');
-        
-          $scope.$on("leafletDirectiveMap.click",function(event, args){
-              var leafEvent = args.leafletEvent;
-              var tapLat = leafEvent.latlng.lat;
-              var tapLong = leafEvent.latlng.lng;
-              posMessage = tapLat + ' , ' + tapLong;
-              
-                $scope.map.markers.tap = {
-                    lat: tapLat,
-                    lng: tapLong,
-                    message: posMessage,  
-                    focus: false,   
-                    draggable: false,
-                    icon: {
-                        iconUrl: './assets/ferry.png',
-                        color: '#00f',
-                        size: "l",
-                        iconAnchor: [10, 10],
-                        }
-                }
-              
-          });
-  
-          
-        $scope.map.markers.now = {
-          lat: lat,
-          lng: long,
-          label: {
-            message: positionLabel,
-            options: {
-              noHide: true,
-              direction: 'auto'
-            }
-          },
-          focus: false,
-          draggable: false,
-          icon: {
-            iconUrl: './assets/ferry.png',
-            color: '#00f',
-            size: "l",
-            iconAnchor: [10, 10],
-            labelAnchor: [0, 8]
-          }
-        }
+        });
+
       };
 
       // need this, since device timeout seems to be differently implemented across devices
       $scope.isWatching = true;
       $scope.toggleGeolocation = function() {
         $scope.isWatching = !$scope.isWatching;
-        console.log("is watching location", $scope.isWatching);
+        //console.log("is watching location", $scope.isWatching);
         if ($scope.isWatching) {
-          $scope.locateWatch();
-          $scope.showToast('Pembaruan posisi aktif', 'short', 'bottom')
+          $scope.zoomToLocation();
+          $scope.showToast('Mode jelajah non-aktif', 'short', 'bottom')
         } else {
           $cordovaGeolocation.clearWatch($scope.watch.watchID);
-          console.log('Stop WatchID:', $scope.watch.watchID);
-          $scope.showToast('Pembaruan posisi non-aktif', 'short', 'bottom')
+          //console.log('Stop WatchID:', $scope.watch.watchID);
+          $scope.showToast('Mode jelajah aktif', 'short', 'bottom')
         }
       };
 
       $scope.toggleOverlay = function(layerName) {
         var overlays = $scope.map.layers.overlays;
-        console.log(overlays[layerName]);
+        console.log('toggle overlays', $scope.map.layers.overlays[layerName]);
         if (overlays.hasOwnProperty(layerName)) {
           delete overlays[layerName];
         } else {
@@ -287,11 +301,24 @@
 
       $scope.showToast = function(message, duration, location) {
         $cordovaToast.show(message, duration, location).then(function(success) {
-          console.log("activate toast");
+          //console.log("activate toast");
         }, function(error) {
-          console.log("The toast was not shown due to " + error);
+          //console.log("The toast was not shown due to " + error);
         });
       };
+
+      $scope.toggleGroup = function(group) {
+        if ($scope.isGroupShown(group)) {
+          $scope.shownGroup = null;
+        } else {
+          $scope.shownGroup = group;
+        }
+      };
+      $scope.isGroupShown = function(group) {
+        return $scope.shownGroup === group;
+      };
+
+
 
       $scope.exitApp = function() {
         var confirmPopup = $ionicPopup.confirm({
@@ -306,19 +333,6 @@
             ionic.Platform.exitApp();
           } else {}
         });
-
-      };
-
-
-      $scope.toggleGroup = function(group) {
-        if ($scope.isGroupShown(group)) {
-          $scope.shownGroup = null;
-        } else {
-          $scope.shownGroup = group;
-        }
-      };
-      $scope.isGroupShown = function(group) {
-        return $scope.shownGroup === group;
       };
 
 
