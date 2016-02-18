@@ -70,6 +70,55 @@
         });
 
       $scope.geojsonzone = localStorage.getObject('zona');
+
+      $scope.activateLegend = false;
+      $scope.showLegend = function() {
+        $scope.activateLegend = !$scope.activateLegend;
+        if ($scope.activateLegend) {
+          $scope.legend = {
+            position: 'topright',
+            colors:
+            [
+              "#ff0000"	,
+              "#ff00e1"	,
+              "#e59f7e"	,
+              "#f02e3e"	,
+              "#bed319"	,
+              "#3fdaae"	,
+              "#0e6dd2"	,
+              "#7fc93a"	,
+              "#e3ad25"	,
+              "#6add8e"	,
+              "#9376cf"	,
+              "#42de34"	,
+              "#eb84df"
+            ],
+            labels:
+            [
+              'SZ Budidaya Laut',
+              'SZ Penangkapan Ikan IA (0-2 mil)',
+              'SZ Penangkapan Ikan IB (2-4 mil)',
+              'SZ Penunjang Kawasan Peruntukan Industri',
+              'SZ Lindung Karang Maeso(ZIKM)',
+              'SZ Penyangga Zona Inti (ZTPI)',
+              'SZ Pelabuhan Niaga',
+              'SZ Rehabilitasi Hutan Pantai',
+              'SZ Rehabilitasi Mangrove (ZTRM)',
+              'SZ Rehabilitasi Mangrove(ZRTM)',
+              'SZ Situs Budaya',
+              'SZ Wisata Bahari',
+              'Zona Lainnya (ZL-A)'
+            ]
+          };
+        } else {
+          $scope.legend = null;
+        }
+      };
+
+
+
+
+
       //console.log('content of ', $scope.geojsonzone);
       var jsonlib = {
         zona: {
@@ -81,9 +130,33 @@
           data: $scope.geojsonzone,
           visible: true,
           layerOptions: {
+            style: function(feature){
+              switch(feature.properties.Sub_Zona){
+                case 'SZ Budidaya Laut': return {color: "#ff0000"};
+                case 'SZ Penangkapan Ikan IA (0-2 mil)': return {color: "#ff00e1"};
+                case 'SZ Penangkapan Ikan IB (2-4 mil)': return {color: "#e59f7e"};
+                case 'SZ Penunjang Kawasan Peruntukan Industri': return {color: "#f02e3e"};
+                case 'SZ Lindung Karang Maeso(ZIKM)': return {color: "#bed319"};
+                case 'SZ Penyangga Zona Inti (ZTPI)': return {color: "#3fdaae"};
+                case 'SZ Pelabuhan Niaga': return {color: "#0e6dd2"};
+                case 'SZ Rehabilitasi Hutan Pantai': return {color: "#7fc93a"};
+                case 'SZ Rehabilitasi Mangrove (ZTRM)': return {color: "#e3ad25"};
+                case 'SZ Rehabilitasi Mangrove(ZRTM)': return {color: "#6add8e"};
+                case 'SZ Situs Budaya': return {color: "#9376cf"};
+                case 'SZ Wisata Bahari': return {color: "#42de34"};
+                case 'Zona Lainnya (ZL-A)': return {color: "#eb84df", opacity:100};
+                return {
+                  weight: 1,
+                  opacity: 1,
+                  //color: 'white',
+                  dashArray: '3',
+                  fillOpacity: 1
+                };
+              }
+            },
             /*style: {
               //color: '#00D',
-              //fillColor: 'red',
+              //color: 'red',
               weight: 2.0,
               opacity: 0.6,
               //fillOpacity: 0.2,
@@ -157,16 +230,7 @@
       $scope.setMap = function(lat, long) {
         var pipolygon = {};
         leafletData.getMap().then(function(map) {
-          $scope.Lgeojsonzone = L.geoJson($scope.geojsonzone, {
-            style: function(feature){
-              switch(feature.properties.Sub_Zona){
-                case 'SZ Budidaya Laut': return {color: "red"};
-                case 'SZ Penangkapan Ikan IA (0-2 mil)': return {color: "green"};
-                case 'Zona Lainnya (ZL-A)': return {color: "blue"};
-                case 'SZ Pelabuhan Niaga': return {color: "green"};
-              }
-            }
-          });
+          $scope.Lgeojsonzone = L.geoJson($scope.geojsonzone);
           var pipolygon = leafletPip.pointInLayer([long, lat], $scope.Lgeojsonzone, true);
           var positionLabel = ''
           //console.log(pipolygon)
