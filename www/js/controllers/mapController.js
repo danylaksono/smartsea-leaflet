@@ -64,7 +64,7 @@
 
 
       // getting data
-      $http.get("./assets/localStorage/alokasi_ruang.geojson")
+      $http.get("./assets/localStorage/alokasi_ruang_batang.geojson")
         .success(function(data) {
           localStorage.setObject('zona', data);
         });
@@ -81,18 +81,18 @@
           data: $scope.geojsonzone,
           visible: true,
           layerOptions: {
-            style: {
-              color: '#00D',
-              fillColor: 'red',
+            /*style: {
+              //color: '#00D',
+              //fillColor: 'red',
               weight: 2.0,
               opacity: 0.6,
-              fillOpacity: 0.2,
+              //fillOpacity: 0.2,
+            }, */
               showOnSelector: false
             },
             layerParams: {
               showOnSelector: false
             }
-          }
         }
       };
 
@@ -157,7 +157,16 @@
       $scope.setMap = function(lat, long) {
         var pipolygon = {};
         leafletData.getMap().then(function(map) {
-          $scope.Lgeojsonzone = L.geoJson($scope.geojsonzone)
+          $scope.Lgeojsonzone = L.geoJson($scope.geojsonzone, {
+            style: function(feature){
+              switch(feature.properties.Sub_Zona){
+                case 'SZ Budidaya Laut': return {color: "red"};
+                case 'SZ Penangkapan Ikan IA (0-2 mil)': return {color: "green"};
+                case 'Zona Lainnya (ZL-A)': return {color: "blue"};
+                case 'SZ Pelabuhan Niaga': return {color: "green"};
+              }
+            }
+          });
           var pipolygon = leafletPip.pointInLayer([long, lat], $scope.Lgeojsonzone, true);
           var positionLabel = ''
           //console.log(pipolygon)

@@ -14,7 +14,7 @@ angular.module('starter').controller('DashboardController', ['$scope',
       // check network connection
       $scope.isOnline = $cordovaNetwork.isOnline()
       $scope.connectionType = $cordovaNetwork.getNetwork()
-      console.log("is online using cordovanetwork:", $scope.connectionType)
+      //console.log("is online using cordovanetwork:", $scope.connectionType)
 
       // handling device's compass
       var options = {
@@ -23,11 +23,11 @@ angular.module('starter').controller('DashboardController', ['$scope',
       var watch = $cordovaDeviceOrientation.watchHeading(options).then(
         null,
         function(error){
-          console.log(error)
+          //console.log(error)
         },
         function(result){
           $scope.mag = -result.magneticHeading;
-          console.log($scope.mag);
+          //console.log($scope.mag);
         }
       )
     });
@@ -65,7 +65,7 @@ angular.module('starter').controller('DashboardController', ['$scope',
           $scope.weatherIcon = 'http://openweathermap.org/img/w/'+ $scope.weatherData2.icon +'.png'
           //console.log($scope.weatherIcon)
         }, function errorCallback(response) {
-          console.log(response)
+          //console.log(response)
         });
 
     }); //end of broadcasted event: position
