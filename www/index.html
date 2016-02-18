@@ -4,26 +4,43 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-  <title>SmartSea</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+  <title>Ina-SmartSea</title>
 
   <link href="lib/ionic/css/ionic.css" rel="stylesheet">
   <link rel="stylesheet" href="css/leaflet.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="lib/leaflet-plugins/leaflet.label.css">
 
   <script src="lib/ionic/js/ionic.bundle.js"></script>
-
-  <script src="lib/leaflet/leaflet.js"></script>
-  <script src="lib/leaflet/angular-leaflet-directive.min.js"></script>
 
   <script src="lib/ng-cordova.js"></script>
   <script src="cordova.js"></script>
 
+  <script src="lib/jquery/jquery-1.11.3.min.js"></script>
+  <script src="lib/leaflet/leaflet.js"></script>
+  <script src="lib/nmlogger/angular-simple-logger.js"></script>
+  <script src="lib/leaflet-plugins/GeoJSON.WFS.js"></script>
+  <!--script src="lib/esri-leaflet/dist/esri-leaflet.js"></script-->
+  <script src="lib/leaflet/angular-leaflet-directive.js"></script>
+  <script src="lib/leaflet-plugins/leaflet.label.js"></script>
+  <script src="lib/leaflet-plugins/leaflet-pip.js"></script>
+  <script src="lib/leaflet-plugins/Leaflet.MakiMarkers.js"></script>
+
+  <!--angular controllers and services -->
   <script src="js/app.js"></script>
   <script src="js/controllers/homeController.js"></script>
+  <script src="js/controllers/wizardController.js"></script>
+  <script src="js/controllers/helpController.js"></script>
   <script src="js/controllers/mapController.js"></script>
-  <script src="js/services/locationsService.js"></script>
-  <script src="js/services/instructionsService.js"></script>
+  <script src="js/controllers/dashboardController.js"></script>
+  <script src="js/services/basemapService.js"></script>
+  <script src="js/services/localStorage.js"></script>
+  <script src="js/services/overlayService.js"></script>
+  <script src="js/services/userService.js"></script>
   <script src="js/directives/igTruncate.js"></script>
+  <script src="js/directives/compass.js"></script>
+  <script src="lib/turf/turf.min.js"></script>
 
 </head>
 

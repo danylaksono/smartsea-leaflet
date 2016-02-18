@@ -2,19 +2,76 @@ body {
   height: auto;
   min-height: 100%;
 }
-
 .scroll, .angular-leaflet-map {
   height: 100%;
 }
-
 .leaflet-bottom {
-  bottom : 10px;
+  bottom: 10px;
 }
-
 .item.item-body p {
   margin-top: 0;
 }
-
 .tabs.border-top {
   border-top: 1px solid #ddd !important;
+}
+.list .item.item-accordion {
+  line-height: 38px;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: 0.09s all linear;
+}
+.list .item.item-accordion.ng-hide {
+  line-height: 0px;
+}
+.list .item.item-accordion.ng-hide-add, .list .item.item-accordion.ng-hide-remove {
+  display: block !important;
+}
+.item-checkbox {
+  border-style: none !important;
+}
+.pull-right {
+  float: right;
+}
+.pull-left {
+  float: left;
+}
+.larger {
+  font-size: 30px;
+}
+
+/* style buat compass */
+
+.compasshead {
+  position: relative;
+  text-align: center;
+  z-index: 2;
+}
+.compassmain {
+  text-align: center;
+  z-index: 1;
+  position: relative;
+  top: -20px;
+}
+.compasstext {
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  z-index: 3;
+}
+.legend {
+  font: 10px/12px Arial, Helvetica, sans-serif;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 6px 8px;
+  width: 180px;
+  line-height: 18px;
+  color: #555;
+}
+.legend i {
+  width: 16px;
+  height: 16px;
+  float: left;
+  margin-right: 8px;
+  opacity: 0.7;
 }

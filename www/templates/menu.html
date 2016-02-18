@@ -1,14 +1,11 @@
 <ion-side-menus>
 
-  <ion-pane ion-side-menu-content>
+  <ion-pane ion-side-menu-content drag-content="false">
 
-    <ion-nav-bar class="bar-positive nav-title-slide-ios7">
+    <ion-nav-bar class="bar bar-calm nav-title-slide-ios7">
       <!--ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i></ion-nav-back-button-->
-
     </ion-nav-bar>
-
     <ion-nav-view name="mainContent"></ion-nav-view>
-
   </ion-pane>
 
   <ion-side-menu side="left">
@@ -16,37 +13,42 @@
       <h1 class="title">Menu Peta</h1>
     </header>
     <ion-content class="has-header">
-
       <ion-list>
-        <div class="item item-divider">
-          Layer Utama
+
+        <!--div class="item item-divider item-calm">
+          <i class="icon ion-social-buffer" style="font-size:20px"> </i>
+          Layer Peta
         </div>
-        <ion-checkbox ng-repeat="item in devList" ng-model="item.checked" ng-checked="item.checked">
-          {{ item.text }}
-        </ion-checkbox>
-
-
-        <!--ion-item nav-clear menu-close ng-click="goTo(locationKey)" ng-repeat="(locationKey,location) in locations track by location.name">
-          {{location.name}}
-        </ion-item-->
-        <div class="item item-divider">
-          Menu tambahan
+        <div class="item item-accordion" ng-show="isGroupShown(group)">
+          <ion-checkbox ng-repeat="item in overlaidLayers" ng-checked="item.checked" ng-model="item.checked" ng-change="toggleOverlay(item.name)">
+            {{ item.text }}
+          </ion-checkbox>
         </div>
-        <ion-item ng-click='showAlert()'>
-          Unduh Data
-        </ion-item>
-        <ion-item href="#/detail">
-          Tampilkan foto
-        </ion-item>
-        <ion-item href="#/detail">
-          ...
-        </ion-item>
 
+        <!-- Local Layers
+        <div class="item item-divider item-calm">
+            <i class="icon ion-ios-cloud-download" style="font-size:20px"> </i>
+             Layer Offline
+        </div>
+        <div class="item item-accordion" ng-show="isGroupShown(group)">
+            <ion-checkbox ng-repeat="item in localLayers" ng-checked="item.checked" ng-model="item.checked" ng-change="toggleOverlay(item.name)">
+                {{ item.text }}
+            </ion-checkbox>
+        </div> -->
+
+        <div class="item item-divider item-calm" style="font-size:15px">
+          <i class="icon ion-settings"> </i> Pengaturan Peta
+        </div>
+        <ion-item ng-click='addLayer()'>
+          <i class="icon ion-plus-circled larger pull-right balanced"></i> Tambah Layer
+        </ion-item>
+        <ion-toggle ng-model="activateLegend" ng-click="showLegend()" toggle-class="toggle-balanced">Legenda peta
+        </ion-toggle>
+        <ion-item ng-click='exitApp()'>
+          <i class="icon ion-reply larger pull-right assertive"></i> Keluar
+        </ion-item>
 
       </ion-list>
-
     </ion-content>
-
   </ion-side-menu>
-
 </ion-side-menus>
