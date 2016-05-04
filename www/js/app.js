@@ -116,6 +116,15 @@ angular.module('starter', ['ionic', 'nemLogging', 'ui-leaflet', 'ngCordova', 'ig
       templateUrl: "templates/menu.html",
       controller: 'MapController'
     })
+
+    .state('app.map', {
+      url: "/map",
+      views: {
+        'mainContent': {
+          templateUrl: "templates/map.html"
+        }
+      }
+    })
     .state('app.dashboard', {
       url: "/dashboard",
       views: {
@@ -125,16 +134,6 @@ angular.module('starter', ['ionic', 'nemLogging', 'ui-leaflet', 'ngCordova', 'ig
         }
       }
     })
-
-  .state('app.map', {
-    url: "/map",
-    views: {
-      'mainContent': {
-        templateUrl: "templates/map.html"
-      }
-    }
-  })
-
   .state('app.help', {
     url: "/help",
     views: {

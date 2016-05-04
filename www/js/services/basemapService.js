@@ -9,7 +9,7 @@ angular.module('starter').factory('BasemapService', [function() {
       type: 'xyz',
       visible: true,
       layerParams: {
-        showOnSelector: false
+        showOnSelector: true
       }
     },
     topo: {
