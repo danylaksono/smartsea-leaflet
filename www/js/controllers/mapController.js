@@ -51,7 +51,7 @@
         legend: {
           url: "http://103.7.52.65:6080/arcgis/rest/services/16dset_alokasi_ruang_laut/Kabupaten_Batu_Bara_RZWP3K/MapServer/legend?f=pjson",
           legendClass: "info legend-esri",
-          position: "bottomleft",
+          position: "bottomleft"
         },
         markers: {},
         events: {
@@ -140,8 +140,7 @@
               console.log(featureCollection.features[0]);
               if (featureCollection.features.length > 0) {
                 identifiedFeature = L.geoJson(featureCollection.features[0]).addTo(map);
-                // string to number to string = trimmed zeros.  the wonders of JavaScript
-                var magTrimmed = parseFloat(featureCollection.features[0].properties.MAGNITUDE).toString();
+                
                 pane.innerHTML = "magnitude: " + magTrimmed;
               } else {
                 pane.innerHTML = 'No features identified.';
