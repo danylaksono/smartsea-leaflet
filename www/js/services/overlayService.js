@@ -3,68 +3,42 @@ angular.module('starter').factory('OverlayService', ['$http', function($http) {
 
   var overlayObj = {};
 
-   /*
   overlayObj.savedLayers = {
-    /*batasdesa: {
-      name: 'batasdesa',
-      text: 'Batas Administrasi',
+    banggai: {
+      name: 'Kab. Banggai',
+      text: 'RZWP Banggai',
       checked: true,
-      disabled: true,
-      online: true,
-      type: 'wms',
-      url: 'http://175.111.91.247:8001/geoserver/geonode/wms',
+      disabled: false,
+      type: 'agsDynamic',
+      url: 'http://103.7.52.65:6080/arcgis/rest/services/16dset_alokasi_ruang_laut/Kabupaten_Banggai_RZWP3K/MapServer',
       visible: true,
-      version: '1.1.0',
       layerOptions: {
-        layers: 'geonode:cjava_yogya_village_boundary_bako_june2004',
-        crs: L.CRS.EPSG4326,
-        opacity: 0.5
+        crs: L.CRS.EPSG32751,
+        opacity: 1
       },
       layerParams: {
-        showOnSelector: false
+        showOnSelector: true
       }
     },
-    batassermo: {
-      name: 'batassermo',
-      text: 'Waduk Sermo',
-      checked: false,
-      disabled: true,
-      online: true,
-      type: 'wms',
-      url: 'http://175.111.91.247:8001/geoserver/geonode/wms',
+    batubara: {
+      name: 'Kab. Batubara',
+      text: 'RZWP RTRW Banggai',
+      checked: true,
+      disabled: false,
+      type: 'agsDynamic',
+      url: 'http://103.7.52.65:6080/arcgis/rest/services/16dset_alokasi_ruang_laut/Kabupaten_Batu_Bara_RZWP3K/MapServer',
       visible: true,
-      version: '1.1.0',
       layerOptions: {
-        layers: 'geonode:batassermo',
-        crs: L.CRS.EPSG32749,
-        opacity: 0.5
+        crs: L.CRS.EPSG32647,
+        opacity: 1
       },
       layerParams: {
-        showOnSelector: false
-      }
-    },
-    tataruangsermo: {
-      name: 'tataruangsermo',
-      text: 'Tata Ruang Waduk Sermo',
-      checked: false,
-      disabled: true,
-      online: true,
-      type: 'wms',
-      url: 'http://175.111.91.247:8001/geoserver/geonode/wms',
-      visible: true,
-      version: '1.1.0',
-      layerOptions: {
-        layers: 'geonode:layertataruanglaut',
-        crs: L.CRS.EPSG32749,
-        opacity: 0.5
-      },
-      layerParams: {
-        showOnSelector: false
+        showOnSelector: true
       }
     }
 
   };
-  */
+
 
   return overlayObj;
 

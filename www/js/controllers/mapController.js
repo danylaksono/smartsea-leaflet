@@ -48,6 +48,11 @@
           baselayers: {},
           overlays: {}
         },
+        legend: {
+          url: "http://103.7.52.65:6080/arcgis/rest/services/16dset_alokasi_ruang_laut/Kabupaten_Batu_Bara_RZWP3K/MapServer/legend?f=pjson",
+          legendClass: "info legend-esri",
+          position: "bottomleft",
+        },
         markers: {},
         events: {
           map: {
@@ -63,116 +68,10 @@
       };
 
 
-      // getting data
-      $http.get("./assets/localStorage/alokasi_ruang_batang.geojson")
-        .success(function(data) {
-          localStorage.setObject('zona', data);
-        });
 
-      $scope.geojsonzone = localStorage.getObject('zona');
-
-      $scope.activateLegend = false;
-      $scope.showLegend = function() {
-        $scope.activateLegend = !$scope.activateLegend;
-        if ($scope.activateLegend) {
-          $scope.legend = {
-            position: 'topright',
-            colors:
-            [
-              "#ff0000"	,
-              "#ff00e1"	,
-              "#e59f7e"	,
-              "#f02e3e"	,
-              "#bed319"	,
-              "#3fdaae"	,
-              "#0e6dd2"	,
-              "#7fc93a"	,
-              "#e3ad25"	,
-              "#6add8e"	,
-              "#9376cf"	,
-              "#42de34"	,
-              "#eb84df"
-            ],
-            labels:
-            [
-              'SZ Budidaya Laut',
-              'SZ Penangkapan Ikan IA (0-2 mil)',
-              'SZ Penangkapan Ikan IB (2-4 mil)',
-              'SZ Penunjang Kawasan Peruntukan Industri',
-              'SZ Lindung Karang Maeso(ZIKM)',
-              'SZ Penyangga Zona Inti (ZTPI)',
-              'SZ Pelabuhan Niaga',
-              'SZ Rehabilitasi Hutan Pantai',
-              'SZ Rehabilitasi Mangrove (ZTRM)',
-              'SZ Rehabilitasi Mangrove(ZRTM)',
-              'SZ Situs Budaya',
-              'SZ Wisata Bahari',
-              'Zona Lainnya (ZL-A)'
-            ]
-          };
-        } else {
-          $scope.legend = null;
-        }
-      };
-
-
-
-
-
-      //console.log('content of ', $scope.geojsonzone);
-      var jsonlib = {
-        zona: {
-          name: 'polaruang',
-          text: 'Pola Ruang',
-          checked: true,
-          disabled: false,
-          type: 'geoJSONShape',
-          data: $scope.geojsonzone,
-          visible: true,
-          layerOptions: {
-            style: function(feature){
-              switch(feature.properties.Sub_Zona){
-                case 'SZ Budidaya Laut': return {color: "#ff0000"};
-                case 'SZ Penangkapan Ikan IA (0-2 mil)': return {color: "#ff00e1"};
-                case 'SZ Penangkapan Ikan IB (2-4 mil)': return {color: "#e59f7e"};
-                case 'SZ Penunjang Kawasan Peruntukan Industri': return {color: "#f02e3e"};
-                case 'SZ Lindung Karang Maeso(ZIKM)': return {color: "#bed319"};
-                case 'SZ Penyangga Zona Inti (ZTPI)': return {color: "#3fdaae"};
-                case 'SZ Pelabuhan Niaga': return {color: "#0e6dd2"};
-                case 'SZ Rehabilitasi Hutan Pantai': return {color: "#7fc93a"};
-                case 'SZ Rehabilitasi Mangrove (ZTRM)': return {color: "#e3ad25"};
-                case 'SZ Rehabilitasi Mangrove(ZRTM)': return {color: "#6add8e"};
-                case 'SZ Situs Budaya': return {color: "#9376cf"};
-                case 'SZ Wisata Bahari': return {color: "#42de34"};
-                case 'Zona Lainnya (ZL-A)': return {color: "#eb84df", opacity:100};
-                return {
-                  weight: 1,
-                  opacity: 1,
-                  //color: 'white',
-                  dashArray: '3',
-                  fillOpacity: 1
-                };
-              }
-            },
-            /*style: {
-              //color: '#00D',
-              //color: 'red',
-              weight: 2.0,
-              opacity: 0.6,
-              //fillOpacity: 0.2,
-            }, */
-              showOnSelector: false
-            },
-            layerParams: {
-              showOnSelector: false
-            }
-        }
-      };
-
-
-      $scope.overlaidLayers = {};
-      angular.extend($scope.overlaidLayers, jsonlib);
-      //console.log("overlaidlayers", $scope.overlaidLayers);
+      $scope.overlaidLayers = OverlayService.savedLayers;
+      //angular.extend($scope.overlaidLayers, OverlayService.savedLayers);
+      console.log("overlaidlayers", $scope.overlaidLayers);
       $scope.basemapLayers = BasemapService.savedLayers;
       angular.extend($scope.map.layers.baselayers, $scope.basemapLayers);
       angular.forEach($scope.overlaidLayers, function(value, key) {
@@ -181,7 +80,6 @@
         }
         //console.log($scope.map.layers.overlays[key])
       });
-
 
 
       // dynamic geolocation
@@ -228,26 +126,48 @@
 
       // set the map properties based on position
       $scope.setMap = function(lat, long) {
-        var pipolygon = {};
         leafletData.getMap().then(function(map) {
+
+          var identifiedFeature;
+          var pane = document.getElementById('selectedFeatures');
+
+          map.on('click', function(e) {
+            pane.innerHTML = 'Loading';
+            if (identifiedFeature) {
+              map.removeLayer(identifiedFeature);
+            }
+            $scope.map.layers.overlays.banggai.identify().on(map).at(e.latlng).run(function(error, featureCollection) {
+              console.log(featureCollection.features[0]);
+              if (featureCollection.features.length > 0) {
+                identifiedFeature = L.geoJson(featureCollection.features[0]).addTo(map);
+                // string to number to string = trimmed zeros.  the wonders of JavaScript
+                var magTrimmed = parseFloat(featureCollection.features[0].properties.MAGNITUDE).toString();
+                pane.innerHTML = "magnitude: " + magTrimmed;
+              } else {
+                pane.innerHTML = 'No features identified.';
+              }
+            });
+          });
+
+          /*
           $scope.Lgeojsonzone = L.geoJson($scope.geojsonzone);
+          console.log($scope.Lgeojsonzone);
           var pipolygon = leafletPip.pointInLayer([long, lat], $scope.Lgeojsonzone, true);
           var positionLabel = ''
-          //console.log(pipolygon)
+            //console.log(pipolygon)
           if (pipolygon.hasOwnProperty('0')) {
-            //positionLabel = "Zona : " + pipolygon[0].feature.properties.DESA;
             positionLabel = "Zona : " + pipolygon[0].feature.properties.Sub_Zona;
-            //console.log('Zone detected')
           } else {
             positionLabel = "Di luar zona laut";
             //console.log('Zone undetected. Possibly outside of geojson area')
           }
+          */
 
           $scope.map.markers.now = {
             lat: lat,
             lng: long,
             label: {
-              message: positionLabel,
+              message: "Di Luar Zona",
               options: {
                 noHide: true,
                 direction: 'auto'

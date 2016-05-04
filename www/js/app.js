@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordova', 'igTruncate'])
+angular.module('starter', ['ionic', 'nemLogging', 'ui-leaflet', 'ngCordova', 'igTruncate'])
 
 .run(function($ionicPlatform, $rootScope, $ionicPopup, $cordovaNetwork, $cordovaDeviceOrientation, $location, $ionicHistory) {
 
