@@ -3,6 +3,7 @@
     '$cordovaGeolocation',
     '$cordovaToast',
     '$cordovaSQLite',
+    '$state',
     '$stateParams',
     '$ionicPopup',
     '$filter',
@@ -17,6 +18,7 @@
       $cordovaGeolocation,
       $cordovaToast,
       $cordovaSQLite,
+      $state,
       $stateParams,
       $ionicPopup,
       $filter,
@@ -79,18 +81,18 @@
             position: 'topright',
             colors:
             [
-              "#ff0000"	,
-              "#ff00e1"	,
-              "#e59f7e"	,
-              "#f02e3e"	,
-              "#bed319"	,
-              "#3fdaae"	,
-              "#0e6dd2"	,
-              "#7fc93a"	,
-              "#e3ad25"	,
-              "#6add8e"	,
-              "#9376cf"	,
-              "#42de34"	,
+              "#ff0000" ,
+              "#ff00e1" ,
+              "#e59f7e" ,
+              "#f02e3e" ,
+              "#bed319" ,
+              "#3fdaae" ,
+              "#0e6dd2" ,
+              "#7fc93a" ,
+              "#e3ad25" ,
+              "#6add8e" ,
+              "#9376cf" ,
+              "#42de34" ,
               "#eb84df"
             ],
             labels:
@@ -268,20 +270,41 @@
       };
 
       // need this, since device timeout seems to be differently implemented across devices
-      $scope.isWatching = true;
-      $scope.toggleGeolocation = function() {
-        $scope.isWatching = !$scope.isWatching;
+      $scope.data={};
+      $scope.username;
+      $scope.isLogin = false;
+      $scope.loginState="Login";
+      $scope.toggleLogin = function() {
         //console.log("is watching location", $scope.isWatching);
-        if ($scope.isWatching) {
-          $scope.zoomToLocation();
-          $scope.showToast('Mode jelajah non-aktif', 'short', 'bottom')
+        if (!$scope.isLogin) {
+          // An elaborate, custom popup
+          var myPopup = $ionicPopup.show({
+            template: '<input type="text" placeholder="username" ng-model="data.username"><input type="password" placeholder="password" ng-model="password">',
+            title: 'Login',
+            subTitle: 'Masukkan akun smartsea anda',
+            scope: $scope,
+            buttons: [
+              { text: 'Login',
+                type: 'button-positive',
+                onTap: function(e) {
+                  // e.preventDefault();
+                  $scope.loginState="Logout";
+                  $scope.isLogin = !$scope.isLogin;
+                }
+              },
+              {
+                text: '<b>Daftar</b>',
+                onTap: function(e) {
+                  // $state.go('home.wizard');
+                }
+              }
+            ]})
         } else {
-          $cordovaGeolocation.clearWatch($scope.watch.watchID);
-          //console.log('Stop WatchID:', $scope.watch.watchID);
-          $scope.showToast('Mode jelajah aktif', 'short', 'bottom')
+          console.log('login');
+          $scope.loginState="Login";
+          $scope.isLogin = !$scope.isLogin;
         }
       };
-
       $scope.toggleOverlay = function(layerName) {
         var overlays = $scope.map.layers.overlays;
         console.log('toggle overlays', $scope.map.layers.overlays[layerName]);
@@ -336,6 +359,53 @@
       };
 
 
+//Pengaturan
+      $scope.notifZonaOn=false;
+      $scope.toggleNotifZona=function() {
+        if($scope.notifZonaOn){
+          $scope.notifZonaOn=false;
+        }
+        else{
+          $scope.notifZonaOn=true;
+        }
+      }
 
+      $scope.getarZonaOn=false;
+      $scope.toggleGetarZona=function() {
+        if($scope.getarZonaOn){
+          $scope.getarZonaOn=false;
+        }
+        else{
+          $scope.getarZonaOn=true;
+        }
+      }
+
+      $scope.infoDown=false;
+      $scope.toggleInfo=function() {
+        if($scope.infoDown){
+          $scope.infoDown=false;
+        }
+        else{
+          $scope.infoDown=true;
+        }
+      }
+
+      $scope.getarInfoOn=false;
+      $scope.toggleGetarInfo=function() {
+        if($scope.getarInfoOn){
+          $scope.getarInfoOn=false;
+        }
+        else{
+          $scope.getarInfoOn=true;
+        }
+      }
+
+      $scope.infoStateOn=false;
+      $scope.munculOn=function() {
+        $scope.infoStateOn=false;
+      }      
+      $scope.munculOff=function() {
+        $scope.infoStateOn=true;
+      }
     }
   ]);

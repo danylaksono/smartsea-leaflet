@@ -3,7 +3,6 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
 .run(function($ionicPlatform, $rootScope, $ionicPopup, $cordovaNetwork, $cordovaDeviceOrientation, $location, $ionicHistory) {
 
   $ionicPlatform.ready(function() {
-
     //check network
     // turn this off, implementing deviceready event in controller aside from broadcasting
     /*
@@ -26,14 +25,14 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
     */
 
     //check GPS
-    cordova.plugins.diagnostic.isLocationEnabled(function(enabled) {
-      if (!enabled) {
-        alert("SmartSea memerlukan GPS aktif pada perangkat ini. Silahkan aktifkan GPS Anda");
-        cordova.plugins.diagnostic.switchToLocationSettings();
-      }
-    }, function(error) {
-      console.error("The following error occurred: " + error);
-    });
+    // cordova.plugins.diagnostic.isLocationEnabled(function(enabled) {
+    //   if (!enabled) {
+    //     alert("SmartSea memerlukan GPS aktif pada perangkat ini. Silahkan aktifkan GPS Anda");
+    //     cordova.plugins.diagnostic.switchToLocationSettings();
+    //   }
+    // }, function(error) {
+    //   console.error("The following error occurred: " + error);
+    // });
 
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -74,13 +73,16 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
-
-    .state('home', {
+  .state('disclamer', {
+      url: '/disclamer',
+      templateUrl: 'templates/disclamer.html',
+      controller: 'disclamerController'
+    })
+  .state('home', {
     url: "/home",
     abstract: true,
     templateUrl: "templates/home.html"
   })
-
   .state('home.landing', {
       url: "/landing",
       views: {
@@ -144,6 +146,15 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
     }
   })
 
-  $urlRouterProvider.otherwise('/home/landing');
+  .state('app.pengaturan', {
+    url: "/pengaturan",
+    views: {
+      'mainContent': {
+        templateUrl: "templates/pengaturan.html"
+      }
+    }
+  })
+
+  $urlRouterProvider.otherwise('/disclamer');
 
 });
