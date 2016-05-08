@@ -143,6 +143,6 @@ angular.module('starter', ['ionic', 'nemLogging', 'ui-leaflet', 'ngCordova', 'ig
     }
   })
 
-  $urlRouterProvider.otherwise('/home/landing');
+  $urlRouterProvider.otherwise('/app/map');
 
 });
