@@ -2,6 +2,18 @@ body {
   height: auto;
   min-height: 100%;
 }
+.subPengaturan{
+  width: 90%;
+  float: right;
+}
+.right {
+  float: right;
+}
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
 .scroll, .angular-leaflet-map {
   height: 100%;
 }
@@ -78,4 +90,41 @@ body {
   margin-right: 8px;
   opacity: 0.7;
   padding-bottom:150px;
+}
+/*Style Disclamer*/
+#boxDisc {
+  padding: 0px;
+}
+#judulDisc {
+  font: 20px Arial, Helvetica, sans-serif;
+  width: 100%;
+  background-color: #F5F5F5;
+  text-align: center;
+  padding: 5px;
+}
+#boxDisc p {
+  font: 15px Arial, Helvetica, sans-serif;
+  padding: 15px;
+  text-align: center;
+  margin-bottom: 0px;
+}
+#disclamerBtn{
+  border-radius: 0px;
+  margin:0px;
+}
+/*Style Map*/
+.icon-login::before{
+  content: "";
+  width: 30px;
+  height:30px;
+  background-image: url("/assets/img/login.png");
+  background-size: 100%;
+  margin-right: 5px;
+}
+/*Style Pengaturan*/
+.show {
+  display: block;
+}
+.hide{
+  display: none;
 }

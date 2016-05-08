@@ -6,11 +6,18 @@
 
 
   <ion-nav-buttons side="right">
-    <button ng-model="isWatching" ng-click="toggleGeolocation()" ng-class="{'button button-icon icon ion-ios-navigate': isWatching, 'button button-icon icon ion-ios-navigate-outline': !isWatching}">
-    <!--button ng-click="zoomToLocation()" class="button button-icon icon ion-pinpoint"-->
 
-    </button>
+    <!--button ng-model="isWatching" ng-click="toggleGeolocation()" ng-class="{'button button-icon icon ion-ios-navigate': isWatching, 'button button-icon icon ion-ios-navigate-outline': !isWatching}">
+    </button-->
+
+
+    <div>
+      <button ng-model="isLogin" ng-click="toggleLogin()" ng-class="{'button icon-left button-clear icon-login': !isLogin, 'button icon-left button-clear ion-ios-contact': isLogin}">
+        <span ng-if="!isLogin"><b>Login</b></span><span ng-if="isLogin"><b>{{data.username}}</b></span>
+      </button>
+    </div>
   </ion-nav-buttons>
+
 
   <ion-content data-tap-disabled="true">
     <leaflet defaults="map.defaults" center="map.center" legend="map.legend" layers="map.layers" markers="map.markers" ng-if="map"></leaflet>
@@ -47,18 +54,21 @@
   <!-- for ion tabs -->
 
   <div class="tabs tabs-calm">
-    <a nav-clear class="tab-item disable-user-behavior" title="Dashboard" nav-clear ui-sref="app.dashboard">
-      <i class="icon ion-android-compass"></i>
-      <span class="tab-title ng-binding" ng-bind-html="title"></span>
-    </a>
     <a nav-clear class="tab-item disable-user-behavior active" title="Peta" nav-clear ui-sref="app.map">
       <i class="icon ion-earth"></i>
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>
+    <a nav-clear class="tab-item disable-user-behavior" title="Dashboard" nav-clear ui-sref="app.dashboard">
+      <i class="icon ion-compass"></i>
+      <span class="tab-title ng-binding" ng-bind-html="title"></span>
+    </a>
     <a nav-clear class="tab-item disable-user-behavior" title="Bantuan" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.help">
-      <i class="icon ion-help-buoy"></i>
+      <i class="icon ion-help-circled"></i>
+      <span class="tab-title ng-binding" ng-bind-html="title"></span>
+    </a>
+    <a nav-clear class="tab-item disable-user-behavior" title="Pengaturan" nav-clear ui-sref="app.pengaturan">
+      <i class="icon ion-android-settings"></i>
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>
   </div>
-
 </ion-view>
