@@ -295,7 +295,7 @@
               {
                 text: '<b>Daftar</b>',
                 onTap: function(e) {
-                  // $state.go('home.wizard');
+                  $state.go('app.daftar');
                 }
               }
             ]})

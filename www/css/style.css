@@ -124,3 +124,10 @@ body {
 .hide{
   display: none;
 }
+/*Style Daftar*/
+.validateMsg{
+  background-color: #FF7043;
+  text-align: center;
+  color: white;
+  padding: 10px;
+}

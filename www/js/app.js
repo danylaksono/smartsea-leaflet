@@ -155,6 +155,16 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
     }
   })
 
+  .state('app.daftar', {
+    url: "/daftar",
+    views: {
+      'mainContent': {
+        templateUrl: "templates/daftar.html",
+        controller: "daftarController"
+      }
+    }
+  })
+
   $urlRouterProvider.otherwise('/disclamer');
 
 });

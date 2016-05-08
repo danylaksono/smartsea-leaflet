@@ -1,0 +1,44 @@
+<ion-view title="Daftar" cache-view="false" >
+    <ion-content>
+        <ion-scroll style="background-image: url(./assets/img/background.png); width: 100%; height: 100%" direction="y">
+            <div class="row">
+                <form class="col">
+                    <input style="width:100%" type="text" placeholder="Nama Lengkap" ng-model="data.namaLengkap"/>
+                    <input style="width:100%" type="number" placeholder="No Handphone" ng-model="data.noHp"/>
+                    <input style="width:100%" type="email" placeholder="Alamat Email (jika ada)" ng-model="data.email"/>
+                    <input style="width:100%" type="number" placeholder="Ukuran Kapal (jika ada)" ng-model="data.ukuranKapal"/>
+                </form>
+            </div>
+            <div class="row">
+                <form class="col">
+                    <input style="width:100%" type="text" placeholder="Nama Pengguna (tanpa spasi)" ng-model="data.namaPengguna" ng-change="cekUser()"/></input>
+                    <input style="width:100%" type="password" placeholder="Kata Sandi" ng-model="data.password" ng-change="cekPassw()"/></input>
+                    <input style="width:100%" type="password" placeholder="Konfirmasi Kata Sandi" ng-model="data.confirmPass" ng-change="cekPassw()"/></input>
+                    <div ng-model="isValid.user" ng-class="{'hide':isValid.user,'show':!isValid.user}" class="validateMsg">Nama Pengguna tidak boleh mengandung spasi</div>
+                    <div ng-model="isValid.pass" ng-class="{'hide':isValid.pass,'show':!isValid.pass}" class="validateMsg">Kedua password harus sama</div>
+                    <input type="button" ng-click="daftar()" class="button button-block button-positive" ng-disabled="isValid.all" value="Daftar"></input>
+                </form>
+            </div>
+        </ion-scroll>
+  </ion-content>
+
+  <!-- for ion tabs -->
+  <div class="tabs tabs-calm">
+    <a nav-clear class="tab-item disable-user-behavior active" title="Peta" nav-clear ui-sref="app.map">
+      <i class="icon ion-earth"></i>
+      <span class="tab-title ng-binding" ng-bind-html="title"></span>
+    </a>
+    <a nav-clear class="tab-item disable-user-behavior" title="Dashboard" nav-clear ui-sref="app.dashboard">
+      <i class="icon ion-compass"></i>
+      <span class="tab-title ng-binding" ng-bind-html="title"></span>
+    </a>
+    <a nav-clear class="tab-item disable-user-behavior" title="Bantuan" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.help">
+      <i class="icon ion-help-circled"></i>
+      <span class="tab-title ng-binding" ng-bind-html="title"></span>
+    </a>
+    <a nav-clear class="tab-item disable-user-behavior" title="Pengaturan" nav-clear ui-sref="app.pengaturan">
+      <i class="icon ion-android-settings"></i>
+      <span class="tab-title ng-binding" ng-bind-html="title"></span>
+    </a>
+  </div>
+</ion-view>
