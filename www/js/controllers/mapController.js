@@ -12,6 +12,7 @@
     'leafletData',
     'BasemapService',
     'OverlayService',
+    'leafletMapEvents',
     function(
       $scope,
       $rootScope,
@@ -26,7 +27,8 @@
       localStorage,
       leafletData,
       BasemapService,
-      OverlayService
+      OverlayService,
+      leafletMapEvents
     ) {
 
       // $ ionic build android
@@ -50,10 +52,16 @@
           baselayers: {},
           overlays: {}
         },
+        /*
+        legend: {
+          url: "http://103.7.52.65:6080/arcgis/rest/services/16dset_alokasi_ruang_laut/Kabupaten_Batu_Bara_RZWP3K/MapServer/legend?f=pjson",
+          legendClass: "legend",
+          position: "left"
+        },*/
         markers: {},
         events: {
           map: {
-            enable: ['context'],
+            enable: ['context', 'click', 'dblclick'],
             logic: 'emit'
           }
         },
@@ -63,6 +71,7 @@
         },
         controls: {}
       };
+
 
 
       // getting data
@@ -119,71 +128,17 @@
 
 
 
-
-
-      //console.log('content of ', $scope.geojsonzone);
-      var jsonlib = {
-        zona: {
-          name: 'polaruang',
-          text: 'Pola Ruang',
-          checked: true,
-          disabled: false,
-          type: 'geoJSONShape',
-          data: $scope.geojsonzone,
-          visible: true,
-          layerOptions: {
-            style: function(feature){
-              switch(feature.properties.Sub_Zona){
-                case 'SZ Budidaya Laut': return {color: "#ff0000"};
-                case 'SZ Penangkapan Ikan IA (0-2 mil)': return {color: "#ff00e1"};
-                case 'SZ Penangkapan Ikan IB (2-4 mil)': return {color: "#e59f7e"};
-                case 'SZ Penunjang Kawasan Peruntukan Industri': return {color: "#f02e3e"};
-                case 'SZ Lindung Karang Maeso(ZIKM)': return {color: "#bed319"};
-                case 'SZ Penyangga Zona Inti (ZTPI)': return {color: "#3fdaae"};
-                case 'SZ Pelabuhan Niaga': return {color: "#0e6dd2"};
-                case 'SZ Rehabilitasi Hutan Pantai': return {color: "#7fc93a"};
-                case 'SZ Rehabilitasi Mangrove (ZTRM)': return {color: "#e3ad25"};
-                case 'SZ Rehabilitasi Mangrove(ZRTM)': return {color: "#6add8e"};
-                case 'SZ Situs Budaya': return {color: "#9376cf"};
-                case 'SZ Wisata Bahari': return {color: "#42de34"};
-                case 'Zona Lainnya (ZL-A)': return {color: "#eb84df", opacity:100};
-                return {
-                  weight: 1,
-                  opacity: 1,
-                  //color: 'white',
-                  dashArray: '3',
-                  fillOpacity: 1
-                };
-              }
-            },
-            /*style: {
-              //color: '#00D',
-              //color: 'red',
-              weight: 2.0,
-              opacity: 0.6,
-              //fillOpacity: 0.2,
-            }, */
-              showOnSelector: false
-            },
-            layerParams: {
-              showOnSelector: false
-            }
-        }
-      };
-
-
-      $scope.overlaidLayers = {};
-      angular.extend($scope.overlaidLayers, jsonlib);
-      //console.log("overlaidlayers", $scope.overlaidLayers);
+      $scope.overlaidLayers = OverlayService.savedLayers;
+      //angular.extend($scope.overlaidLayers, OverlayService.savedLayers);
+      console.log("overlaidlayers", $scope.overlaidLayers);
       $scope.basemapLayers = BasemapService.savedLayers;
       angular.extend($scope.map.layers.baselayers, $scope.basemapLayers);
       angular.forEach($scope.overlaidLayers, function(value, key) {
         if ($scope.overlaidLayers[key].checked) {
           $scope.map.layers.overlays[key] = $scope.overlaidLayers[key];
         }
-        //console.log($scope.map.layers.overlays[key])
+        console.log($scope.map.layers.overlays[key])
       });
-
 
 
       // dynamic geolocation
@@ -228,44 +183,86 @@
         );
       };
 
+
+      $scope.isOverlap = function(lat, long) {
+        //angular.forEach($scope.overlaidLayers, function(value, key) {
+        leafletData.getMap().then(function(map) {
+          var embuh = $scope.overlaidLayers['banggai'];
+          console.log(embuh.url);
+
+        });
+        //});
+      };
+
+
       // set the map properties based on position
       $scope.setMap = function(lat, long) {
-        var pipolygon = {};
-        leafletData.getMap().then(function(map) {
-          $scope.Lgeojsonzone = L.geoJson($scope.geojsonzone);
-          var pipolygon = leafletPip.pointInLayer([long, lat], $scope.Lgeojsonzone, true);
-          var positionLabel = ''
-          //console.log(pipolygon)
-          if (pipolygon.hasOwnProperty('0')) {
-            //positionLabel = "Zona : " + pipolygon[0].feature.properties.DESA;
-            positionLabel = "Zona : " + pipolygon[0].feature.properties.Sub_Zona;
-            //console.log('Zone detected')
-          } else {
-            positionLabel = "Di luar zona laut";
-            //console.log('Zone undetected. Possibly outside of geojson area')
-          }
-
-          $scope.map.markers.now = {
-            lat: lat,
-            lng: long,
-            label: {
-              message: positionLabel,
-              options: {
-                noHide: true,
-                direction: 'auto'
+        $scope.isOverlap(lat, long);
+        $scope.$on('leafletDirectiveMap.contextmenu', function(event, args) {
+          var leafEvent = args.leafletEvent;
+          $scope.eventDetected = 'true';
+          angular.extend($scope.map.markers, {
+            pop: {
+              lat: leafEvent.latlng.lat,
+              lng: leafEvent.latlng.lng,
+              focus: false,
+              label: {
+                message: leafEvent.latlng.lat.toFixed(3) + '; ' + leafEvent.latlng.lng.toFixed(3),
+                options: {
+                  noHide: true,
+                  direction: 'auto'
+                },
+                icon: {
+                  iconUrl: './assets/pin.png',
+                  color: '#00f',
+                  size: "l",
+                  iconAnchor: [10, 10],
+                  labelAnchor: [0, 8]
+                }
               }
-            },
-            focus: false,
-            draggable: false,
-            icon: {
-              iconUrl: './assets/ferry.png',
-              color: '#00f',
-              size: "l",
-              iconAnchor: [10, 10],
-              labelAnchor: [0, 8]
+
             }
-          }
+          });
+          console.log($scope.map.markers)
         });
+
+
+
+        /*
+        $scope.Lgeojsonzone = L.geoJson($scope.geojsonzone);
+        console.log($scope.Lgeojsonzone);
+        var pipolygon = leafletPip.pointInLayer([long, lat], $scope.Lgeojsonzone, true);
+        var positionLabel = ''
+          //console.log(pipolygon)
+        if (pipolygon.hasOwnProperty('0')) {
+          positionLabel = "Zona : " + pipolygon[0].feature.properties.Sub_Zona;
+        } else {
+          positionLabel = "Di luar zona laut";
+          //console.log('Zone undetected. Possibly outside of geojson area')
+        }
+        */
+
+        $scope.map.markers.now = {
+          lat: lat,
+          lng: long,
+          label: {
+            message: "Di Luar Zona",
+            options: {
+              noHide: true,
+              direction: 'auto'
+            }
+          },
+          focus: false,
+          draggable: false,
+          icon: {
+            iconUrl: './assets/ferry.png',
+            color: '#00f',
+            size: "l",
+            iconAnchor: [10, 10],
+            labelAnchor: [0, 8]
+          }
+        };
+
 
       };
 
@@ -403,7 +400,7 @@
       $scope.infoStateOn=false;
       $scope.munculOn=function() {
         $scope.infoStateOn=false;
-      }      
+      }
       $scope.munculOff=function() {
         $scope.infoStateOn=true;
       }

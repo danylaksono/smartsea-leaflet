@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordova', 'igTruncate'])
+angular.module('starter', ['ionic', 'nemLogging', 'ui-leaflet', 'ngCordova', 'igTruncate'])
 
 .run(function($ionicPlatform, $rootScope, $ionicPopup, $cordovaNetwork, $cordovaDeviceOrientation, $location, $ionicHistory) {
 
@@ -118,6 +118,15 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
       templateUrl: "templates/menu.html",
       controller: 'MapController'
     })
+
+    .state('app.map', {
+      url: "/map",
+      views: {
+        'mainContent': {
+          templateUrl: "templates/map.html"
+        }
+      }
+    })
     .state('app.dashboard', {
       url: "/dashboard",
       views: {
@@ -127,16 +136,6 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
         }
       }
     })
-
-  .state('app.map', {
-    url: "/map",
-    views: {
-      'mainContent': {
-        templateUrl: "templates/map.html"
-      }
-    }
-  })
-
   .state('app.help', {
     url: "/help",
     views: {
@@ -145,6 +144,7 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
       }
     }
   })
+
 
   .state('app.pengaturan', {
     url: "/pengaturan",
@@ -166,5 +166,6 @@ angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordov
   })
 
   $urlRouterProvider.otherwise('/disclamer');
+
 
 });

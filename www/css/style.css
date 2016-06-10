@@ -76,9 +76,12 @@ body {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   padding: 6px 8px;
-  width: 180px;
+  width: 220px;
   line-height: 18px;
   color: #555;
+  overflow: auto;
+  max-height:300px;
+  padding-bottom:150px;
 }
 .legend i {
   width: 16px;
@@ -86,6 +89,7 @@ body {
   float: left;
   margin-right: 8px;
   opacity: 0.7;
+  padding-bottom:150px;
 }
 /*Style Disclamer*/
 #boxDisc {
@@ -124,6 +128,7 @@ body {
 .hide{
   display: none;
 }
+<<<<<<< HEAD
 /*Style Daftar*/
 .validateMsg{
   background-color: #FF7043;
@@ -131,3 +136,5 @@ body {
   color: white;
   padding: 10px;
 }
+=======
+>>>>>>> f81d74779eb66f4b0fbe44b31a886ba0e8d3439b
