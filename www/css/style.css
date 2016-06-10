@@ -113,7 +113,7 @@ body {
   content: "";
   width: 30px;
   height:30px;
-  background-image: url("/assets/img/login.png");
+  background-image: url("../assets/img/login.png");
   background-size: 100%;
   margin-right: 5px;
 }
