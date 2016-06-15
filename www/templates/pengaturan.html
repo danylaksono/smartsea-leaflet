@@ -2,7 +2,7 @@
     <ion-nav-buttons side="right">
         <div>
             <button ng-model="isLogin" ng-click="toggleLogin()" ng-class="{'button icon-left button-clear icon-login': !isLogin, 'button icon-left button-clear ion-ios-contact': isLogin}" >
-                <span ng-if="!isLogin"><b>Login</b></span><span ng-if="isLogin"><b>{{data.username}}</b></span>
+                <span ng-if="!isLogin"><b>Login</b></span><span ng-if="isLogin"><b>{{data.namaPengguna}}</b></span>
             </button>
         </div>
     </ion-nav-buttons>
@@ -48,6 +48,10 @@
   <div class="tabs tabs-calm">
     <a nav-clear class="tab-item disable-user-behavior" title="Peta" nav-clear ui-sref="app.map">
       <i class="icon ion-earth"></i>
+      <span class="tab-title ng-binding" ng-bind-html="title"></span>
+    </a>
+    <a nav-clear class="tab-item disable-user-behavior active" title="Profil" nav-clear ui-sref="app.profil">
+      <i class="icon ion-person"></i>
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>
     <a nav-clear class="tab-item disable-user-behavior" title="Dashboard" nav-clear ui-sref="app.dashboard">

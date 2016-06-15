@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'nemLogging', 'ui-leaflet', 'ngCordova', 'igTruncate'])
+angular.module('starter', ['ionic', 'nemLogging', 'ui-leaflet', 'ngCordova', 'igTruncate', 'firebase'])
 
 .run(function($ionicPlatform, $rootScope, $ionicPopup, $cordovaNetwork, $cordovaDeviceOrientation, $location, $ionicHistory) {
 
@@ -71,7 +71,8 @@ angular.module('starter', ['ionic', 'nemLogging', 'ui-leaflet', 'ngCordova', 'ig
 
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+  $ionicConfigProvider.views.maxCache(0);
   $stateProvider
   .state('disclamer', {
       url: '/disclamer',
@@ -118,12 +119,20 @@ angular.module('starter', ['ionic', 'nemLogging', 'ui-leaflet', 'ngCordova', 'ig
       templateUrl: "templates/menu.html",
       controller: 'MapController'
     })
-
     .state('app.map', {
       url: "/map",
       views: {
         'mainContent': {
           templateUrl: "templates/map.html"
+        }
+      }
+    })
+    .state('app.profil', {
+      url: "/profil",
+      views: {
+        'mainContent': {
+          templateUrl: "templates/profil.html",
+          controller: 'ProfilController'
         }
       }
     })

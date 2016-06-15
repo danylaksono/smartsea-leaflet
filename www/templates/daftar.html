@@ -2,21 +2,22 @@
     <ion-content>
         <ion-scroll style="background-image: url(./assets/img/background.png); width: 100%; height: 100%" direction="y">
             <div class="row">
-                <form class="col">
-                    <input style="width:100%" type="text" placeholder="Nama Lengkap" ng-model="data.namaLengkap"/>
-                    <input style="width:100%" type="number" placeholder="No Handphone" ng-model="data.noHp"/>
-                    <input style="width:100%" type="email" placeholder="Alamat Email (jika ada)" ng-model="data.email"/>
+                <form class="col" name="form1">
+                    <input style="width:100%" type="text" placeholder="Nama Lengkap" ng-model="data.namaLengkap"/ required>
+                    <input style="width:100%" type="number" placeholder="No Handphone" ng-model="data.noHp" required/>
+                    <input style="width:100%" type="email" placeholder="Alamat Email" ng-model="data.email" required/>
                     <input style="width:100%" type="number" placeholder="Ukuran Kapal (jika ada)" ng-model="data.ukuranKapal"/>
                 </form>
             </div>
             <div class="row">
-                <form class="col">
-                    <input style="width:100%" type="text" placeholder="Nama Pengguna (tanpa spasi)" ng-model="data.namaPengguna" ng-change="cekUser()"/></input>
-                    <input style="width:100%" type="password" placeholder="Kata Sandi" ng-model="data.password" ng-change="cekPassw()"/></input>
-                    <input style="width:100%" type="password" placeholder="Konfirmasi Kata Sandi" ng-model="data.confirmPass" ng-change="cekPassw()"/></input>
+                <form class="col" name="form2">
+                    <input style="width:100%" type="text" placeholder="Nama Pengguna (tanpa spasi)" ng-model="data.namaPengguna" ng-change="cekUser()" required/></input>
+                    <input style="width:100%" name="password" type="password" placeholder="Kata Sandi" ng-model="data.password" ng-change="cekPassw()" required/></input>
+                    <input style="width:100%" type="password" placeholder="Konfirmasi Kata Sandi" ng-model="data.confirmPass" ng-change="cekPassw()" required/></input>
                     <div ng-model="isValid.user" ng-class="{'hide':isValid.user,'show':!isValid.user}" class="validateMsg">Nama Pengguna tidak boleh mengandung spasi</div>
                     <div ng-model="isValid.pass" ng-class="{'hide':isValid.pass,'show':!isValid.pass}" class="validateMsg">Kedua password harus sama</div>
-                    <input type="button" ng-click="daftar()" class="button button-block button-positive" ng-disabled="isValid.all" value="Daftar"></input>
+
+                    <input type="button" ng-click="daftar()" class="button button-block button-positive" ng-disabled="form1.$invalid || form2.$invalid" value="Daftar"></input>
                 </form>
             </div>
         </ion-scroll>

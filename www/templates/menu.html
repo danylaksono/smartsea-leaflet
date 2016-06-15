@@ -35,15 +35,46 @@
                 {{ item.text }}
             </ion-checkbox>
         </div> -->
+        <div class="item item-divider item-calm" style="font-size:15px">
+          <span class="icon ion-settings"> </span> Daftar Layer
+        </div>
+        <div class="item item-divider" ng-click="toggleLayerInfo1()">
+          <span ng-model="layerInfo1" ng-class="{'icon ion-arrow-up-b': layerInfo, 'icon ion-arrow-down-b': !layerInfo1}"></span>
+          DI Yogyakarta
+        </div>
+        <div ng-model="layerInfo1" ng-class="{'show': layerInfo1, 'hide': !layerInfo1}">
+          <div class="item item-text-wrap">
+            <div><span class="icon ion-android-checkbox-outline-blank"> Administrasi</span></div>
+            <div><span class="icon ion-android-checkbox-outline-blank"> Kawasan Strategis Nasional</span></div>
+            <div><span class="icon ion-android-checkbox-outline"> Kawasan Konservasi</span></div>
+            <div><span class="icon ion-android-checkbox-outline"> Kawasan Pemanfaatan Umum</span></div>
+            <div><span class="icon ion-android-checkbox-outline"> Alur</span></div>
+          </div>
+        </div>        
+
+        <div class="item item-divider" ng-click="toggleLayerInfo2()">
+          <span ng-model="layerInfo2" ng-class="{'icon ion-arrow-up-b': layerInfo2, 'icon ion-arrow-down-b': !layerInfo2}"></span>
+          Jawa Tengah
+        </div>
+        <div ng-model="layerInfo2" ng-class="{'show': layerInfo2, 'hide': !layerInfo2}">
+          <div class="item item-text-wrap">
+            <div><span class="icon ion-android-checkbox-outline-blank"> Administrasi</span></div>
+            <div><span class="icon ion-android-checkbox-outline-blank"> Kawasan Strategis Nasional</span></div>
+            <div><span class="icon ion-android-checkbox-outline"> Kawasan Konservasi</span></div>
+            <div><span class="icon ion-android-checkbox-outline"> Kawasan Pemanfaatan Umum</span></div>
+            <div><span class="icon ion-android-checkbox-outline"> Alur</span></div>
+          </div>
+        </div>
 
         <div class="item item-divider item-calm" style="font-size:15px">
           <i class="icon ion-settings"> </i> Pengaturan Peta
         </div>
-        <ion-item ng-click='addLayer()'>
+        <ion-item ng-click='tambah()'>
           <i class="icon ion-plus-circled larger pull-right balanced"></i> Tambah Layer
         </ion-item>
-        <ion-toggle ng-model="activateLegend" ng-click="showLegend()" toggle-class="toggle-balanced">Legenda peta
+        <ion-toggle ng-model="activateLegend" ng-click="showLegend()" toggle-class="toggle-balanced">Label peta
         </ion-toggle>
+        <button ng-click='lapor()' id="laporkan" class="button icon-left ion-speakerphone button-positive">Laporkan</button>
         <ion-item ng-click='exitApp()'>
           <i class="icon ion-reply larger pull-right assertive"></i> Keluar
         </ion-item>
