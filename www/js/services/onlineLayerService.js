@@ -1,6 +1,5 @@
 angular.module('starter').factory('OverlayOnlineService', [function($scope, $http) {
 
-
   var overlayObj = {};
   overlayObj.savedLayers = {
     desa_yogya: {
