@@ -49,7 +49,8 @@ angular.module('starter').controller('daftarController',
             noHp: data.noHp,
             email: data.email,
             ukuranKapal: data.ukuranKapal,
-            namaPengguna: data.namaPengguna
+            namaPengguna: data.namaPengguna,
+            currentAva: "assets/img/profile.png"
           });
           getProfileService.get(uid);
           setTimeout(function() {$state.go('app.profil')}, 1000);

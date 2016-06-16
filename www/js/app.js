@@ -154,6 +154,15 @@ angular.module('starter', ['ionic', 'nemLogging', 'ui-leaflet', 'ngCordova', 'ig
     }
   })
 
+  .state('app.ubahAva', {
+    url: "/ubahava",
+    views: {
+      'mainContent': {
+        templateUrl: "templates/ubah_ava.html",
+        controller: 'gantiAvaController'
+      }
+    }
+  })
 
   .state('app.pengaturan', {
     url: "/pengaturan",
