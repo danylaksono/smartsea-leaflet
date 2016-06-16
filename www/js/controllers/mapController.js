@@ -13,6 +13,8 @@
     'BasemapService',
     'OverlayService',
     'leafletMapEvents',
+    'sessionService',
+    'loginService',
     function(
       $scope,
       $rootScope,
@@ -28,7 +30,9 @@
       leafletData,
       BasemapService,
       OverlayService,
-      leafletMapEvents
+      leafletMapEvents,
+      sessionService,
+      loginService
     ) {
 
       // $ ionic build android
@@ -265,18 +269,19 @@
 
 
       };
-
-      // need this, since device timeout seems to be differently implemented across devices
-      $scope.data={};
-      $scope.username;
-      $scope.isLogin = false;
-      $scope.loginState="Login";
+      try {
+        $scope.isLogin = sessionService.isLogin();
+        $scope.data = sessionService.get('currentSession');
+      } catch (er) {
+        $scope.isLogin = false;
+      }
       $scope.toggleLogin = function() {
         //console.log("is watching location", $scope.isWatching);
         if (!$scope.isLogin) {
           // An elaborate, custom popup
+          $scope.data = {};
           var myPopup = $ionicPopup.show({
-            template: '<input type="text" placeholder="username" ng-model="data.username"><input type="password" placeholder="password" ng-model="password">',
+            template: '<input type="email" placeholder="email" ng-model="data.email"><input type="password" placeholder="password" ng-model="data.pass">',
             title: 'Login',
             subTitle: 'Masukkan akun smartsea anda',
             scope: $scope,
@@ -284,22 +289,35 @@
               { text: 'Login',
                 type: 'button-positive',
                 onTap: function(e) {
-                  // e.preventDefault();
-                  $scope.loginState="Logout";
-                  $scope.isLogin = !$scope.isLogin;
+                  loginService.login($scope.data);
                 }
               },
               {
                 text: '<b>Daftar</b>',
                 onTap: function(e) {
-                  // $state.go('home.wizard');
+                  $state.go('app.daftar');
                 }
               }
             ]})
         } else {
-          console.log('login');
-          $scope.loginState="Login";
-          $scope.isLogin = !$scope.isLogin;
+          var myPopup = $ionicPopup.show({
+            title: 'Apakah anda ingin Log out?',
+            scope: $scope,
+            buttons: [
+              { text: 'Ya',
+                type: 'button-positive',
+                onTap: function(e) {
+                  // e.preventDefault();
+                  sessionService.remove('currentSession');
+                  $state.go('app.map');
+                }
+              },
+              {
+                text: '<b>Tidak</b>',
+                onTap: function(e) {
+                }
+              }
+            ]})
         }
       };
       $scope.toggleOverlay = function(layerName) {
@@ -403,6 +421,64 @@
       }
       $scope.munculOff=function() {
         $scope.infoStateOn=true;
+      }
+
+// Popup Laporkan
+      $scope.lapor = function() {
+        $ionicPopup.show({
+            templateUrl: 'templates/lapor.html',
+            scope: $scope,
+            buttons: [
+              { text: '<b>Batal</b>',
+                onTap: function(e) {
+                }
+              },
+              {
+                text: 'Kirim',
+                type: 'button-positive',
+                onTap: function(e) {
+                }
+              }
+            ]})
+      }
+
+// Popup tambah
+$scope.tambah = function() {
+        $ionicPopup.show({
+            templateUrl: 'templates/tambah.html',
+            scope: $scope,
+            buttons: [
+              { text: '<b>Batal</b>',
+                onTap: function(e) {
+                }
+              },
+              {
+                text: 'Tambah',
+                type: 'button-positive',
+                onTap: function(e) {
+                }
+              }
+            ]})
+      }
+
+// Side menu
+      $scope.layerInfo1 = false;
+      $scope.layerInfo2 = false;
+      $scope.toggleLayerInfo1 = function() {
+        if ($scope.layerInfo1) {
+          $scope.layerInfo1 = false;
+        }
+        else {
+          $scope.layerInfo1 = true;
+        }
+      }
+      $scope.toggleLayerInfo2 = function() {
+        if ($scope.layerInfo2) {
+          $scope.layerInfo2 = false;
+        }
+        else {
+          $scope.layerInfo2 = true;
+        }
       }
     }
   ]);

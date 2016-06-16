@@ -3,11 +3,17 @@ angular.module('starter').controller('DashboardController', ['$scope',
   '$filter',
   '$cordovaDeviceOrientation',
   '$cordovaNetwork',
+  'loginService',
+  'sessionService',
+  '$ionicPopup',
   function($scope,
     $http,
     $filter,
     $cordovaDeviceOrientation,
-    $cordovaNetwork
+    $cordovaNetwork,
+    loginService,
+    sessionService,
+    $ionicPopup
   ) {
 
     document.addEventListener("deviceready", function () {

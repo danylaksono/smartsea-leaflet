@@ -117,7 +117,7 @@ body {
   content: "";
   width: 30px;
   height:30px;
-  background-image: url("/assets/img/login.png");
+  background-image: url("../assets/img/login.png");
   background-size: 100%;
   margin-right: 5px;
 }
@@ -128,3 +128,34 @@ body {
 .hide{
   display: none;
 }
+<<<<<<< HEAD
+/*Style Daftar*/
+.validateMsg{
+  background-color: #FF7043;
+  text-align: center;
+  color: white;
+  padding: 10px;
+}
+
+/*Style Profil*/
+.subLayer {
+  width:80%;
+  float: right;
+  margin-top: -15px;
+}
+
+#profileDesc{
+  padding:10px;
+  padding-top: 0px;
+}
+
+/*Style Sub Menu*/
+#laporkan{
+  float: none;
+  display: block;
+  margin: auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+=======
+>>>>>>> f81d74779eb66f4b0fbe44b31a886ba0e8d3439b
