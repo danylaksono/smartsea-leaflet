@@ -157,5 +157,27 @@ body {
   margin-top: 15px;
   margin-bottom: 15px;
 }
+
+/*Upload Button*/
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: auto;
+    float: none;
+    display: block;
+    border:none;
+    margin-top: 0px !important;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
 =======
 >>>>>>> f81d74779eb66f4b0fbe44b31a886ba0e8d3439b
