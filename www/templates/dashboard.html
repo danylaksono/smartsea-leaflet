@@ -78,7 +78,7 @@
       <i class="icon ion-earth"></i>
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>
-    <a nav-clear class="tab-item disable-user-behavior active" title="Profil" nav-clear ui-sref="app.profil">
+    <a ng-show="isLogin" nav-clear class="tab-item disable-user-behavior active" title="Profil" nav-clear ui-sref="app.profil">
       <i class="icon ion-person"></i>
       <span class="tab-title ng-binding" ng-bind-html="title"></span>
     </a>

@@ -2,6 +2,7 @@ angular.module('starter').controller('ProfilController',
    function($scope, $state, sessionService, $ionicLoading, $ionicPopup) {
    	var data = sessionService.get('currentSession');
    	$ionicLoading.hide()
+
    	$scope.ava = data.currentAva;
    	$scope.namaLengkap = data.nameLengkap;
    	$scope.noHp = data.noHp;

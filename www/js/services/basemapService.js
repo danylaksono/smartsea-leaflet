@@ -9,26 +9,35 @@ angular.module('starter').factory('BasemapService', [function() {
       type: 'xyz',
       visible: true,
       layerParams: {
-        showOnSelector: true
+        showOnSelector: false
       }
     },
     topo: {
       name: "World Topographic",
       type: "agsBase",
       layer: "Topographic",
-      visible: false
+      visible: false,
+      layerParams: {
+        showOnSelector: false
+      }
     },
     national: {
       name: "National Geographic",
       type: "agsBase",
       layer: "NationalGeographic",
-      visible: false
+      visible: false,
+      layerParams: {
+        showOnSelector: false
+      }
     },
     oceans: {
       name: "Oceans",
       type: "agsBase",
       layer: "Oceans",
-      visible: false
+      visible: false,
+      layerParams: {
+        showOnSelector: false
+      }
     },
   };
 

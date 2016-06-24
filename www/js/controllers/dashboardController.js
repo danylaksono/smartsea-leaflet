@@ -20,6 +20,7 @@ angular.module('starter').controller('DashboardController', ['$scope',
       // check network connection
       $scope.isOnline = $cordovaNetwork.isOnline()
       $scope.connectionType = $cordovaNetwork.getNetwork()
+
       //console.log("is online using cordovanetwork:", $scope.connectionType)
 
       // handling device's compass
@@ -52,6 +53,9 @@ angular.module('starter').controller('DashboardController', ['$scope',
     */
 
     // Handling event with GPS reading
+
+    console.log($scope.isLogin);
+        
     $scope.$on('someEvent', function(event, data) {
       $scope.position = data;
       //define lat and long for weather API

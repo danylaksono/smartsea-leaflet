@@ -12,6 +12,7 @@
     'leafletData',
     'BasemapService',
     'OverlayService',
+    'OnlineService',
     'leafletMapEvents',
     'sessionService',
     'loginService',
@@ -30,6 +31,7 @@
       leafletData,
       BasemapService,
       OverlayService,
+      OnlineService,
       leafletMapEvents,
       sessionService,
       loginService
@@ -76,15 +78,15 @@
         controls: {}
       };
 
-
-
       // getting data
+      /*
       $http.get("./assets/localStorage/alokasi_ruang_batang.geojson")
         .success(function(data) {
           localStorage.setObject('zona', data);
         });
 
       $scope.geojsonzone = localStorage.getObject('zona');
+      */
 
       $scope.activateLegend = false;
       $scope.showLegend = function() {
@@ -92,24 +94,22 @@
         if ($scope.activateLegend) {
           $scope.legend = {
             position: 'topright',
-            colors:
-            [
-              "#ff0000" ,
-              "#ff00e1" ,
-              "#e59f7e" ,
-              "#f02e3e" ,
-              "#bed319" ,
-              "#3fdaae" ,
-              "#0e6dd2" ,
-              "#7fc93a" ,
-              "#e3ad25" ,
-              "#6add8e" ,
-              "#9376cf" ,
-              "#42de34" ,
+            colors: [
+              "#ff0000",
+              "#ff00e1",
+              "#e59f7e",
+              "#f02e3e",
+              "#bed319",
+              "#3fdaae",
+              "#0e6dd2",
+              "#7fc93a",
+              "#e3ad25",
+              "#6add8e",
+              "#9376cf",
+              "#42de34",
               "#eb84df"
             ],
-            labels:
-            [
+            labels: [
               'SZ Budidaya Laut',
               'SZ Penangkapan Ikan IA (0-2 mil)',
               'SZ Penangkapan Ikan IB (2-4 mil)',
@@ -132,16 +132,16 @@
 
 
 
-      $scope.overlaidLayers = OverlayService.savedLayers;
+      $scope.overlaidLayers = OnlineService.savedLayers;
       //angular.extend($scope.overlaidLayers, OverlayService.savedLayers);
-      console.log("overlaidlayers", $scope.overlaidLayers);
+      //console.log("overlaidlayers", $scope.overlaidLayers);
       $scope.basemapLayers = BasemapService.savedLayers;
       angular.extend($scope.map.layers.baselayers, $scope.basemapLayers);
       angular.forEach($scope.overlaidLayers, function(value, key) {
         if ($scope.overlaidLayers[key].checked) {
           $scope.map.layers.overlays[key] = $scope.overlaidLayers[key];
         }
-        console.log($scope.map.layers.overlays[key])
+        //console.log($scope.map.layers.overlays[key])
       });
 
 
@@ -192,7 +192,7 @@
         //angular.forEach($scope.overlaidLayers, function(value, key) {
         leafletData.getMap().then(function(map) {
           var embuh = $scope.overlaidLayers['banggai'];
-          console.log(embuh.url);
+          //console.log(embuh.url);
 
         });
         //});
@@ -266,15 +266,17 @@
             labelAnchor: [0, 8]
           }
         };
-
-
       };
+
       try {
         $scope.isLogin = sessionService.isLogin();
         $scope.data = sessionService.get('currentSession');
       } catch (er) {
         $scope.isLogin = false;
       }
+
+      console.log($scope.isLogin);
+
       $scope.toggleLogin = function() {
         //console.log("is watching location", $scope.isWatching);
         if (!$scope.isLogin) {
@@ -285,41 +287,39 @@
             title: 'Login',
             subTitle: 'Masukkan akun smartsea anda',
             scope: $scope,
-            buttons: [
-              { text: 'Login',
-                type: 'button-positive',
-                onTap: function(e) {
-                  loginService.login($scope.data);
-                }
-              },
-              {
-                text: '<b>Daftar</b>',
-                onTap: function(e) {
-                  $state.go('app.daftar');
-                }
+            buttons: [{
+              text: 'Login',
+              type: 'button-positive',
+              onTap: function(e) {
+                loginService.login($scope.data);
               }
-            ]})
+            }, {
+              text: '<b>Daftar</b>',
+              onTap: function(e) {
+                $state.go('app.daftar');
+              }
+            }]
+          })
         } else {
           var myPopup = $ionicPopup.show({
             title: 'Apakah anda ingin Log out?',
             scope: $scope,
-            buttons: [
-              { text: 'Ya',
-                type: 'button-positive',
-                onTap: function(e) {
-                  // e.preventDefault();
-                  sessionService.remove('currentSession');
-                  $state.go('app.map');
-                }
-              },
-              {
-                text: '<b>Tidak</b>',
-                onTap: function(e) {
-                }
+            buttons: [{
+              text: 'Ya',
+              type: 'button-positive',
+              onTap: function(e) {
+                // e.preventDefault();
+                sessionService.remove('currentSession');
+                $state.go('app.map');
               }
-            ]})
+            }, {
+              text: '<b>Tidak</b>',
+              onTap: function(e) {}
+            }]
+          })
         }
       };
+
       $scope.toggleOverlay = function(layerName) {
         var overlays = $scope.map.layers.overlays;
         console.log('toggle overlays', $scope.map.layers.overlays[layerName]);
@@ -374,109 +374,97 @@
       };
 
 
-//Pengaturan
-      $scope.notifZonaOn=false;
-      $scope.toggleNotifZona=function() {
-        if($scope.notifZonaOn){
-          $scope.notifZonaOn=false;
-        }
-        else{
-          $scope.notifZonaOn=true;
-        }
-      }
-
-      $scope.getarZonaOn=false;
-      $scope.toggleGetarZona=function() {
-        if($scope.getarZonaOn){
-          $scope.getarZonaOn=false;
-        }
-        else{
-          $scope.getarZonaOn=true;
+      //Pengaturan
+      $scope.notifZonaOn = false;
+      $scope.toggleNotifZona = function() {
+        if ($scope.notifZonaOn) {
+          $scope.notifZonaOn = false;
+        } else {
+          $scope.notifZonaOn = true;
         }
       }
 
-      $scope.infoDown=false;
-      $scope.toggleInfo=function() {
-        if($scope.infoDown){
-          $scope.infoDown=false;
-        }
-        else{
-          $scope.infoDown=true;
-        }
-      }
-
-      $scope.getarInfoOn=false;
-      $scope.toggleGetarInfo=function() {
-        if($scope.getarInfoOn){
-          $scope.getarInfoOn=false;
-        }
-        else{
-          $scope.getarInfoOn=true;
+      $scope.getarZonaOn = false;
+      $scope.toggleGetarZona = function() {
+        if ($scope.getarZonaOn) {
+          $scope.getarZonaOn = false;
+        } else {
+          $scope.getarZonaOn = true;
         }
       }
 
-      $scope.infoStateOn=false;
-      $scope.munculOn=function() {
-        $scope.infoStateOn=false;
-      }
-      $scope.munculOff=function() {
-        $scope.infoStateOn=true;
+      $scope.infoDown = false;
+      $scope.toggleInfo = function() {
+        if ($scope.infoDown) {
+          $scope.infoDown = false;
+        } else {
+          $scope.infoDown = true;
+        }
       }
 
-// Popup Laporkan
+      $scope.getarInfoOn = false;
+      $scope.toggleGetarInfo = function() {
+        if ($scope.getarInfoOn) {
+          $scope.getarInfoOn = false;
+        } else {
+          $scope.getarInfoOn = true;
+        }
+      }
+
+      $scope.infoStateOn = false;
+      $scope.munculOn = function() {
+        $scope.infoStateOn = false;
+      }
+      $scope.munculOff = function() {
+        $scope.infoStateOn = true;
+      }
+
+      // Popup Laporkan
       $scope.lapor = function() {
         $ionicPopup.show({
-            templateUrl: 'templates/lapor.html',
-            scope: $scope,
-            buttons: [
-              { text: '<b>Batal</b>',
-                onTap: function(e) {
-                }
-              },
-              {
-                text: 'Kirim',
-                type: 'button-positive',
-                onTap: function(e) {
-                }
-              }
-            ]})
+          templateUrl: 'templates/lapor.html',
+          scope: $scope,
+          buttons: [{
+            text: '<b>Batal</b>',
+            onTap: function(e) {}
+          }, {
+            text: 'Kirim',
+            type: 'button-positive',
+            onTap: function(e) {}
+          }]
+        })
       }
 
-// Popup tambah
-$scope.tambah = function() {
+      // Popup tambah
+      $scope.tambah = function() {
         $ionicPopup.show({
-            templateUrl: 'templates/tambah.html',
-            scope: $scope,
-            buttons: [
-              { text: '<b>Batal</b>',
-                onTap: function(e) {
-                }
-              },
-              {
-                text: 'Tambah',
-                type: 'button-positive',
-                onTap: function(e) {
-                }
-              }
-            ]})
+          templateUrl: 'templates/tambah.html',
+          scope: $scope,
+          buttons: [{
+            text: '<b>Batal</b>',
+            onTap: function(e) {}
+          }, {
+            text: 'Tambah',
+            type: 'button-positive',
+            onTap: function(e) {}
+          }]
+        })
       }
 
-// Side menu
+      // Side menu
       $scope.layerInfo1 = false;
       $scope.layerInfo2 = false;
       $scope.toggleLayerInfo1 = function() {
         if ($scope.layerInfo1) {
           $scope.layerInfo1 = false;
-        }
-        else {
+        } else {
           $scope.layerInfo1 = true;
         }
       }
       $scope.toggleLayerInfo2 = function() {
         if ($scope.layerInfo2) {
           $scope.layerInfo2 = false;
-        }
-        else {
+        } else {
           $scope.layerInfo2 = true;
         }
       }

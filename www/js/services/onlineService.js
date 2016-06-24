@@ -1,7 +1,6 @@
-angular.module('starter').factory('OverlayService', ['$http', function($http) {
+angular.module('starter').factory('OnlineService', [function($scope, $http) {
 
   var overlayObj = {};
-
   overlayObj.savedLayers = {
     banggai: {
       name: 'Kab. Banggai',
@@ -101,7 +100,6 @@ angular.module('starter').factory('OverlayService', ['$http', function($http) {
     }
 
   };
-
 
   return overlayObj;
 

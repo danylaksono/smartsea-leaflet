@@ -106,7 +106,7 @@ angular.module('starter', ['ionic', 'nemLogging', 'ui-leaflet', 'ngCordova', 'ig
       url: "/help",
       views: {
         'landingContent': {
-          templateUrl: "templates/help.html",
+          templateUrl: "templates/bantuan.html",
           controller: 'HelpController'
         }
       }
