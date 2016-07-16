@@ -1,7 +1,5 @@
 angular.module('starter')
-.factory('getProfileService', function(
-	sessionService
-	) {
+.factory('getProfileService', function(sessionService) {
 	var ref = new Firebase("https://smartseadevelop.firebaseio.com/users");
 	return{
 		get: function(uid) {

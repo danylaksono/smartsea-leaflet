@@ -25,14 +25,14 @@ angular.module('starter', ['ionic', 'nemLogging', 'ui-leaflet', 'ngCordova', 'ig
     */
 
     //check GPS
-    // cordova.plugins.diagnostic.isLocationEnabled(function(enabled) {
-    //   if (!enabled) {
-    //     alert("SmartSea memerlukan GPS aktif pada perangkat ini. Silahkan aktifkan GPS Anda");
-    //     cordova.plugins.diagnostic.switchToLocationSettings();
-    //   }
-    // }, function(error) {
-    //   console.error("The following error occurred: " + error);
-    // });
+    cordova.plugins.diagnostic.isLocationEnabled(function(enabled) {
+      if (!enabled) {
+        alert("SmartSea memerlukan GPS aktif pada perangkat ini. Silahkan aktifkan GPS Anda");
+        cordova.plugins.diagnostic.switchToLocationSettings();
+      }
+    }, function(error) {
+      console.error("The following error occurred: " + error);
+    });
 
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

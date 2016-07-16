@@ -43,12 +43,75 @@
       $scope.$on("$stateChangeSuccess", function() {
         //console.log('Platform state changed');
         $scope.locateWatch();
+
+        try {
+          $scope.isLogin = sessionService.isLogin();
+          $rootScope.$broadcast('loginEvent', $scope.isLogin);
+          $scope.data = sessionService.get('currentSession');
+        } catch (er) {
+          $scope.isLogin = false;
+        }
+        
       });
+
+      $scope.$on('$ionicView.enter', function() {
+        console.log('entered mapcontroller');
+
+
+      });
+
+
+      $scope.toggleLogin = function() {
+        //console.log("is watching location", $scope.isWatching);
+        if (!$scope.isLogin) {
+          // An elaborate, custom popup
+          $scope.data = {};
+          var myPopup = $ionicPopup.show({
+            template: '<input type="email" placeholder="email" ng-model="data.email"><input type="password" placeholder="password" ng-model="data.pass">',
+            title: 'Login',
+            subTitle: 'Masukkan akun smartsea anda',
+            scope: $scope,
+            buttons: [{
+              text: 'Login',
+              type: 'button-positive',
+              onTap: function(e) {
+                loginService.login($scope.data);
+              }
+            }, {
+              text: '<b>Daftar</b>',
+              onTap: function(e) {
+                $state.go('app.daftar');
+              }
+            }, {
+              text: 'Batal',
+            }]
+          })
+        } else {
+          var myPopup = $ionicPopup.show({
+            title: 'Apakah anda ingin Log out?',
+            scope: $scope,
+            buttons: [{
+              text: 'Ya',
+              type: 'button-positive',
+              onTap: function(e) {
+                // e.preventDefault();
+                sessionService.remove('currentSession');
+                $state.go('app.map');
+                $scope.isLogin = !$scope.isLogin ;
+              }
+            }, {
+              text: '<b>Tidak</b>',
+              onTap: function(e) {}
+            }]
+          })
+        }
+      };
+
 
       // watch network connection state
       $scope.$on('onlinestate', function(event, isonline) {
         $scope.isOnline = isonline;
-        //console.log($scope.isOnline);
+        console.log($scope.isOnline);
       });
 
 
@@ -129,8 +192,6 @@
           $scope.legend = null;
         }
       };
-
-
 
       $scope.overlaidLayers = OnlineService.savedLayers;
       //angular.extend($scope.overlaidLayers, OverlayService.savedLayers);
@@ -268,57 +329,6 @@
         };
       };
 
-      try {
-        $scope.isLogin = sessionService.isLogin();
-        $scope.data = sessionService.get('currentSession');
-      } catch (er) {
-        $scope.isLogin = false;
-      }
-
-      console.log($scope.isLogin);
-
-      $scope.toggleLogin = function() {
-        //console.log("is watching location", $scope.isWatching);
-        if (!$scope.isLogin) {
-          // An elaborate, custom popup
-          $scope.data = {};
-          var myPopup = $ionicPopup.show({
-            template: '<input type="email" placeholder="email" ng-model="data.email"><input type="password" placeholder="password" ng-model="data.pass">',
-            title: 'Login',
-            subTitle: 'Masukkan akun smartsea anda',
-            scope: $scope,
-            buttons: [{
-              text: 'Login',
-              type: 'button-positive',
-              onTap: function(e) {
-                loginService.login($scope.data);
-              }
-            }, {
-              text: '<b>Daftar</b>',
-              onTap: function(e) {
-                $state.go('app.daftar');
-              }
-            }]
-          })
-        } else {
-          var myPopup = $ionicPopup.show({
-            title: 'Apakah anda ingin Log out?',
-            scope: $scope,
-            buttons: [{
-              text: 'Ya',
-              type: 'button-positive',
-              onTap: function(e) {
-                // e.preventDefault();
-                sessionService.remove('currentSession');
-                $state.go('app.map');
-              }
-            }, {
-              text: '<b>Tidak</b>',
-              onTap: function(e) {}
-            }]
-          })
-        }
-      };
 
       $scope.toggleOverlay = function(layerName) {
         var overlays = $scope.map.layers.overlays;

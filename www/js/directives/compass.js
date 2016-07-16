@@ -3,7 +3,7 @@ angular.module('starter').directive('rotate', function() {
     link: function(scope, element, attrs) {
       // watch the degrees attribute, and update the UI when it changes
       scope.$watch(attrs.degrees, function(rotateDegrees) {
-        console.log(rotateDegrees);
+        //console.log(rotateDegrees);
         //transform the css to rotate based on the new rotateDegrees
         element.css({
           '-moz-transform': 'rotate(' + rotateDegrees + 'deg)',

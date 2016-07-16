@@ -39,6 +39,7 @@ angular.module('starter').controller('DashboardController', ['$scope',
       )
     });
 
+
     // Am I online? (note: need to run in a device to test)
     // turning this off (see notes in app.js)
     /*
@@ -52,10 +53,7 @@ angular.module('starter').controller('DashboardController', ['$scope',
     });
     */
 
-    // Handling event with GPS reading
 
-    console.log($scope.isLogin);
-        
     $scope.$on('someEvent', function(event, data) {
       $scope.position = data;
       //define lat and long for weather API
@@ -79,9 +77,6 @@ angular.module('starter').controller('DashboardController', ['$scope',
         });
 
     }); //end of broadcasted event: position
-
-
-
 
   }
 ]);

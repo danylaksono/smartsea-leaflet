@@ -4,13 +4,9 @@
     <button menu-toggle="left" class="button button-icon icon ion-android-options"></button>
   </ion-nav-buttons>
 
-
   <ion-nav-buttons side="right">
-
     <!--button ng-model="isWatching" ng-click="toggleGeolocation()" ng-class="{'button button-icon icon ion-ios-navigate': isWatching, 'button button-icon icon ion-ios-navigate-outline': !isWatching}">
     </button-->
-
-
     <div>
       <button ng-model="isLogin" ng-click="toggleLogin()" ng-class="{'button icon-left button-clear icon-login': !isLogin, 'button icon-left button-clear ion-ios-contact': isLogin}">
         <span ng-if="!isLogin"><b>Login</b></span><span ng-if="isLogin"><b>{{data.namaPengguna}}</b></span>

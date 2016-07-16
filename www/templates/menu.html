@@ -69,15 +69,15 @@
         <div class="item item-divider item-calm" style="font-size:15px">
           <i class="icon ion-settings"> </i> Pengaturan Peta
         </div>
-        <ion-item ng-click='tambah()'>
+        <ion-item ng-show="isLogin" ng-click='tambah()'>
           <i class="icon ion-plus-circled larger pull-right balanced"></i> Tambah Peta
         </ion-item>
         <ion-toggle ng-model="activateLegend" ng-click="showLegend()" toggle-class="toggle-balanced">Label peta
         </ion-toggle>
-        <button ng-click='lapor()' id="laporkan" class="button icon-left ion-speakerphone button-positive">Laporkan</button>
         <ion-item ng-click='exitApp()'>
           <i class="icon ion-reply larger pull-right assertive"></i> Keluar
         </ion-item>
+        <button ng-show="isLogin" ng-click='lapor()' id="laporkan" class="button icon-left ion-speakerphone button-positive">Laporkan</button>
 
       </ion-list>
     </ion-content>
