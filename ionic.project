@@ -7,5 +7,9 @@
       "browser": "crosswalk",
       "version": "12.41.296.5"
     }
-  ]
+  ],
+  "proxies":[{
+      "path": "/api/data",
+      "proxyUrl": "http://103.7.52.65:6080/arcgis/rest/services/"
+  }]
 }

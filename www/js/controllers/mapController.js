@@ -13,6 +13,7 @@
     'BasemapService',
     'OverlayService',
     'OnlineService',
+    'DownloadService',
     'leafletMapEvents',
     'sessionService',
     'loginService',
@@ -31,6 +32,7 @@
       leafletData,
       BasemapService,
       OverlayService,
+      DownloadService,
       OnlineService,
       leafletMapEvents,
       sessionService,
@@ -98,7 +100,6 @@
           })
         }
       };
-
 
       // watch network connection state
       $scope.$on('onlinestate', function(event, isonline) {
@@ -204,7 +205,7 @@
       // load local layers
       angular.forEach(OverlayService.savedLayers, function(value, key) {
         var thislayer =
-        $http.get("./assets/localStorage/" + value.filename)
+          $http.get("./assets/localStorage/" + value.filename)
           .success(function(data, status) {
             var templayer = [];
             templayer[key] = {
@@ -230,6 +231,34 @@
 
       //assign map layers to variable for display
       $scope.localLayers = $scope.map.layers.overlays;
+
+      //load feature layers
+      angular.forEach(DownloadService.savedLayers, function(value, key) {
+        leafletData.getMap().then(function(map) {
+
+          var busStops = L.esri.featureLayer({
+            url: 'http://103.7.52.65:6080/arcgis/rest/services/smartsea/bangkep/FeatureServer/0/'
+          }).addTo(map);
+
+          /*
+          L.esri.request('http://103.7.52.65:6080/arcgis/rest/services/smartsea/bangkep/FeatureServer/0/', {
+            spatialRel: "esriSpatialRelIntersects",
+            geometryType: "esriGeometryPolygon",
+            returnGeometry:true,
+            outSR:4326
+          }, function(error, response) {
+            if (error) {
+              console.log(error);
+            } else {
+              var geojson = L.esri.Utils.responseToFeatureCollection(response);
+              console.log(geojson);
+            }
+          });
+          */
+
+        });
+
+      });
 
       // dynamic geolocation
       $scope.locateWatch = function() {
@@ -397,7 +426,6 @@
       };
 
 
-
       $scope.exitApp = function() {
         var confirmPopup = $ionicPopup.confirm({
           title: 'Keluar Aplikasi',
@@ -409,6 +437,7 @@
           if (res) {
             window.close();
             ionic.Platform.exitApp();
+            //console.log('exited');
           } else {}
         });
       };

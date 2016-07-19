@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'nemLogging', 'ui-leaflet', 'ngCordova', 'igTruncate', 'firebase'])
+angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordova', 'igTruncate', 'firebase'])
 
 .run(function($ionicPlatform, $rootScope, $ionicPopup, $cordovaNetwork, $cordovaDeviceOrientation, $location, $ionicHistory) {
 
@@ -31,7 +31,7 @@ angular.module('starter', ['ionic', 'nemLogging', 'ui-leaflet', 'ngCordova', 'ig
         cordova.plugins.diagnostic.switchToLocationSettings();
       }
     }, function(error) {
-      console.error("The following error occurred: " + error);
+      //console.error("The following error occurred: " + error);
     });
 
 
