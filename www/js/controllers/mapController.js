@@ -51,15 +51,7 @@
         } catch (er) {
           $scope.isLogin = false;
         }
-        
       });
-
-      $scope.$on('$ionicView.enter', function() {
-        console.log('entered mapcontroller');
-
-
-      });
-
 
       $scope.toggleLogin = function() {
         //console.log("is watching location", $scope.isWatching);
@@ -97,7 +89,7 @@
                 // e.preventDefault();
                 sessionService.remove('currentSession');
                 $state.go('app.map');
-                $scope.isLogin = !$scope.isLogin ;
+                $scope.isLogin = !$scope.isLogin;
               }
             }, {
               text: '<b>Tidak</b>',
@@ -152,6 +144,7 @@
       */
 
       $scope.activateLegend = false;
+
       $scope.showLegend = function() {
         $scope.activateLegend = !$scope.activateLegend;
         if ($scope.activateLegend) {
@@ -194,10 +187,9 @@
       };
 
       $scope.overlaidLayers = OnlineService.savedLayers;
-      //angular.extend($scope.overlaidLayers, OverlayService.savedLayers);
-      //console.log("overlaidlayers", $scope.overlaidLayers);
       $scope.basemapLayers = BasemapService.savedLayers;
       angular.extend($scope.map.layers.baselayers, $scope.basemapLayers);
+      /*
       angular.forEach($scope.overlaidLayers, function(value, key) {
         if ($scope.overlaidLayers[key].checked) {
           $scope.map.layers.overlays[key] = $scope.overlaidLayers[key];
@@ -205,17 +197,48 @@
         //console.log($scope.map.layers.overlays[key])
       });
 
+      */
+
+
+
+      // load local layers
+      angular.forEach(OverlayService.savedLayers, function(value, key) {
+        var thislayer =
+        $http.get("./assets/localStorage/" + value.filename)
+          .success(function(data, status) {
+            var templayer = [];
+            templayer[key] = {
+              name: value.layername,
+              type: 'geoJSONShape',
+              data: data,
+              visible: true,
+              checked: true,
+              layerOptions: {
+                style: {
+                  color: value.color,
+                  weight: 2.0,
+                  fillOpacity: 0.1
+                }
+              },
+              layerParams: {
+                showOnSelector: false
+              }
+            }
+            $scope.map.layers.overlays[key] = templayer[key];
+          });
+      });
+
+      //assign map layers to variable for display
+      $scope.localLayers = $scope.map.layers.overlays;
 
       // dynamic geolocation
       $scope.locateWatch = function() {
-        //console.log('Activate watch location');
         var watchOptions = {
           timeout: 15000,
           enableHighAccuracy: true
         };
 
         $scope.watch = $cordovaGeolocation.watchPosition(watchOptions);
-
         $scope.watch.then(
           null,
           function(err) {
@@ -240,10 +263,17 @@
                 if (!map.getBounds().contains([position.coords.latitude, position.coords.longitude])) {
                   map.panTo([position.coords.latitude, position.coords.longitude])
                 }
-
               });
+            };
 
-            }
+            $scope.zoomToIndonesia = function() {
+              leafletData.getMap().then(function(map) {
+                map.fitBounds([
+                  [-10.5742220783, 94.482421875],
+                  [6.8391696263, 141.064453125]
+                ]);
+              });
+            };
           }
         );
       };

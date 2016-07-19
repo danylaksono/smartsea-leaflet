@@ -39,22 +39,17 @@
           <span class="icon ion-settings"> </span> Daftar Peta
         </div>
         <div class="item item-divider" ng-click="toggleLayerInfo1()">
-          <span ng-model="layerInfo1" ng-class="{'icon ion-arrow-up-b': layerInfo, 'icon ion-arrow-down-b': !layerInfo1}"></span>
-          DI Yogyakarta
+          <span ng-model="layerInfo1" ng-class="{'icon ion-arrow-up-b': layerInfo1, 'icon ion-arrow-down-b': !layerInfo1}"></span> Peta Dasar
         </div>
         <div ng-model="layerInfo1" ng-class="{'show': layerInfo1, 'hide': !layerInfo1}">
-          <div class="item item-text-wrap">
-            <div><span class="icon ion-android-checkbox-outline-blank"> Administrasi</span></div>
-            <div><span class="icon ion-android-checkbox-outline-blank"> Kawasan Strategis Nasional</span></div>
-            <div><span class="icon ion-android-checkbox-outline"> Kawasan Konservasi</span></div>
-            <div><span class="icon ion-android-checkbox-outline"> Kawasan Pemanfaatan Umum</span></div>
-            <div><span class="icon ion-android-checkbox-outline"> Alur</span></div>
-          </div>
+          <ion-checkbox ng-repeat="layer in localLayers" ng-model="layer.visible" ng-checked="layer.visible">
+            {{layer.name}}
+          </ion-checkbox>
+
         </div>
 
         <div class="item item-divider" ng-click="toggleLayerInfo2()">
-          <span ng-model="layerInfo2" ng-class="{'icon ion-arrow-up-b': layerInfo2, 'icon ion-arrow-down-b': !layerInfo2}"></span>
-          Jawa Tengah
+          <span ng-model="layerInfo2" ng-class="{'icon ion-arrow-up-b': layerInfo2, 'icon ion-arrow-down-b': !layerInfo2}"></span> Peta Tambahan
         </div>
         <div ng-model="layerInfo2" ng-class="{'show': layerInfo2, 'hide': !layerInfo2}">
           <div class="item item-text-wrap">
@@ -67,10 +62,16 @@
         </div>
 
         <div class="item item-divider item-calm" style="font-size:15px">
-          <i class="icon ion-settings"> </i> Pengaturan Peta
+          <i class="icon ion-settings"> </i> Pengaturan
         </div>
         <ion-item ng-show="isLogin" ng-click='tambah()'>
           <i class="icon ion-plus-circled larger pull-right balanced"></i> Tambah Peta
+        </ion-item>
+        <ion-item ng-click="zoomToLocation()" toggle-class="toggle-balanced">
+          <i class="icon ion-pinpoint larger pull-right balanced"></i>Fokus ke Lokasi
+        </ion-item>
+        <ion-item ng-click="zoomToIndonesia()" toggle-class="toggle-balanced">
+          <i class="icon ion-pinpoint larger pull-right balanced"></i>Fokus ke Indonesia
         </ion-item>
         <ion-toggle ng-model="activateLegend" ng-click="showLegend()" toggle-class="toggle-balanced">Label peta
         </ion-toggle>

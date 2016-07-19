@@ -1,11 +1,5 @@
 # Changelog
 
-## 1.0.3
-
-### Fixed
-
-* Ensure all visual relics of `L.esri.dynamicMapLayer` are removed outside `minZoom` and `maxZoom` defined for the layer #744
-
 ## 1.0.2
 
 ### Fixed

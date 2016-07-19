@@ -1,4 +1,11 @@
 <ion-view title="Profil">
+  <ion-nav-buttons side="right">
+      <div>
+          <button ng-model="isLogin" ng-click="toggleLogin()" ng-class="{'button icon-left button-clear icon-login': !isLogin, 'button icon-left button-clear ion-ios-contact': isLogin}" >
+              <span ng-if="!isLogin"><b>Login</b></span><span ng-if="isLogin"><b>{{data.namaPengguna}}</b></span>
+          </button>
+      </div>
+  </ion-nav-buttons>
   	<ion-content>
 	  	<ion-scroll style="background-image: url(./assets/img/background.png); width: 100%; height: 100%" direction="y">
 		  	<div class="row" style="padding-top:25px">

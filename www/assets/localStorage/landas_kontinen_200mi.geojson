@@ -1,0 +1,7 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "FID": 0, "FID_": 0, "Jenis": "Batas Landas Kontinen di Luar 200 Mil Laut", "Datum": "WGS-84", "Proyeksi": "- (geografi)", "Panjang": "123.67 mil laut", "Negara": "-", "Status": "Disubmisi ke UN CLCS 16 Juni 2008", "Keterangan": "Rekomendasi dari UN CLCS 28 Maret 2011" }, "geometry": { "type": "LineString", "coordinates": [ [ 92.041847951218131, 3.799511829312455 ], [ 91.64323056, 3.640469444 ], [ 91.640430560000013, 3.481772222 ], [ 91.91886389, 2.857802778 ], [ 92.00708889, 2.199594444 ], [ 92.135969072218344, 2.237557368114115 ] ] } }
+]
+}
