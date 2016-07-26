@@ -1,5 +1,5 @@
+//angular.module('starter', ['ionic', 'nemLogging', 'ui-leaflet', 'ngCordova', 'igTruncate', 'firebase','angular-loading-bar'])
 angular.module('starter', ['ionic', 'nemLogging', 'leaflet-directive', 'ngCordova', 'igTruncate', 'firebase'])
-
 .run(function($ionicPlatform, $rootScope, $ionicPopup, $cordovaNetwork, $cordovaDeviceOrientation, $location, $ionicHistory) {
 
   $ionicPlatform.ready(function() {

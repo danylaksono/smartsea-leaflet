@@ -27,3 +27,31 @@ where=1%3D1&objectIds=
 &resultOffset=
 &resultRecordCount=
 &f=pjson
+
+
+
+/*
+var testing = L.esri.featureLayer({
+  url: 'http://103.7.52.65:6080/arcgis/rest/services/smartsea/bangkep/FeatureServer/0/'
+}).addTo(map);
+
+L.esri.get(value.url, {
+  spatialRel: "esriSpatialRelIntersects",
+  where: "objectid=objectid",
+  outFields: '*',
+  geometry: "",
+  geometryType: "esriGeometryPolygon",
+  returnGeometry:true,
+  outSR:4326,
+  f: 'json',
+}, function(error, response) {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log(response);
+    //var geojson = L.esri.Utils.responseToFeatureCollection(response);
+
+  }
+});
+
+*/
