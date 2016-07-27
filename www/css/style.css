@@ -2,7 +2,12 @@ body {
   height: auto;
   min-height: 100%;
 }
-.subPengaturan{
+.custompopup {
+  .popup {
+    width: 90%;
+  }
+}
+.subPengaturan {
   width: 90%;
   float: right;
 }
@@ -10,9 +15,9 @@ body {
   float: right;
 }
 .center {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 .scroll, .angular-leaflet-map {
   height: 100%;
@@ -80,8 +85,8 @@ body {
   line-height: 18px;
   color: #555;
   overflow: auto;
-  max-height:300px;
-  padding-bottom:150px;
+  max-height: 300px;
+  padding-bottom: 150px;
 }
 .legend i {
   width: 16px;
@@ -89,9 +94,11 @@ body {
   float: left;
   margin-right: 8px;
   opacity: 0.7;
-  padding-bottom:150px;
+  padding-bottom: 150px;
 }
+
 /*Style Disclamer*/
+
 #boxDisc {
   padding: 0px;
 }
@@ -108,29 +115,34 @@ body {
   text-align: center;
   margin-bottom: 0px;
 }
-#disclamerBtn{
+#disclamerBtn {
   border-radius: 0px;
-  margin:0px;
+  margin: 0px;
 }
+
 /*Style Map*/
-.icon-login::before{
+
+.icon-login::before {
   content: "";
   width: 30px;
-  height:30px;
+  height: 30px;
   background-image: url("../assets/img/login.png");
   background-size: 100%;
   margin-right: 5px;
 }
+
 /*Style Pengaturan*/
+
 .show {
   display: block;
 }
-.hide{
+.hide {
   display: none;
 }
 
 /*Style Daftar*/
-.validateMsg{
+
+.validateMsg {
   background-color: #FF7043;
   text-align: center;
   color: white;
@@ -138,19 +150,20 @@ body {
 }
 
 /*Style Profil*/
+
 .subLayer {
-  width:80%;
+  width: 80%;
   float: right;
   margin-top: -15px;
 }
-
-#profileDesc{
-  padding:10px;
+#profileDesc {
+  padding: 10px;
   padding-top: 0px;
 }
 
 /*Style Sub Menu*/
-#laporkan{
+
+#laporkan {
   float: none;
   display: block;
   margin: auto;
@@ -159,23 +172,24 @@ body {
 }
 
 /*Upload Button*/
+
 .fileUpload {
-    position: relative;
-    overflow: hidden;
-    margin: auto;
-    float: none;
-    display: block;
-    border:none;
-    margin-top: 0px !important;
+  position: relative;
+  overflow: hidden;
+  margin: auto;
+  float: none;
+  display: block;
+  border: none;
+  margin-top: 0px !important;
 }
 .fileUpload input.upload {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0;
-    filter: alpha(opacity=0);
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
 }

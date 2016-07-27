@@ -61,7 +61,7 @@ angular.module('starter').controller('MapController', ['$scope',
         // An elaborate, custom popup
         $scope.data = {};
         var myPopup = $ionicPopup.show({
-          template: '<input type="email" placeholder="email" ng-model="data.email"><input type="password" placeholder="password" ng-model="data.pass">',
+          template: '<input type="email" placeholder="email" ng-model="data.email"><br/><input type="password" placeholder="password" ng-model="data.pass">',
           title: 'Login',
           subTitle: 'Masukkan akun smartsea anda',
           scope: $scope,
@@ -104,7 +104,7 @@ angular.module('starter').controller('MapController', ['$scope',
     // watch network connection state
     $scope.$on('onlinestate', function(event, isonline) {
       $scope.isOnline = isonline;
-      console.log($scope.isOnline);
+      //console.log($scope.isOnline);
     });
 
 
@@ -201,7 +201,6 @@ angular.module('starter').controller('MapController', ['$scope',
     */
 
 
-
     // load local layers
     angular.forEach(OverlayService.savedLayers, function(value, key) {
       var thislayer =
@@ -231,30 +230,85 @@ angular.module('starter').controller('MapController', ['$scope',
     //assign map layers to variable for display
     $scope.localLayers = $scope.map.layers.overlays;
 
-    //console.log(DownloadService.downloadLayers);
+
+
 
     //load feature layers from online services
-    angular.forEach(DownloadService.downloadLayers, function(value, key) {
-      var queries = 'query?where=1=1&outFields=*&f=json&outSR=4326&geometryType=esriGeometryEnvelope&geometry=';
+    var layerslist = [];
+    DownloadService.getData().then(function(data) {
+      angular.forEach(data.layers, function(value, key) {
+        //console.log(data);
+        layerslist.push({
+          name: value.name.replace(data.folder, '') + ' ('+ value.type + ')',
+          url: data.url + value.name + '/' + value.type +'/0/'
+        })
+      });
+    });
 
+    /*
+    angular.forEach(DownloadService.downloadLayers, function(value, key) {
+      //assign content to variable for display
+      layerslist.push(value);
+    });
+    */
+
+    $scope.downloadedLayers = layerslist;
+
+    // Popup tambah
+    $scope.tambah = function() {
+      $ionicPopup.show({
+        templateUrl: 'templates/tambah.html',
+        cssClass: 'custompopup',
+        scope: $scope,
+        buttons: [{
+          text: '<b>Batal</b>',
+          onTap: function(e) {}
+        }, {
+          text: 'Tambah',
+          type: 'button-positive',
+          onTap: function(e) {
+            angular.forEach($scope.downloadedLayers, function(value, key) {
+              //console.log(value)
+              if (value.todownload) {
+                $scope.tambahLayer(value);
+
+              } else {
+                $scope.downloadedLayers[key].todownload = false;
+              }
+            });
+            //console.log($scope.downloadedLayers);
+          }
+        }]
+      })
+    };
+
+
+
+
+    $scope.tambahLayer = function(whichlayer) {
+
+      var queries = 'query?where=1=1&outFields=*&f=json&outSR=4326&geometryType=esriGeometryEnvelope&geometry=';
       leafletData.getMap().then(function(map) {
-        $http.get(value.url + queries)
+        //$http.get(value.url + queries)
+        $http.get(whichlayer.url + queries)
           .then(function(response) {
             var featureCollection = {
               type: 'FeatureCollection',
               features: []
             };
-
             angular.forEach(response.data.features, function(value, key) {
               var feature = L.esri.Util.arcgisToGeojson(value.geometry);
               featureCollection.features.push(feature);
             });
 
+            // save to localstorage and add to map
             var geojson = L.geoJson(featureCollection).addTo(map);
+            sessionService.set('downloadedLayers', JSON.stringify(geojson));
+
           });
       });
+    };
 
-    });
 
     // dynamic geolocation
     $scope.locateWatch = function() {
@@ -498,23 +552,8 @@ angular.module('starter').controller('MapController', ['$scope',
           onTap: function(e) {}
         }]
       })
-    }
+    };
 
-    // Popup tambah
-    $scope.tambah = function() {
-      $ionicPopup.show({
-        templateUrl: 'templates/tambah.html',
-        scope: $scope,
-        buttons: [{
-          text: '<b>Batal</b>',
-          onTap: function(e) {}
-        }, {
-          text: 'Tambah',
-          type: 'button-positive',
-          onTap: function(e) {}
-        }]
-      })
-    }
 
     // Side menu
     $scope.layerInfo1 = false;

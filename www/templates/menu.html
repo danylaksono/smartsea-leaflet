@@ -52,13 +52,11 @@
           <span ng-model="layerInfo2" ng-class="{'icon ion-arrow-up-b': layerInfo2, 'icon ion-arrow-down-b': !layerInfo2}"></span> Peta Tambahan
         </div>
         <div ng-model="layerInfo2" ng-class="{'show': layerInfo2, 'hide': !layerInfo2}">
-          <div class="item item-text-wrap">
-            <div><span class="icon ion-android-checkbox-outline-blank"> Administrasi</span></div>
-            <div><span class="icon ion-android-checkbox-outline-blank"> Kawasan Strategis Nasional</span></div>
-            <div><span class="icon ion-android-checkbox-outline"> Kawasan Konservasi</span></div>
-            <div><span class="icon ion-android-checkbox-outline"> Kawasan Pemanfaatan Umum</span></div>
-            <div><span class="icon ion-android-checkbox-outline"> Alur</span></div>
-          </div>
+          <ion-item ng-repeat="layer2 in downloadedLayers">
+            <!--ng-model="layer.visible" ng-checked="layer.visible"-->
+            {{layer2.name}}
+          </ion-item>
+
         </div>
 
         <div class="item item-divider item-calm" style="font-size:15px">
@@ -68,12 +66,12 @@
           <i class="icon ion-plus-circled larger pull-right balanced"></i> Tambah Peta
         </ion-item>
         <ion-item ng-click="zoomToLocation()" toggle-class="toggle-balanced">
-          <i class="icon ion-pinpoint larger pull-right balanced"></i>Fokus ke Lokasi
+          <i class="icon ion-pinpoint larger pull-right calm"></i>Fokus ke Lokasi
         </ion-item>
         <ion-item ng-click="zoomToIndonesia()" toggle-class="toggle-balanced">
-          <i class="icon ion-pinpoint larger pull-right balanced"></i>Fokus ke Indonesia
+          <i class="icon ion-pinpoint larger pull-right calm"></i>Fokus ke Indonesia
         </ion-item>
-        <ion-toggle ng-model="activateLegend" ng-click="showLegend()" toggle-class="toggle-balanced">Label peta
+        <ion-toggle ng-model="activateLegend" ng-click="showLegend()" toggle-class="toggle-balanced"> Label peta
         </ion-toggle>
         <ion-item ng-click='exitApp()'>
           <i class="icon ion-reply larger pull-right assertive"></i> Keluar

@@ -17,17 +17,6 @@ angular.module('starter')
 			if (currentSession) {
 				return $window.localStorage && JSON.parse($window.localStorage.getItem('currentSession')).isLogin;
 			}
-			/*
-			var currentSession = $window.localStorage.getItem('currentSession');
-			if (currentSession) {
-					var checkLogin = JSON.parse(currentSession).isLogin;
-					console.log(checkLogin);
-					$timeout(function(){
-		    		$rootScope.$broadcast("loginstate", checkLogin);
-					});
-					return checkLogin;
-			}
-			*/
 		},
 		remove: function(key) {
 			$window.localStorage.removeItem(key);

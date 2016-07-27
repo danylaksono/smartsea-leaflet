@@ -1,17 +1,15 @@
 
-<div class="bar bar-header bar-calm">
-	<h1 class="title">Tambah Layer</h1>
-</div>
-<div class="item item-text-wrap" style="margin-top:30px;">
-	Pilih wilayah data yang akan anda tambahkan
-</div>
-<label class = "item item-input item-select item-text-wrap">
-	<div class = "input-label">
-      	Wilayah
-   	</div>
-    <select>
-      	<option>DKI Jakarta</option>
-      	<option selected>Jawa Timur</option>
-      	<option>Jawa Barat</option>
-   	</select>
-</label>
+	<div class="bar bar-header bar-calm">
+		<h1 class="title">Tambah Peta</h1>
+	</div>
+	<ion-scroll zooming="true" direction="xy" style="width: 500px; height: 500px">
+	<div style="margin-top:30px; margin-bottom:10px;">
+		Pilih wilayah peta yang akan anda tambahkan
+	</div>
+
+	<ion-list>
+		<ion-checkbox class="small" ng-repeat="layer2 in downloadedLayers" ng-model="layer2.todownload" ng-checked="layer2.todownload">
+			</smaller> {{layer2.name}} </smaller>
+		</ion-checkbox>
+	</ion-list>
+	</ion-scroll>
