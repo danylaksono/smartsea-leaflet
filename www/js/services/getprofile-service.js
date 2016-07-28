@@ -3,7 +3,7 @@ angular.module('starter')
 	var ref = new Firebase("https://smartseadevelop.firebaseio.com/users");
 	return{
 		get: function(uid) {
-			console.log('getting uid : ', uid)
+			//console.log('getting uid : ', uid)
 			var uid = uid;
 			ref.on("value", function(snapshot) {
 				var data = snapshot.val()[uid];
@@ -11,7 +11,7 @@ angular.module('starter')
 				data.uid = uid;
 			  	sessionService.set('currentSession', data);
 			}, function (errorObject) {
-			  	console.log(errorObject.code);
+			  	//console.log(errorObject.code);
 			});
 		}
 	}

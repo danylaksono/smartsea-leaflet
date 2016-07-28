@@ -6,6 +6,7 @@ angular.module('starter').controller('MapController', ['$scope',
   '$state',
   '$stateParams',
   '$ionicPopup',
+  '$ionicModal',
   '$filter',
   '$http',
   'localStorage',
@@ -17,6 +18,7 @@ angular.module('starter').controller('MapController', ['$scope',
   'leafletMapEvents',
   'sessionService',
   'loginService',
+
   function(
     $scope,
     $rootScope,
@@ -26,6 +28,7 @@ angular.module('starter').controller('MapController', ['$scope',
     $state,
     $stateParams,
     $ionicPopup,
+    $ionicModal,
     $filter,
     $http,
     localStorage,
@@ -46,15 +49,23 @@ angular.module('starter').controller('MapController', ['$scope',
       //console.log('Platform state changed');
       $scope.locateWatch();
 
+
+      //check for checked in state
       try {
         $scope.isLogin = sessionService.isLogin();
         $rootScope.$broadcast('loginEvent', $scope.isLogin);
-        $scope.data = sessionService.get('currentSession');
+
       } catch (er) {
         $scope.isLogin = false;
       }
     });
 
+    //gettiing user data
+    $scope.data = sessionService.get('currentSession');
+
+    //console.log($scope.data)
+
+    // Login toggle button
     $scope.toggleLogin = function() {
       //console.log("is watching location", $scope.isWatching);
       if (!$scope.isLogin) {
@@ -66,18 +77,19 @@ angular.module('starter').controller('MapController', ['$scope',
           subTitle: 'Masukkan akun smartsea anda',
           scope: $scope,
           buttons: [{
+            text: 'Batal',
+          }, {
+            text: 'Daftar',
+            type: 'button-assertive',
+            onTap: function(e) {
+              $state.go('app.daftar');
+            }
+          }, {
             text: 'Login',
             type: 'button-positive',
             onTap: function(e) {
               loginService.login($scope.data);
             }
-          }, {
-            text: '<b>Daftar</b>',
-            onTap: function(e) {
-              $state.go('app.daftar');
-            }
-          }, {
-            text: 'Batal',
           }]
         })
       } else {
@@ -85,6 +97,9 @@ angular.module('starter').controller('MapController', ['$scope',
           title: 'Apakah anda ingin Log out?',
           scope: $scope,
           buttons: [{
+            text: '<b>Tidak</b>',
+            onTap: function(e) {}
+          }, {
             text: 'Ya',
             type: 'button-positive',
             onTap: function(e) {
@@ -93,9 +108,6 @@ angular.module('starter').controller('MapController', ['$scope',
               $state.go('app.map');
               $scope.isLogin = !$scope.isLogin;
             }
-          }, {
-            text: '<b>Tidak</b>',
-            onTap: function(e) {}
           }]
         })
       }
@@ -231,17 +243,17 @@ angular.module('starter').controller('MapController', ['$scope',
     $scope.localLayers = $scope.map.layers.overlays;
 
 
-
-
     //load feature layers from online services
     var layerslist = [];
     DownloadService.getData().then(function(data) {
       angular.forEach(data.layers, function(value, key) {
-        //console.log(data);
-        layerslist.push({
-          name: value.name.replace(data.folder, '') + ' ('+ value.type + ')',
-          url: data.url + value.name + '/' + value.type +'/0/'
-        })
+        if (value.type == 'FeatureServer') {
+          //console.log(data);
+          layerslist.push({
+            name: value.name.replace(data.folder, '') + ' (' + value.type + ')',
+            url: data.url + value.name + '/' + value.type + '/0/'
+          })
+        };
       });
     });
 
@@ -254,9 +266,32 @@ angular.module('starter').controller('MapController', ['$scope',
 
     $scope.downloadedLayers = layerslist;
 
+    $ionicModal.fromTemplateUrl('templates/tambah.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+
     // Popup tambah
     $scope.tambah = function() {
-      $ionicPopup.show({
+        angular.forEach($scope.downloadedLayers, function(value, key) {
+          //console.log(value)
+          if (value.todownload) {
+            $scope.tambahLayer(value);
+            console.log(value);
+          } else {
+            $scope.downloadedLayers[key].todownload = false;
+          }
+        });
+        $scope.modal.hide();
+
+        //console.log($scope.downloadedLayers);
+
+
+
+      /*
+      $ionicModal.fromTemplateUrl({
         templateUrl: 'templates/tambah.html',
         cssClass: 'custompopup',
         scope: $scope,
@@ -271,7 +306,7 @@ angular.module('starter').controller('MapController', ['$scope',
               //console.log(value)
               if (value.todownload) {
                 $scope.tambahLayer(value);
-
+                console.log(value);
               } else {
                 $scope.downloadedLayers[key].todownload = false;
               }
@@ -279,13 +314,28 @@ angular.module('starter').controller('MapController', ['$scope',
             //console.log($scope.downloadedLayers);
           }
         }]
-      })
+      }) */
     };
 
 
+    $scope.userLocalData = [];
+    $scope.userLocalData.push({
+      name: $scope.data.nameLengkap,
+      uid: $scope.data.uid,
+      layername: [],
+      geom: {}
+    });
 
+
+    console.log($scope.userLocalData);
 
     $scope.tambahLayer = function(whichlayer) {
+
+      if (whichlayer.todownload) {
+        console.log(whichlayer.todownload)
+
+      }
+
 
       var queries = 'query?where=1=1&outFields=*&f=json&outSR=4326&geometryType=esriGeometryEnvelope&geometry=';
       leafletData.getMap().then(function(map) {
@@ -300,14 +350,16 @@ angular.module('starter').controller('MapController', ['$scope',
               var feature = L.esri.Util.arcgisToGeojson(value.geometry);
               featureCollection.features.push(feature);
             });
-
             // save to localstorage and add to map
+
             var geojson = L.geoJson(featureCollection).addTo(map);
-            sessionService.set('downloadedLayers', JSON.stringify(geojson));
+
 
           });
       });
     };
+
+    localStorage.setObject('userdata', $scope.userLocalData);
 
 
     // dynamic geolocation

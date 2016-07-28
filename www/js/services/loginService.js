@@ -17,9 +17,9 @@ angular.module('starter')
         }, function(error, authData) {
           if (error) {
             $ionicLoading.hide()
-            console.log("Login Failed!", error);
+            //console.log("Login Failed!", error);
           } else {
-            console.log("Authenticated successfully with payload:", authData);
+            //console.log("Authenticated successfully with payload:", authData);
             getProfileService.get(authData.uid);
             setTimeout(function() {
               location.reload();

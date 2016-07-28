@@ -62,7 +62,8 @@
         <div class="item item-divider item-calm" style="font-size:15px">
           <i class="icon ion-settings"> </i> Pengaturan
         </div>
-        <ion-item ng-show="isLogin" ng-click='tambah()'>
+        <!--ion-item ng-show="isLogin" ng-click='tambah()'-->
+        <ion-item ng-show="isLogin" ng-click='modal.show()'>
           <i class="icon ion-plus-circled larger pull-right balanced"></i> Tambah Peta
         </ion-item>
         <ion-item ng-click="zoomToLocation()" toggle-class="toggle-balanced">

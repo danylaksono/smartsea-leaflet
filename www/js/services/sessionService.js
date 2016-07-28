@@ -21,6 +21,5 @@ angular.module('starter')
 		remove: function(key) {
 			$window.localStorage.removeItem(key);
 		}
-
 	}
 })
